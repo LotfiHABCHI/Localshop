@@ -34,7 +34,6 @@ Route::get('/detail_product', [App\Http\Controllers\HomeController::class, 'deta
 
 Route::get('/detail_order', [App\Http\Controllers\HomeController::class, 'detailorders'])->name('detail_orders');
 
-
 Route::get('/products/{id}', [App\Http\Controllers\HomeController::class, 'products'])->where('id', '[0-9]+')->name('produit');
 
 Route::get('/categories/{id}', [App\Http\Controllers\HomeController::class, 'ShowCategory'])->name('showProductsOfCategory');

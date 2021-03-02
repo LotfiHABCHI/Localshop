@@ -126,7 +126,13 @@ class HomeController extends Controller
     }*/
 
 
-    public function ShowCategory(Request $request){
+    public function ShowCategory(Request $request)
+    {  //Affiche les produits vendus dans chaque catégorie
+
+        //SELECT categories.*, products.*
+        //FROM ((categories c JOIN products p ON c.id=p.productId)
+        //JOIN products p ON p.id=d.productId)
+        //WHERE c.id= id
 
         $categories = Categories::all();
 
@@ -140,23 +146,18 @@ class HomeController extends Controller
 
 
     public function showProductOfSeller(int $id)
-    {
-    //Affiche les produits vendus par chaque commerçant
+    {  //Affiche les produits vendus par chaque commerçant
+
         //SELECT sellers.storename, products.name, detail_products.stock
         //FROM ((sellers s JOIN detail_products d ON s.id=d.sellerId)
         //JOIN products p ON p.id=d.productId)
         //WHERE s.id=$id?
 
-        
-
         $sellers = Sellers::all();
-
-        // SELECT * FROM produits WHERE catId= ?
-        //$products = DetailProducts::where('sellerId',$request->id)->get();
-
         $categories = Categories::all();
         $products = DetailProducts::all();
         $details= $this->repository->productsOfSeller($id);
+
         return view('sellers', ['details'=>$details, 'categories'=>$categories, 'products'=>$products] );
 
        

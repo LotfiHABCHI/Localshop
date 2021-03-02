@@ -137,6 +137,7 @@
             <div class="card-body">
               <h5> <a href="{{route('produit',['id'=>$product->id])}}">{{ $product->name}}<a></h5>
               <p> {{ $product->description}}</p>
+             
 
               <p>{{ number_format($product->price,2) }}€</p>
               <div class="d-flex justify-content-between align-items-center">

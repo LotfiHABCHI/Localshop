@@ -143,6 +143,7 @@ class Repository
     }
 
     function productsOfCategory($id) : array
+    //
     {
         $prods = DB::table('products')->join('categories as cat', 'cat.id', '=', 'products.catId')
                         ->where('cat.id', $id)
@@ -153,7 +154,8 @@ class Repository
 
 
     function productsOfSeller($id) : array
-    {
+    { 
+
         $prods = DB::table('detail_products as d')
         ->join('sellers as s','s.id', 'd.sellerId')
         ->join('products as p', 'p.id', 'd.productId')
