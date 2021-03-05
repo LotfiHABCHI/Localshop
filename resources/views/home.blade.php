@@ -145,6 +145,7 @@
               <p>{{ number_format($detail->price,2) }}€</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
+                <button>voir</button>
                 </div>
                
               </div>

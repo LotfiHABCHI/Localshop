@@ -1,6 +1,4 @@
 @extends('layouts.app')
-
-
 <!doctype html>
 <html lang="en">
 
@@ -139,11 +137,20 @@
             <div class="card-body">
             <h5>{{ $product->name }}</h5>    
             <p> {{ $product->description}}</p>
-
+                @if($product['catId']==1 or $product['catId']==2 or $product['catId']==4)
                 <p>{{ number_format($product->price,2) }}€/kg</p>
+                @else
+                <p>{{ number_format($product->price,2) }}€</p>
+                @endif
                 <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                </div>
+                <form action=" " id="add_cart">
+                <label for="quantity">Quantité</label>
+                <input type="number" class="form-control" id="quantity" name="quantity" min="0">
+                </form>
+                <button type="submit" form="add_cart" class="btn btn-primary">Ajouter au panier</button>
+
+
+
                 
                 </div>
             </div>

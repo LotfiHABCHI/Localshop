@@ -9,6 +9,8 @@
     <title>Accueil</title>
 
 
+    <link href="{{asset('resources/css/style.css')}}" rel="stylesheet" type="text/css">
+
   <style>
 
 body{

@@ -16,6 +16,7 @@ class Orders extends Model
             ['id'=>2, 'customerId'=>2, 'price'=>5.50, 'orderDate'=>NOW()],
             ['id'=>3, 'customerId'=>1, 'price'=>35, 'orderDate'=>NOW()],
             ['id'=>4, 'customerId'=>2, 'price'=>24.59, 'orderDate'=>NOW()],
+            ['id'=>5, 'customerId'=>3, 'price'=>15.59, 'orderDate'=>NOW()],
         ];
     }
 
