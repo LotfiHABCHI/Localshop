@@ -135,7 +135,7 @@
 
           <img class="card-img-top" src="{{asset('images/'.$product->image)}}" >
             <div class="card-body">
-              <h5> <a href="{{route('produit',['id'=>$product->id])}}">{{ $product->name}}<a></h5>
+              <h5> <a href="{{route('product',['id'=>$product->id])}}">{{ $product->name}}<a></h5>
               <p> {{ $product->description}}</p>
              
 

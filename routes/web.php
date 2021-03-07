@@ -18,7 +18,9 @@ Route::get('/', function () {
 });
 
 
-Auth::routes();
+//routes d'authentification
+Auth::routes(); // créée automatiquement par le paquet d'authentification de laravel
+
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -32,13 +34,31 @@ Route::get('/orders', [App\Http\Controllers\HomeController::class, 'orders'])->n
 
 Route::get('/detail_product', [App\Http\Controllers\HomeController::class, 'detailProducts'])->name('detail_products');
 
+
+//route en relation avec les commandes
 Route::get('/detail_order', [App\Http\Controllers\HomeController::class, 'detailorders'])->name('detail_orders');
 
-Route::get('/products/{id}', [App\Http\Controllers\HomeController::class, 'products'])->where('id', '[0-9]+')->name('produit');
+
+//routes en relation avec les produits
+
+Route::get('/products/{id}', [App\Http\Controllers\HomeController::class, 'products'])->where('id', '[0-9]+')->name('product');
 
 Route::get('/categories/{id}', [App\Http\Controllers\HomeController::class, 'ShowCategory'])->name('showProductsOfCategory');
 
 
 
+//routes en relation avec le panier
+Route::post('/cart/add/{id}', [App\Http\Controllers\CartController::class, 'add'])->name('cart.add');
+
+Route::post('/cart/update/{id}', [App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
+
+Route::post('/cart/destroy/{id}', [App\Http\Controllers\CartController::class, 'destroy'])->name('cart.destroy');
+
+
+Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
+
+
+
 
 Route::get('/test', [App\Http\Controllers\HomeController::class, 'showProductsinfos']);
+

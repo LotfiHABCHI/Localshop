@@ -107,56 +107,60 @@
         </div>
     </header>
 
-    <div class="nav-scroller py-1 mb-2">
-        <nav class="nav d-flex justify-content-between">
-        
-        @foreach ($categories as $category)
-            <div class="col-2">
-                <article class="card">
-                <header class="card-header">
-                        <p><a href="{{route('showProductsOfCategory',['id'=>$category->id])}}">{{ $category->name }}<a></p> 
-                  </header>
-                    <div class="card_body">
-                        {{$category->descprition}}
-                    </div>
-                    <footer class="card-footer">
-                    <img class="card-img-top" src="{{asset('images/'.$category->image)}}" >
-                    </footer>
-                </article>
-            </div>   
-            @endforeach
-        </nav>
-    </div>
-    </div>
-    
-        <div class="col-md-3">
-
-            <div class="card mb-4 shadow-sm">
-
-            <img class="card-img-top" src="{{asset('images/'.$product->image)}}" >
-            <div class="card-body">
-            <h5>{{ $product->name }}</h5>    
-            <p> {{ $product->description}}</p>
-                @if($product['catId']==1 or $product['catId']==2 or $product['catId']==4)
-                <p>{{ number_format($product->price,2) }}€/kg</p>
-                @else
-                <p>{{ number_format($product->price,2) }}€</p>
-                @endif
-                <div class="d-flex justify-content-between align-items-center">
-                <form  action="{{route('cart.add', ['id'=>$product->id])}}" method="POST" id="add_cart">
-                @csrf
-                <label for="quantity">Quantité</label>
-                <input type="number" value="1" class="form-control" id="quantity" name="quantity" min="0">
-                </form>
-                <button type="submit" form="add_cart" class="btn btn-primary">Ajouter au panier</button>
-
-
-
+     
+        <table class="table table-borderd table-responsive-sm">
+            <thead>
+                <tr>
+                    <td>produit</td>
+                    <td>quantité</td>
+                    <td>prix unitaire</td>
+                    <td>prix total</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($content as $product)
+                    <tr>
+                        <td>
+                            <img class="card-img-top" src="{{asset('images/'.$product->attributes['image'])}}" >
+                            {{ $product->name }}
+                        </td>
+                        <td>
+                        <form action="{{ route('cart.update', $product->id) }}" method="POST" id="cart_update">
+                    @csrf
                 
-                </div>
-            </div>
-        </div>
-     </div>
+                    <div class="col m2 s12">
+                      <input name="quantity" type="number" style="height: 2rem" min="1" max="99" value="{{ $product->quantity }}">
+                    </div>
+                    <button id="cart_update"> valider </button>
+                  </form>                        
+                  </td>
+                        <td> 
+                            {{number_format($product->price,2)}}€
+                        </td>
+                        <td>
+                           <strong> {{number_format($product->price * $product->quantity,2)}}€ </strong>
+                        </td>             
+                        <td>
+                        <form action="{{ route('cart.destroy', $product->id) }}" method="POST" id="cart_destroy">
+                    @csrf                    
+                    </div>
+                    <button id="cart_destroy"> Supprimer </button>
+                  </form>       
+                       
+                        </td>      
+                    </tr>
+                @endforeach
+            </tbody>
+            <tfooter>
+                <tr>
+                    <td> </td>
+                    <td></td>
+                    <td> total</td>
+                    <td> {{number_format($total, 2)}}€</td>
+                </tr>
+            </tfooter>
+
+        </table>
 
 
 

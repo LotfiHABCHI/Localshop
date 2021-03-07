@@ -45,27 +45,24 @@ class HomeController extends Controller
     
     public function index()
     {
-
-         $sellers = Sellers::all();
-
-        // SELECT * FROM produits WHERE catId= ?
-        //$products = DetailProducts::where('sellerId',$request->id)->get();
-
+        $sellers = Sellers::all();
         $categories = Categories::all();
         $detailproducts = DetailProducts::all();
         $products=Products::all();
+        
         $details= $this->repository->productInfos();
-        return view('home', ['details'=>$details, 'categories'=>$categories, 'products'=>$products, 'detailproducts'=>$detailproducts, 'sellers'=>$sellers]);
-
+        return view('home',compact('products','categories', 'sellers', 'detailproducts', 'details'));
     }
     
 
     public function products(Request $request)
-    {
+    { //Afficher la page d'un produit spécifique
 
         $categories = Categories::all();
-        $product = Products::find($request->id);
+        
         //select * from produits where id=?
+        $product = Products::find($request->id);
+
         return view('products',compact('product','categories'));
     }
 
@@ -130,13 +127,12 @@ class HomeController extends Controller
     {  //Affiche les produits vendus dans chaque catégorie
 
         //SELECT categories.*, products.*
-        //FROM ((categories c JOIN products p ON c.id=p.productId)
-        //JOIN products p ON p.id=d.productId)
-        //WHERE c.id= id
+        //FROM ((categories c JOIN products p ON c.id=p.catId)
+        //WHERE c.id= ?
 
         $categories = Categories::all();
 
-        // SELECT * FROM produits WHERE catId= ?
+        // SELECT * FROM products WHERE catId= ?
         $products = Products::where('catId',$request->id)->get();
 
         return view('categories',compact('products', 'categories'));
@@ -160,11 +156,6 @@ class HomeController extends Controller
 
         return view('sellers', ['details'=>$details, 'categories'=>$categories, 'products'=>$products] );
 
-       
-        
-
-
-    
     }
 
     public function showProductsinfos()
@@ -188,6 +179,9 @@ class HomeController extends Controller
 
        
     }
+
+
+   
     
 }
 
