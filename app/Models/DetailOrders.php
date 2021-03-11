@@ -17,6 +17,7 @@ class DetailOrders extends Model
             ['orderId'=>2, 'productId'=>6, 'quantity'=>4],
             ['orderId'=>3, 'productId'=>3, 'quantity'=>2],
             ['orderId'=>4, 'productId'=>1, 'quantity'=>1],
+            ['orderId'=>5, 'productId'=>5, 'quantity'=>4],
         ];
     }
 }

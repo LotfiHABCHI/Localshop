@@ -23,8 +23,9 @@ Auth::routes(); // créée automatiquement par le paquet d'authentification de l
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
 //Route::get('/products', [App\Http\Controllers\HomeController::class, 'products'])->name('products');
+
+
 
 Route::get('/sellers/{id}', [App\Http\Controllers\HomeController::class, 'showProductOfSeller'])->where('id', '[0-9]+')->name('showProductOfSeller');
 
@@ -36,7 +37,8 @@ Route::get('/detail_product', [App\Http\Controllers\HomeController::class, 'deta
 
 
 //route en relation avec les commandes
-Route::get('/detail_order', [App\Http\Controllers\HomeController::class, 'detailorders'])->name('detail_orders');
+Route::get('/detail_order/{orderId}', [App\Http\Controllers\HomeController::class, 'ordersOfCustomer'])->where('orderId', '[0-9]+')->name('detail_orders');
+//peut etre changer le nom de la vue ??
 
 
 //routes en relation avec les produits
@@ -62,3 +64,10 @@ Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name
 
 Route::get('/test', [App\Http\Controllers\HomeController::class, 'showProductsinfos']);
 
+
+Route::get('/customers/login', [App\Http\Controllers\CustomerController::class, 'showLoginForm'])->name('customers.login');
+Route::post('/customers/login', [App\Http\Controllers\CustomerController::class, 'login'])->name('customers.login.post');
+
+/*Route::get('/customers/registerC', [App\Http\Controllers\CustomerController::class, 'showRegisterForm'])->name('customers.register');
+Route::post('/customers/registerC', [App\Http\Controllers\CustomerController::class, 'register'])->name('customers.register.post');
+*/

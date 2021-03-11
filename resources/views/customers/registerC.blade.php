@@ -1,5 +1,3 @@
-
-
 @extends('layouts.app')
 
 @section('content')
@@ -14,12 +12,54 @@
                         @csrf
 
                         <div class="form-group row">
-                            <label for="firstname" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
+                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nom') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="lastname" type="text" class="form-control @error('lastname') is-invalid @enderror" name="lastname" value="{{ old('lastname') }}" required autocomplete="lastname" autofocus>
+
+                                @error('lastname')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="firstname" class="col-md-4 col-form-label text-md-right">{{ __('Prénom') }}</label>
 
                             <div class="col-md-6">
                                 <input id="firstname" type="text" class="form-control @error('firstname') is-invalid @enderror" name="firstname" value="{{ old('firstname') }}" required autocomplete="firstname" autofocus>
 
                                 @error('firstname')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="numstreet" class="col-md-4 col-form-label text-md-right">{{ __('Numéro de rue') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="numstreet" type="int" class="form-control @error('numstreet') is-invalid @enderror" name="numstreet" value="{{ old('numstreet') }}" required autocomplete="numstreet" autofocus>
+
+                                @error('numstreet')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="namestreet" class="col-md-4 col-form-label text-md-right">{{ __('Nom de la rue') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="namestreet" type="text" class="form-control @error('namestreet') is-invalid @enderror" name="namestreet" value="{{ old('namestreet') }}" required autocomplete="namestreet" autofocus>
+
+                                @error('namestreet')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

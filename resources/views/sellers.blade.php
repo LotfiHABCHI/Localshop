@@ -122,7 +122,22 @@
     </nav>
   </div>
 </div>
-  <div class="album py-5 bg-light">
+
+
+<div class="human">
+
+  <p class="seller_title">{{ $details[0]->storename }}</p>
+  <img src="">
+  <div class="nb_item">
+  </div>
+  <p class="seller_description">Bonjour, je vends des supers legumes</p>
+  
+</div>
+
+
+</div>
+
+<div class="album py-5 bg-light">
     <div class="container">
     
       <div class="row row-cols ">
@@ -130,14 +145,14 @@
         <div class="col-3">
             <article class="card">
                 <header class="card-header">
-                <!-- {{ number_format($detail->price,2) }}€ -->
+                  <!-- {{ number_format($detail->price,2) }}€ -->
                 </header>
                 <div class="card_body">
-                <img class="card-img-top" src="{{asset('images/'.$detail->image)}}" >
+                  <img class="card-img-top" src="{{asset('images/'.$detail->image)}}" >
                 </div>
             
                 <footer class="card-footer">
-                    {{ $detail->name}} : {{ number_format($detail->price,2) }}€
+                <a href="{{route('product',['id'=>$detail->id])}}">{{ $detail->name}}<a> : {{ number_format($detail->price,2) }}€
                 </footer>
             </article>
         </div>   
@@ -147,7 +162,7 @@
      
       </div>
     </div>
-  </div>
+</div>
 
 </main>
 

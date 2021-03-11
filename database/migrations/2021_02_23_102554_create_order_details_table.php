@@ -11,7 +11,7 @@ class CreateOrderDetailsTable extends Migration
      *
      * @return void
      */
-    public function up()   //!!!!!!!!! MAUVAISE TABLE PIVOT !!!!!!!!!!!//
+   /* public function up()   //!!!!!!!!! MAUVAISE TABLE PIVOT !!!!!!!!!!!//
     {
         Schema::create('order_details', function (Blueprint $table) {
             //$table->bigIncrements('id');
@@ -25,7 +25,7 @@ class CreateOrderDetailsTable extends Migration
             $table->primary(['orderId', 'productId']);
 
         });
-    }
+    }*/
 
     /**
      * Reverse the migrations.

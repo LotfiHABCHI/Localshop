@@ -102,15 +102,23 @@ class HomeController extends Controller
 
    
 
-    public function detailorders()
+    public function ordersOfCustomer(int $id)
     {
         $detail_orders = DetailOrders::all();
-        return view('detail_orders',compact('detail_orders'));
+        $customers = Customers::all();
+        $orders = Orders::all();
+
+        $details= $this->repository->ordersOfCustomer($id);
+       
+
+
+        return view('detail_orders',compact('details'));
     }
 
     public function detailProducts()
     {
         $detail_products = DetailProducts::all();
+        
         return view('detail_products',compact('detail_products'));
     }
 
@@ -154,7 +162,7 @@ class HomeController extends Controller
         $products = DetailProducts::all();
         $details= $this->repository->productsOfSeller($id);
 
-        return view('sellers', ['details'=>$details, 'categories'=>$categories, 'products'=>$products] );
+        return view('sellers', ['details'=>$details, 'categories'=>$categories, 'products'=>$products, 'sellers'=>$sellers] );
 
     }
 

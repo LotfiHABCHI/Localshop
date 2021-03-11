@@ -11,7 +11,7 @@ class CreateProductDetailsTable extends Migration
      *
      * @return void
      */
-    public function up()  // TABLE PIVOT A REFAIRE COMME detail_orders // detail_products //
+   /* public function up()  // TABLE PIVOT A REFAIRE COMME detail_orders // detail_products //
     {
         Schema::create('product_details', function (Blueprint $table) {
             //$table->id();
@@ -24,7 +24,7 @@ class CreateProductDetailsTable extends Migration
             $table->foreign('productId')->references('id')->on('products')->onDelete('cascade');
             $table->primary(['sellerId', 'productId']);
         });
-    }
+    }*/
 
     /**
      * Reverse the migrations.

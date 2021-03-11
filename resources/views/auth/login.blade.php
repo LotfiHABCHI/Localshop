@@ -1,73 +1,127 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>local_shop</title>
+    <link href="connexion.css" rel="stylesheet" type="text/css"/>
+  </head>
+  <body>
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Connexion') }}</div>
+    <div class="header">
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
+      <div id="co">
+      <a href="/connexion/connexion.html" target="">
+        <img class="img_header" src="/img_header/connexion_header.png" alt="connect" height="47" width=""/>
+      </a>
+      </div>
 
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Adresse E-mail') }}</label>
+      <div id="logo">
+      <a href="/home/home.html" target="">
+        <img class="img_header" src="/img_header/local_header3.png" alt="logo" height="97" width="450"/>
+      </a>
+      </div>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+      <div id="panier">
+      <a href="/cart/cart.html" target="">
+        <img class="img_header" src="/img_header/panier_header.png" alt="panier" height="38" width="39"/>
+      </a>
+      </div>
 
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Mot de passe') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Se souvenir de moi') }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Connexion') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Mot de passe oublié?') }}
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
     </div>
-</div>
-@endsection
+
+    <hr></hr>
+ 
+    <div class="core">
+      <div id="core_connexion">
+        <h1>Connexion</h1>
+
+        <hr>
+
+        <div class="form_core">
+          <form class="form" method="POST" action="{{ route('login') }}">
+          @csrf
+
+            <p class="subTitle">
+              <h3>S'identifier</h3>
+            </p>
+            
+            <div class="formGroupe">
+              <label for="mail">{{ __('Adresse E-mail') }}</label>
+              <input type="email" id="mail" name="email" required>
+            </div>
+            <div class="formGroupe">
+              <label for="password">{{ __('Mot de passe') }}</label>
+              <input type="password" id="password" name="password" required>
+            </div>
+            <div class="formGroupe">
+              <input type="submit" value="VALIDER" class="buttonSub">
+            </div>
+            <div class="formGroupe">
+                <input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
+              <label for="remember">{{ __('Se souvenir de moi') }}</label>
+            </div>
+
+
+
+            <div class="mdpPerdu">
+                @if (Route::has('password.request'))
+                    <a href="{{ route('password.request') }}">{{ __('Mot de passe oublié ?') }}</a>
+                @endif
+            </div>
+          </form>
+        </div>
+        
+        <div id="redirectRegister">
+          <p>
+          Vous n'avez pas encore de compte ?<br>
+          Inscrivez-vous <a href="/connexion/registerCustomer.html"><input type="submit" class="btnIdent" value="Client/Cliente" /></a>
+           <a href="/connexion/registerSeller.html"><input type="submit" class="btnIdent" value="Producteur/Productrice" /></a>
+          </p>
+        </div>
+        
+
+      </div>
+    </div>
+
+    <hr></hr>
+
+    <div class="footer">
+    <div id="propos">
+      <a href="/propos/propos.html">
+        A PROPOS
+      </a>
+      </div>
+
+      <div id="faq">
+      <a href="/faq/faq.html">
+        FAQ
+      </a>
+      </div>
+
+      <div id="mention">
+      <a href="/mention/mention.html">
+        MENTIONS LEGALES
+      </a>
+      </div>
+
+      <div id="contact">
+      <a href="/contact/contact.html">
+        CONTACT
+      </a>
+      </div>
+
+      <div id="cci">
+          © 2021 CCI | All rights reserved.
+      </div>
+    </div>
+
+    <script src="connexion.js"></script>
+  </body>
+</html>
+
+
+
+
+
+

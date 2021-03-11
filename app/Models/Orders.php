@@ -10,7 +10,7 @@ class Orders extends Model
     use HasFactory;
 
     function orders()
-    {
+    {//le prix ne devrait pas etre dans la bd je pense ou alors il faut le calculer!!
         return [
             ['id'=>1, 'customerId'=>3, 'price'=>23, 'orderDate'=>NOW()],
             ['id'=>2, 'customerId'=>2, 'price'=>5.50, 'orderDate'=>NOW()],

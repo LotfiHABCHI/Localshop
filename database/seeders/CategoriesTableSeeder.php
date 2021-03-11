@@ -16,8 +16,8 @@ class CategoriesTableSeeder extends Seeder
         $category=new \App\Models\Categories();
        
         $category->id=1;
-        $category->name="fruits";
-        $category->description=NULL;
+        $category->name="epicerie";
+       // $category->description=NULL;
         $category->image=NULL;
         $category->save();
         

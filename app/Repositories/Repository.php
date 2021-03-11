@@ -184,34 +184,73 @@ class Repository
         return $prods;
     }
 
+    function ordersOfCustomer($id) : array
+    { //Affiche toutes les commandes (et leurs détails) passées par un client id=
+
+        $orders = DB::table('customers as c')
+        ->join('orders as o','o.customerId', 'c.id')
+        ->join('detail_orders as d', 'd.OrderId', 'o.id')
+        ->where('c.id',$id)
+        ->select('c.*', 'o.*', 'd.*')
+        ->get()
+        ->toArray();
+       
+        return $orders;
+
+
+        //Affiche les details de la commande id=
+        /*$orders = DB::table('detail_orders as d')
+        ->join('orders as o','o.id', 'd.orderId')
+        ->join('customers as c', 'c.id', 'o.customerId')
+        ->where('d.orderId',$id)
+        ->select('c.*', 'o.*', 'd.*')
+        ->get()
+        ->toArray();
+        return $orders;*/
+
+
+        //Affiche les commandes (sans détailler les produits achetés) du client id=
+        /*$orders = DB::table('customers as c')
+        ->join('orders as o','o.customerId', 'c.id')
+        ->where('c.id',$id)
+        ->select('c.*', 'o.id as oid', 'o.*')
+        ->get()
+        ->toArray();
+        return $orders;*/
+    }
+
+
+    
+
+
 
 
     /* ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ juste un copier coller du web_cci pour l'instant ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ */
 
-    function addUser(string $email, string $password): int
+    function addCustomer(string $email, string $password): int
     {
         $passwordHash = Hash::make($password);
-        return DB::table('users')->insert(['email'=>$email, 'password_hash'=> $passwordHash]);
+        return DB::table('customers')->insert(['email'=>$email, 'password'=> $passwordHash]);
     }
 
 
-    function getUser(string $email, string $password): array
+    function getCustomer(string $email, string $password): array
     {
     // TODO
     
-    $users= DB::table('users')->where('email', $email)->get()->toArray();
+    $customers= DB::table('customers')->where('email', $email)->get()->toArray();
     
-    if (count($users)==0){
+    if (count($customers)==0){
         throw new Exception('Utilisateur inconnu');
     }
-    $user=$users[0];
+    $customer=$customers[0];
    
-    $ok = Hash::check($password, $user['password_hash']);
+    $ok = Hash::check($password, $customer->password);
 
         if (!$ok){
             throw new Exception('Utilisateur inconnu');
         }
-    return ['id'=>$user['id'],'email'=>$user['email']];
+    return ['id'=>$customer->id,'email'=>$customer->email];
     }
     
 
@@ -221,20 +260,20 @@ class Repository
 
       //verifier si le mot de passe est correct:
 
-      $users= DB::table('users')->where('email', $email)->get()->toArray();
+      $customers= DB::table('customers')->where('email', $email)->get()->toArray();
 
-      if(count($users)==0){
+      if(count($customers)==0){
         throw new Exception('Utilisateur inconnu');
       }
 
 
-      $ok = Hash::check($oldPassword, $users[0]['password_hash']);
+      $ok = Hash::check($oldPassword, $customers[0]['password']);
       if (!$ok){
         throw new Exception('Utilisateur inconnu');
       }
       
       $newPasswordHash = Hash::make($newPassword);
-      DB::table('users')->where('email', $email)->update(['password_hash'=> $newPasswordHash]);
+      DB::table('customers')->where('email', $email)->update(['password'=> $newPasswordHash]);
     }
    
 }

@@ -16,13 +16,13 @@ class CreateCustomersTable extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
              
-            $table->string('lastname');
-            $table->string('firstname');
+            $table->string('lastname')->nullable();
+            $table->string('firstname')->nullable();
             $table->string('email')->unique();
             $table->string('password');
-            $table->Integer('numstreet');
-            $table->string('namestreet');
-            $table->Integer('cp');
+            $table->Integer('numstreet')->nullable();
+            $table->string('namestreet')->nullable();
+            $table->Integer('cp')->nullable();
             $table->foreign('cp')->references('cp')->on('postCodes')->onDelete('cascade');
             $table->timestamps();
         });

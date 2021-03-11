@@ -24,5 +24,7 @@ class DatabaseSeeder extends Seeder
         //$repository->createDatabase();
         $repository->fillDatabase();
         //$repository->updateRanking();
+        $repository->addCustomer('user@example.com', 'secret');
+
     }  
 }

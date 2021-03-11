@@ -2,23 +2,59 @@
 
 @section('title','Accueil')
 @section('content')
-<div class="container-fluid">
-    <div class="row justify-content-center">
-        @foreach ($detail_orders as $detail)
-        <div class="col-3">
-            <article class="card">
-                <header class="card-header">
-                    <h1>{{"commande" . " " . "N°" . " "  . $detail->orderId }}</h1>
-                </header>
-                <div class="card_body">
-                    {{"Produit N°" . $detail->productId}}
-                </div>
-                <footer class="card-footer">
-                    {{"quantité = " . $detail->quantity}}
-                </footer>
-            </article>
-        </div>   
-         @endforeach
-    </div>
-</div>
+
+
+<table class="table table-borderd table-responsive-sm">
+            <thead>
+                <tr>
+                    <td>Commande</td>
+                    <td>Produit</td>
+                    <td>Prix unitaire</td>
+                    <td>Quantité</td>
+                    <td>prix total</td>
+                </tr>
+            </thead>
+            <tbody>
+           <!-- {{$Total =0}} -->
+                @foreach ($details as $detail)
+                    <tr>
+                        <td>
+                            {{ $detail->orderId }}
+                            ({{ $detail->firstname }})
+                        </td>
+                        <td>
+                
+                                 {{$detail->productId}}      
+                  </td>
+                  
+                        <td> 
+                            {{number_format($detail->price,2)}}€
+                        </td>
+                        <td>
+                  {{$detail->quantity}}
+                  </td>
+                        <td>
+                           <strong>{{$total=number_format($detail->price * $detail->quantity,2)}}€ </strong>
+                              <!--{{$Total+=$total}}    -->  
+                        </td>          
+                        <td>
+                     
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+            <tfooter>
+                <tr>
+                    <td> </td>
+                    <td></td>
+                    <td> total</td>
+                    <td> </td>
+                    <td> {{$Total}}</td>
+                </tr>
+            </tfooter>
+
+        </table>
+
+
 @endsection
+
