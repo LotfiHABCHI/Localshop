@@ -15,10 +15,10 @@ class Customers extends Authenticatable
     function customers()
     {
         return [
-            ['id'=>1, 'lastname'=>'Yahiaoui', 'firstname'=>'Nahida', 'email'=>'nahida@gmail.com', "password"=>" ","numstreet"=>71, "namestreet"=>"avenue de luminy", "cp"=>13009],
-            ['id'=>2, 'lastname'=>'Scherelle', 'firstname'=>'Celia', 'email'=>'celia@gmail.com', "password"=>" ","numstreet"=>45, "namestreet"=>"rue de poitou", "cp"=>13012],
-            ['id'=>3, 'lastname'=>'Zenagui', 'firstname'=>'Mohcine', 'email'=>'mohcine@gmail.com', "password"=>" ","numstreet"=>112, "namestreet"=>"avenue des capucines", "cp"=>13004],
-            ['id'=>4, 'lastname'=>'Habchi', 'firstname'=>'Lotfi', 'email'=>'lotfi@gmail.com', "password"=>" ","numstreet"=>6, "namestreet"=>"boulevard magenta", "cp"=>13009],
+            ['id'=>1, 'lastname'=>'Yahiaoui', 'firstname'=>'Nahida', 'email'=>'nahida@gmail.com', "password"=>" ","numstreet"=>71, "namestreet"=>"avenue de luminy", "postcode"=>13009, 'city'=>'luminy'],
+            ['id'=>2, 'lastname'=>'Scherelle', 'firstname'=>'Celia', 'email'=>'celia@gmail.com', "password"=>" ","numstreet"=>45, "namestreet"=>"rue de poitou", "postcode"=>13012, 'city'=>'luminy'],
+            ['id'=>3, 'lastname'=>'Zenagui', 'firstname'=>'Mohcine', 'email'=>'mohcine@gmail.com', "password"=>" ","numstreet"=>112, "namestreet"=>"avenue des capucines", "postcode"=>13004, 'city'=>'luminy'],
+            ['id'=>4, 'lastname'=>'Habchi', 'firstname'=>'Lotfi', 'email'=>'lotfi@gmail.com', "password"=>" ","numstreet"=>6, "namestreet"=>"boulevard magenta", "postcode"=>13009, 'city'=>'luminy'],
         ];
     }
     /**

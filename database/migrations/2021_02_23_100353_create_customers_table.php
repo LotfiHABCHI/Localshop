@@ -22,8 +22,9 @@ class CreateCustomersTable extends Migration
             $table->string('password');
             $table->Integer('numstreet')->nullable();
             $table->string('namestreet')->nullable();
-            $table->Integer('cp')->nullable();
-            $table->foreign('cp')->references('cp')->on('postCodes')->onDelete('cascade');
+            $table->Integer('postcode')->nullable();
+            $table->string('city')->nullable();
+            $table->foreign('postcode')->references('cp')->on('postCodes')->onDelete('cascade');
             $table->timestamps();
         });
     }

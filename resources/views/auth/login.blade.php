@@ -76,7 +76,7 @@
           <p>
           Vous n'avez pas encore de compte ?<br>
           Inscrivez-vous <a href="/connexion/registerCustomer.html"><input type="submit" class="btnIdent" value="Client/Cliente" /></a>
-           <a href="/connexion/registerSeller.html"><input type="submit" class="btnIdent" value="Producteur/Productrice" /></a>
+           <a href="seller_register"><input type="submit" class="btnIdent" value="Producteur/Productrice" /></a>
           </p>
         </div>
         

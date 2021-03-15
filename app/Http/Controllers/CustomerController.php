@@ -58,23 +58,63 @@ public function login(Request $request, Repository $repository)
         return redirect()->route('home');
     }
 
+
     public function showRegisterForm()
     {
-        return view('customers.registerC');
+        return view('/customers/customer_register');
     }
 
-    public function register(array $data)
+    public function customerRegister(Request $request, Repository $repository)
     {
-        return Customers::create([
-            'firstname' => $data['firstname'],
-            'lastname' => $data['lastname'],
-            'numstreet'=>$data['numstreet'],
-            'namestreet'=>$data['namestreet'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            
-        ]);
+        $rules = [
+            'lastname' => ['required'], 
+            'firstname' => ['required'],  
+            'email' => ['required', 'email'],
+            'password' => ['required'], 
+            'passwordConfirm'=>['required'],
+            'numstreet' => ['required'], 
+            'namestreet' => ['required'],
+            'postcode'=>['required'],
+            'city'=>['required'],
+        ];
+        $messages = [
+            'lastname.required' => 'Vous devez saisir un nom.',
+            'firstname.required' => 'Vous devez saisir un prénom.',
+            'email.required' => 'Vous devez saisir un e-mail.',
+            'email.email' => 'Vous devez saisir un e-mail valide.',
+            'password.required' => "Vous devez saisir un mot de passe.",
+            'passwordConfirm.required' => "Vous devez confirmer le mot de passe.",
+            'numstreet.required' => 'Vous devez saisir un numéro de rue.',
+            'namestreet.required' => 'Vous devez saisir un nom de rue.',
+            'postcode.required' => 'Vous devez saisir un code postal.',
+            'city.required' => 'Vous devez saisir une ville.',
+        ];
 
+        
+        $validatedData = $request->validate($rules, $messages);
+        $lastname = $validatedData['lastname'];
+        $firstname = $validatedData['firstname'];
+        $email = $validatedData['email'];
+        $password = $validatedData['password'];
+        $numstreet = $validatedData['numstreet'];
+        $namestreet = $validatedData['namestreet'];
+        $postcode = $validatedData['postcode'];
+        $city = $validatedData['city'];
+        
+
+
+        if($validatedData['password']==$validatedData['passwordConfirm']){
+            try {
+                $this->repository->addCustomer($lastname, $firstname, $email, $password, $numstreet, $namestreet, $postcode, $city); 
+                 $request->session()->put('people', $this->repository->getCustomer($email, $password));
+                
+            } catch (Exception $e) {
+                return redirect()->back()->withInput()->withErrors("Impossible de vous inscrire.");
+            }
+        }else{
+            return redirect()->back()->withInput()->withErrors("mots de passe différents.");
+        }
+        return redirect()->route('home');
     }
 }
 

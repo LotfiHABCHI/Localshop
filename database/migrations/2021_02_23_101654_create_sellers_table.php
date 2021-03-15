@@ -18,15 +18,16 @@ class CreateSellersTable extends Migration
             $table->string('lastname');
             $table->string('firstname');
             $table->string('email')->unique();
-            $table->string('tel');
+            $table->string('phone');
             $table->string('password');
             $table->Integer('numstreet');
             $table->string('namestreet');
-            $table->Integer('cp');
+            $table->Integer('postcode');
+            $table->string('city');
             $table->string('storename');
-            $table->BigInteger('siren');
+            $table->BigInteger('siret');
             $table->timestamps();
-            $table->foreign('cp')->references('cp')->on('postcodes')->onDelete('cascade');
+            $table->foreign('postcode')->references('cp')->on('postcodes')->onDelete('cascade');
             
         });
     }

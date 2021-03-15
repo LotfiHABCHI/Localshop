@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.80.0">
-    <title>Accueil</title>
+    <title>{{ $details[0]->storename }}</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
 
@@ -40,6 +40,7 @@
           font-size: 3.5rem;
         }
       }
+
       *, ::before, ::after {
   box-sizing: border-box;
   margin: 0;
@@ -58,7 +59,6 @@ h1 {
     font-size: 40px;
     color:rgb(57, 58, 58);
 }
-
 
 
 
@@ -86,26 +86,10 @@ h1 {
   display: flex;
 }
 
-
-
-
-
-
 hr{
   width:100%;
   color: rgb(57, 58, 58);
 }
-
-.core hr{
-  width:50%;
-  color: rgb(57, 58, 58);
-  margin: 0 auto 0 auto;
-}
-
-
-
-
-
 
 .footer_hr{
   width:100%;
@@ -113,8 +97,67 @@ hr{
   margin-top: 3%;
 }
 
+
+.core{
+  height: 70%;
+}
+
+
+
+.category li{
+  display: inline-block;
+  height: 12%;
+  width: 12%;
+}
+
+
+
+
+.seller{
+  display: flex;
+border: solid 2px red;
+}
+
+.human{
+  display: inline-block;
+border: solid 2px blue;
+margin:1%;
+width: 40%;
+height: auto;
+}
+
+.seller_title{
+  font-size: 25px;
+  text-align: center;
+  color: rgb(57, 58, 58);
+}
+
+.item{
+  display: inline-block;
+border: solid 2px green;
+margin:1%;
+width: 100%;
+height: auto;
+}
+
+.nb_item{
+border: solid 2px yellow;
+margin:1%;
+height: auto;
+}
+
+.seller_description{
+  text-align: justify;
+  color: rgb(57, 58, 58);
+}
+
+
+
+
+
 .footer{
   display: flex;
+  padding: 2%;
 }
 
 #propos, #faq, #mention, #contact, #cci{
@@ -160,94 +203,93 @@ a {
   </head>
   <body>
     
-<header>
-<hr></hr>
-  @section('content')
- 
-  
-    <div class="container">
-    <a href="{{route('home')}}" class="navbar-brand d-flex align-items-center">
-				
-						<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"
-						/>
-						<circle cx="12" cy="13" r="4" /></svg>
-          
-      </a>
-     
 
-    </div>
-  
-</header>
 
 <main>
-
-<!--<div class="container">  -->
+@section('content')
+<div class="container">
   
-<div class="core">
 
-    <div id="core_category">
+<div id="core_category">
     <nav class="nav d-flex justify-content-between"> 
       
       @foreach ($categories as $category)
           <div class="col-1">
-
               <article >
                      <a href="{{route('showProductsOfCategory',['id'=>$category->id])}}"> <img class="card-img-top" src="{{asset('images/'.$category->image)}}"><a> 
               </article>
-              
           </div>   
         @endforeach
       </nav>
     </div>
-    <div id="core_products">
-    <div class="album py-5 bg-light">
-    <div class="container">
-    
+</div>
+
+<div class="seller">
+  <div class="human">
+
+    <p class="seller_title">{{ $details[0]->storename }}</p>
+    <img src="">
+    <div class="nb_item">
+    {{ $count }} produits
+    </div>
+    <p class="seller_description">Bonjour, je vends des supers legumes Bonjour, je vends des supers legumes Bonjour, je vends des supers legumes</p>
+  
+  </div>
+ 
+  <div class="item" class="album py-5 bg-light"> <!-- ici ça ne prend que la 2eme class -->
+
+    <div class="container-fluid">
       <div class="row row-cols ">
-      
-      @foreach($details as $detail)
-      
-        <div class="col-md-2">
+      @foreach ($details as $detail)
+      <div class="card shadow-sm">
+      <img class="card-img-top" src="{{asset('images/'.$detail->image)}}"  width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em"></text></svg>
 
-          <div class="card mb-4 shadow-sm">
-
-          <img class="card-img-top " src="{{asset('images/'.$detail->image)}}" >
             <div class="card-body">
-            <h4><a href="{{route('showProductOfSeller',['id'=>$detail->sellerId])}}">{{ $detail->store}}</a></h4>
-
-              <h5><a href="{{route('product',['id'=>$detail->id])}}">{{ $detail->name}}<a> </h5>
-              <p> {{ $detail->description}}</p>
-
-              <p>{{ number_format($detail->price,2) }}€</p>
+              <p class="card-text"><a href="{{route('product',['id'=>$detail->id])}}">{{ $detail->name }} ({{$detail->id}})<a> </p>
+              {{ number_format($detail->price,2) }}€
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                <button>voir</button>
+                
+                <form  action="{{route('cart.add', ['id'=>$detail->id])}}" method="POST" id="add_cart">
+                @csrf
+                <label for="quantity"> </label>
+                <input type="number" value="1" class="form-control" id="quantity" name="quantity" min="0">
+                </form>
                 </div>
-               
               </div>
             </div>
           </div>
-        </div>
-       
 
-        @endforeach
-       
+
+            <!--<div class="col-4">
+              <article class="card">
+                <img class="card-img-top" src="{{asset('images/'.$detail->image)}}" >
+                  <h4><a href="{{route('product',['id'=>$detail->id])}}">{{ $detail->name}}<a> 
+                  </h4>      
+                  {{ number_format($detail->price,2) }}€
+                  <div class="d-flex justify-content-between align-items-center">
+                <form  action="{{route('cart.add', ['id'=>$detail->id])}}" method="POST" id="add_cart">
+                @csrf
+                <label for="quantity"> </label>
+                <input type="number" value="1" class="form-control" id="quantity" name="quantity" min="0">
+                </form>
+                <button type="submit" form="add_cart" class="btn btn-primary">Ajouter au panier</button>
+          </div>
+              </article>
+            </div>   -->
+          @endforeach
+          
       </div>
     </div>
-    
   </div>
   
-    </div>
 </div>
 
-    
-  
 </main>
 
+@endsection
 
 
-
-      @endsection
       
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
@@ -258,5 +300,11 @@ a {
       
   </body>
 </html>
+
+
+
+
+
+
 
 

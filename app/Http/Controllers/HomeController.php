@@ -51,19 +51,31 @@ class HomeController extends Controller
         $products=Products::all();
         
         $details= $this->repository->productInfos();
+        
+        // pour la pagination
+        /*
+         $details= DB::table('detail_products as d')
+        ->join('sellers as s','s.id', 'd.sellerId')
+        ->join('products as p', 'p.id', 'd.productId')
+        ->select('s.storename as store','s.id as sellerId', 'p.*', 'd.stock')
+        ->orderBy('p.price')
+        ->paginate(10);
+        */
+        
         return view('home',compact('products','categories', 'sellers', 'detailproducts', 'details'));
     }
     
 
-    public function products(Request $request)
+    public function products(int $id)
     { //Afficher la page d'un produit spécifique
 
         $categories = Categories::all();
         
         //select * from produits where id=?
-        $product = Products::find($request->id);
+       //$product = Products::find($request->id); 
+       $products=$this->repository->product($id);    
 
-        return view('products',compact('product','categories'));
+        return view('products',compact('products','categories'));
     }
 
 
@@ -131,7 +143,7 @@ class HomeController extends Controller
     }*/
 
 
-    public function ShowCategory(Request $request)
+    public function ShowCategory(int $id)
     {  //Affiche les produits vendus dans chaque catégorie
 
         //SELECT categories.*, products.*
@@ -141,15 +153,17 @@ class HomeController extends Controller
         $categories = Categories::all();
 
         // SELECT * FROM products WHERE catId= ?
-        $products = Products::where('catId',$request->id)->get();
-
+        
+        //$products = Products::where('catId',$request->id)->get();
+        $products=$this->repository->detailProductsOfCategory($id);
+        
         return view('categories',compact('products', 'categories'));
     }
 
 
 
 
-    public function showProductOfSeller(int $id)
+    public function showProductsOfSeller(int $id)
     {  //Affiche les produits vendus par chaque commerçant
 
         //SELECT sellers.storename, products.name, detail_products.stock
@@ -161,8 +175,9 @@ class HomeController extends Controller
         $categories = Categories::all();
         $products = DetailProducts::all();
         $details= $this->repository->productsOfSeller($id);
-
-        return view('sellers', ['details'=>$details, 'categories'=>$categories, 'products'=>$products, 'sellers'=>$sellers] );
+        //dd($details[1]->productId);
+        $count=$this->repository->productCount($id);
+        return view('sellers/sellers', ['details'=>$details, 'categories'=>$categories, 'products'=>$products, 'sellers'=>$sellers, 'count'=>$count] );
 
     }
 
@@ -183,13 +198,168 @@ class HomeController extends Controller
         $detailproducts = DetailProducts::all();
         $products=Products::all();
         $details= $this->repository->productInfos();
+       
         return view('test', ['details'=>$details, 'categories'=>$categories, 'products'=>$products, 'detailproducts'=>$detailproducts] );
 
        
     }
 
+    ////////////////////// ↓ copier coller de web_cci register //////////////////////
 
-   
+    public function showRegisterForm()
+    {
+        return view('/sellers/seller_register');
+    }
+
+    public function sellerRegister(Request $request, Repository $repository)
+    {
+        $rules = [
+            'lastname' => ['required'], 
+            'firstname' => ['required'],  
+            'email' => ['required', 'email'],
+            'phone' => ['required'], 
+            'password' => ['required'], 
+            'passwordConfirm'=>['required'],
+            'numstreet' => ['required'], 
+            'namestreet' => ['required'],
+            'postcode'=>['required'],
+            'city'=>['required'],
+            'storename' => ['required'], 
+            'siret' => ['required'], 
+
+        ];
+        $messages = [
+            'lastname.required' => 'Vous devez saisir un nom.',
+            'firstname.required' => 'Vous devez saisir un prénom.',
+            'email.required' => 'Vous devez saisir un e-mail.',
+            'email.email' => 'Vous devez saisir un e-mail valide.',
+            'password.required' => "Vous devez saisir un mot de passe.",
+            'passwordConfirm.required' => "Vous devez confirmer le mot de passe.",
+            'phone.required' => 'Vous devez saisir un numéro de téléphone.',
+            'numstreet.required' => 'Vous devez saisir un numéro de rue.',
+            'namestreet.required' => 'Vous devez saisir un nom de rue.',
+            'postcode.required' => 'Vous devez saisir un code postal.',
+            'city.required' => 'Vous devez saisir une ville.',
+            'storename.required' => 'Vous devez saisir le nom de votre enseigne.',
+            'siret.required' => 'Vous devez saisir votre numéro SIRET.',
+        ];
+
+        
+        $validatedData = $request->validate($rules, $messages);
+        $lastname = $validatedData['lastname'];
+        $firstname = $validatedData['firstname'];
+        $email = $validatedData['email'];
+        $phone = $validatedData['phone'];
+        $password = $validatedData['password'];
+        $numstreet = $validatedData['numstreet'];
+        $namestreet = $validatedData['namestreet'];
+        $postcode = $validatedData['postcode'];
+        $city = $validatedData['city'];
+        $storename = $validatedData['storename'];
+        $siret = $validatedData['siret'];
+
+
+        if($validatedData['password']==$validatedData['passwordConfirm']){
+            try {
+                $this->repository->addSeller($lastname, $firstname, $email, $phone, $password, $numstreet, $namestreet, $postcode, $city, $storename, $siret); 
+                 $request->session()->put('people', $this->repository->getSeller($email, $password));
+                
+            } catch (Exception $e) {
+                return redirect()->back()->withInput()->withErrors("Impossible de vous inscrire.");
+            }
+        }else{
+            return redirect()->back()->withInput()->withErrors("mots de passe différents.");
+        }
+        return redirect()->route('home');
+    }
+
+
+    
+
+    public function showChangePasswordForm() 
+    {
+        return view('changepass');
+    }
+
+    public function changePassword(Request $request,Repository $repository)
+    {
+        $rules = [
+            'email' => ['required', 'email', 'exists:users,email'],
+            'old_password' => ['required'],
+            'new_password' => ['required'],
+            'new_passwordConfirm' => ['required'],
+        ];
+        $messages = [
+            'email.required' => 'Vous devez saisir un e-mail.',
+            'email.email' => 'Vous devez saisir un e-mail valide.',
+            'email.exists' => "Cet utilisateur n'existe pas.",
+            'old_password.required' => "Vous devez saisir votre ancien mot de passe.",
+            'new_password.required' => "Vous devez saisir un nouveau mot de passe.",
+            'new_passwordConfirm.required' => "Vous devez confirmer votre nouveau mot de passe.",
+        ];
+        $validatedData = $request->validate($rules, $messages);
+        $email = $validatedData['email'];
+        if($validatedData['new_password']==$validatedData['new_passwordConfirm']){
+            try {
+
+                $user=$this->repository->getUser($email, $validatedData['old_password']);
+
+                $user=$this->repository->changePassword($email,$validatedData['old_password'], $validatedData['new_password'] );
+            
+            } catch (Exception $e) {
+                return redirect()->back()->withInput()->withErrors("Impossible de changer le mot de passe.");
+            }
+        }else{
+            return redirect()->back()->withInput()->withErrors("mots de passe différents.");
+        }
+        return redirect()->route('home');
+    }
+
+    public function showLoginForm()
+    {
+        return view('/sellers/seller_login');
+    }
+
+    public function login(Request $request, Repository $repository)
+    {
+        $rules = [
+            'email' => ['required', 'email', 'exists:people,email'],
+            //'email' => ['required', 'email', 'exists:customers,email'],
+            'password' => ['required']
+        ];
+        $messages = [
+            'email.required' => 'Vous devez saisir un e-mail.',
+            'email.email' => 'Vous devez saisir un e-mail valide.',
+            'email.exists' => "Cet utilisateur n'existe pas.",
+            'password.required' => "Vous devez saisir un mot de passe.",
+        ];
+        $validatedData = $request->validate($rules, $messages);
+        //$pass = Hash::make($validatedData['password']);
+        $email = $validatedData['email'];
+        try {
+            $infos=$request->session()->put('people', $this->repository->getPeople($email, $validatedData['password']));
+            $info= $request->session()->get('people');
+           //dd($info);
+
+        } catch (Exception $e) {
+            return redirect()->back()->withInput()->withErrors("Impossible de vous authentifier.");
+        }
+        
+        
+        return redirect()->route('home');
+    }
+
+        ////////////////////// ↑ copier coller de web_cci register //////////////////////
+
+   public function test(Request $req)
+   {
+       //print_r($req->input());
+        $info=$req->session()->put('info', $req->input());
+        /*print_r($info);*/
+
+       $info= $req->session()->get('info');
+       print_r($info['password']);
+   }
     
 }
 

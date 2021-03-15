@@ -27,7 +27,7 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 
 
 
-Route::get('/sellers/{id}', [App\Http\Controllers\HomeController::class, 'showProductOfSeller'])->where('id', '[0-9]+')->name('showProductOfSeller');
+Route::get('/sellers/{id}', [App\Http\Controllers\HomeController::class, 'showProductsOfSeller'])->where('id', '[0-9]+')->name('showProductOfSeller');
 
 Route::get('/customers', [App\Http\Controllers\HomeController::class, 'customers'])->name('customers');
 
@@ -62,12 +62,26 @@ Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name
 
 
 
-Route::get('/test', [App\Http\Controllers\HomeController::class, 'showProductsinfos']);
+Route::post('/test', [App\Http\Controllers\HomeController::class, 'test']);
+Route::view('test', 'test');
 
 
-Route::get('/customers/login', [App\Http\Controllers\CustomerController::class, 'showLoginForm'])->name('customers.login');
-Route::post('/customers/login', [App\Http\Controllers\CustomerController::class, 'login'])->name('customers.login.post');
 
-/*Route::get('/customers/registerC', [App\Http\Controllers\CustomerController::class, 'showRegisterForm'])->name('customers.register');
-Route::post('/customers/registerC', [App\Http\Controllers\CustomerController::class, 'register'])->name('customers.register.post');
-*/
+Route::get('/customer_register', [App\Http\Controllers\CustomerController::class, 'showRegisterForm'])->name('customer_register');
+Route::post('/customer_register', [App\Http\Controllers\CustomerController::class, 'customerRegister'])->name('customer_register.post');
+
+Route::get('/customer_login', [App\Http\Controllers\CustomerController::class, 'showLoginForm'])->name('customer.login');
+Route::post('/customer_login', [App\Http\Controllers\CustomerController::class, 'login'])->name('customer_login.post');
+
+Route::get('/seller_login', [App\Http\Controllers\HomeController::class, 'showLoginForm'])->name('seller.login');
+Route::post('/seller_login', [App\Http\Controllers\HomeController::class, 'login'])->name('seller_login.post');
+
+Route::get('/seller_register', [App\Http\Controllers\HomeController::class, 'showRegisterForm'])->name('seller_register');
+Route::post('/seller_register', [App\Http\Controllers\HomeController::class, 'sellerRegister'])->name('seller_register.post');
+
+
+Route::get('/add_product', [App\Http\Controllers\SellerController::class, 'showAddProductForm'])->name('add_product');
+Route::post('/add_product', [App\Http\Controllers\SellerController::class, 'addProduct'])->name('add_product.post');
+
+
+
