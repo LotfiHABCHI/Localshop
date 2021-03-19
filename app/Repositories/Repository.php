@@ -156,14 +156,37 @@ class Repository
     function productsOfSeller($id) : array
     { 
 
-        $prods = DB::table('detail_products as d')
+       $prods = DB::table('detail_products as d')
         ->join('sellers as s','s.id', 'd.sellerId')
         ->join('products as p', 'p.id', 'd.productId')
-        ->where('s.id',$id)
-        ->select('s.storename', 'p.*', 'p.id as pid', 'd.*')
+        ->where('s.id', $id)
+        ->select('s.storename', 'p.*', 'p.id as id', 'd.*')
         ->get()
         ->toArray();
         return $prods;
+
+        /*$prods = DB::table('sellers as s')
+        ->join('people as p', 'p.sellerId', 's.id')
+        ->where('s.id', $id)
+        ->select('s.*')
+        ->get()
+        ->toArray();
+        return $prods;*/
+
+    }
+
+    public function connectValide($email)
+    {
+        $customer=DB::table('customers')->where('email',$email)->get()->toArray();
+        $seller=DB::table('sellers')->where('email',$email)->get()->toArray();
+
+        if($email!=$customer['email']){
+            return redirect()->back()->withInput()->withErrors("email inexistant."); 
+        }
+        else if($email!=$seller['email']){
+            return redirect()->back()->withInput()->withErrors("email inexistant."); 
+        }
+
     }
 
     function detailProductsOfCategory($id) : array
@@ -267,13 +290,14 @@ class Repository
 
 
 
-    function addSeller(string $lastname, string $firstname, string $email, string $phone, string $password, int $numstreet, string $namestreet, int $postcode, string $city, string $storename, int $siret): int
+    function addSeller(string $lastname, string $firstname, string $email, string $phone, string $password, int $numstreet, string $namestreet, int $postcode, string $city, string $storename, int $siret)/*: int*/
     {
         $role=2;
         $passwordHash = Hash::make($password);
-        DB::table('people')->insert(["lastname"=>$lastname, 'firstname'=>$firstname, 'email'=>$email, 'password'=> $passwordHash, 'role'=>$role]);
+        $sellerId=DB::table('sellers')->insertGetId(["lastname"=>$lastname, 'firstname'=>$firstname, 'email'=>$email, "phone"=>$phone, 'password'=> $passwordHash, "numstreet"=>$numstreet, "namestreet"=>$namestreet, "postcode"=>$postcode, "city"=>$city, "storename"=>$storename, "siret"=>$siret]);
+        DB::table('people')->insert(["lastname"=>$lastname, 'firstname'=>$firstname, 'email'=>$email, 'password'=> $passwordHash,"sellerId"=>$sellerId, 'role'=>$role]);
 
-        return DB::table('sellers')->insert(["lastname"=>$lastname, 'firstname'=>$firstname, 'email'=>$email, "phone"=>$phone, 'password'=> $passwordHash, "numstreet"=>$numstreet, "namestreet"=>$namestreet, "postcode"=>$postcode, "city"=>$city, "storename"=>$storename, "siret"=>$siret]);
+        //return DB::table('sellers')->insert(["lastname"=>$lastname, 'firstname'=>$firstname, 'email'=>$email, "phone"=>$phone, 'password'=> $passwordHash, "numstreet"=>$numstreet, "namestreet"=>$namestreet, "postcode"=>$postcode, "city"=>$city, "storename"=>$storename, "siret"=>$siret]);
     }
 
 
@@ -299,13 +323,16 @@ class Repository
 
 
 
-    function addCustomer(string $lastname, string $firstname, string $email, string $password, int $numstreet, string $namestreet, int $postcode, string $city): int
+    function addCustomer(string $lastname, string $firstname, string $email, string $password, int $numstreet, string $namestreet, int $postcode, string $city)/*: int*/
     {
+      //  $role=DB::table('roles')->where('rolename', '=', 'customer');
         $role=1;
         $passwordHash = Hash::make($password);
-        DB::table('people')->insert(["lastname"=>$lastname, 'firstname'=>$firstname, 'email'=>$email, 'password'=> $passwordHash, 'role'=>$role]);
+        $customerId=DB::table('customers')->insertGetId(["lastname"=>$lastname, 'firstname'=>$firstname, 'email'=>$email, 'password'=> $passwordHash, "numstreet"=>$numstreet, "namestreet"=>$namestreet, "postcode"=>$postcode, "city"=>$city]);
 
-        return DB::table('customers')->insert(["lastname"=>$lastname, 'firstname'=>$firstname, 'email'=>$email, 'password'=> $passwordHash, "numstreet"=>$numstreet, "namestreet"=>$namestreet, "postcode"=>$postcode, "city"=>$city]);
+        DB::table('people')->insert(["lastname"=>$lastname, 'firstname'=>$firstname, 'email'=>$email, 'password'=> $passwordHash,"customerId"=>$customerId, 'role'=>$role]);
+
+       // return DB::table('customers')->insert(["lastname"=>$lastname, 'firstname'=>$firstname, 'email'=>$email, 'password'=> $passwordHash, "numstreet"=>$numstreet, "namestreet"=>$namestreet, "postcode"=>$postcode, "city"=>$city]);
     }
 
 
@@ -348,10 +375,9 @@ class Repository
         if (!$ok){
             throw new Exception('Utilisateur inconnu');
         }
-    return ['id'=>$people->id, 'email'=>$people->email,'firstname'=>$people->firstname, 'role'=>$people->role];
+    return ['id'=>$people->id, 'email'=>$people->email,'firstname'=>$people->firstname, 'role'=>$people->role, 'sellerId'=>$people->sellerId];
     }
-
-    
+   
 
 
     
@@ -362,22 +388,56 @@ class Repository
 
       //verifier si le mot de passe est correct:
 
-      $sellers= DB::table('sellers')->where('email', $email)->get()->toArray();
+      $people= DB::table('people')->where('email', $email)->get()->toArray();
 
-      if(count($sellers)==0){
+      if(count($people)==0){
         throw new Exception('Utilisateur inconnu');
       }
 
 
-      $ok = Hash::check($oldPassword, $customers[0]['password']);
+      $ok = Hash::check($oldPassword, $people[0]->password);
       if (!$ok){
         throw new Exception('Utilisateur inconnu');
       }
       
       $newPasswordHash = Hash::make($newPassword);
-      DB::table('sellers')->where('email', $email)->update(['password'=> $newPasswordHash]);
+      DB::table('people')->where('email', $email)->update(['password'=> $newPasswordHash]);
     }
 
+
+    function addProduct(string $name, string $description, string $image, float $price, int $category ) : int
+    {
+        
+        return DB::table('products')->insertGetId(['name'=> $name, 'description'=> $description, 'image'=> $image,'price'=> $price, 'catId'=> $category]);    
+
+    }
+
+    function addDetailProduct(int $productId, int $sellerId, int $stock) : int
+    {
+        
+        return DB::table('detail_products')->insert(['productId'=> $productId, 'sellerId'=> $sellerId, 'stock'=> $stock]);    
+
+    }
+
+    function resetPassword(string $email, string $newPassword): void 
+    {
+    
+      $people= DB::table('people')->where('email', $email)->get()->toArray();
+
+      if(count($people)==0){
+        throw new Exception('Utilisateur inconnu');
+      }
+
+            
+      $newPasswordHash = Hash::make($newPassword);
+      DB::table('people')->where('email', $email)->update(['password'=> $newPasswordHash]);
+    }
+
+    function sendEmail(){
+        
+    }
+
+    
 
 
     

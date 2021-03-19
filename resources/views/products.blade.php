@@ -8,7 +8,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 	<meta name="generator" content="Hugo 0.80.0">
-	<title>Produit</title>
+	<title>{{$productName[0]->name}}</title>
 
 	<link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
 
@@ -194,7 +194,7 @@ a {
 
             <div class="card mb-4 shadow-sm">
 
-            <img class="card-img-top" src="{{asset('images/'.$product->image)}}" >
+            <img class="card-img-top" src="{{asset('storage/images/'.$product->image)}}" >
             <div class="card-body">
             <h4><a href="{{route('showProductOfSeller',['id'=>$product->sellerId])}}">{{ $product->store}}</a></h4>            <h5>{{ $product->name }}</h5>    
             <p> {{ $product->description}}</p>

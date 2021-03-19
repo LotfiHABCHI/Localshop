@@ -1,3 +1,4 @@
+@extends('layouts.base')
 <!doctype html>
 <html lang="en">
 
@@ -26,21 +27,150 @@
 	<link rel="icon" href="/docs/5.0/assets/img/favicons/favicon.ico">
 	<meta name="theme-color" content="#7952b3">
 
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+      *, ::before, ::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: normal;
+  background: rgb(255, 248, 248);
+}
+
+h1 {
+    text-align: center;
+    padding: 35px 0;
+    font-size: 40px;
+    color:rgb(57, 58, 58);
+}
+
+
+
+
+
+.header{
+  display: flex;
+  width: 100%;
+}
+
+#co{
+  padding:2%;
+  float: left;
+  display: flex;
+}
+
+#panier{
+  padding:2%;
+  float: right;
+  display: flex;
+}
+
+#logo{
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+}
+
+
+
+
+
+
+hr{
+  width:100%;
+  color: rgb(57, 58, 58);
+}
+
+.core hr{
+  width:50%;
+  color: rgb(57, 58, 58);
+  margin: 0 auto 0 auto;
+}
+
+
+
+
+
+
+.footer_hr{
+  width:100%;
+  color: rgb(57, 58, 58);
+  margin-top: 3%;
+}
+
+.footer{
+  display: flex;
+}
+
+#propos, #faq, #mention, #contact, #cci{
+  padding-left: 5%;
+  display: inline-block;
+}
+
+#cci{
+  color: rgb(57, 58, 58);
+}
+
+a {
+  outline: none;
+  text-decoration: none;
+  padding: 2px 1px 0;
+}
+
+.footer a:link {
+  color: rgb(108, 115, 116);
+}
+
+.footer a:visited {
+  color: rgb(108, 115, 116);
+}
+
+.footer a:focus {
+  border-bottom: 1px solid;
+  background: rgb(57, 58, 58);
+}
+
+.footer a:hover {
+  border-bottom: 1px solid;
+  background: rgba(119, 126, 127, 0.452);
+}
+
+.footer a:active {
+  background: rgb(57, 58, 58);
+  color:rgba(119, 126, 127, 0.452);
+}
+    </style>
 </head>
 
 @section('content')
 <div class="core">
-        <div id="core_registerSeller">
+        <div id="">
 
 
         <hr>
 
         <div class="form_core">
-          <form class="form" method="POST" action="{{route('add_product.post')}}">
+          <form class="form" method="POST" action="{{route('add_product.post')}}" enctype="multipart/form-data">
 	      @csrf 
   @if ($errors->any())
 	<div class="alert alert-warning">
-		Vous n'avez pas pu ajouté votre produit &#9785;
+		Vous n'avez pas pu ajouter votre produit &#9785;
 	</div>
 	@endif
 
@@ -65,6 +195,15 @@
       @enderror
             </div>
             <div class="formGroupe">
+              <label for="image">Image</label>
+              <input type="file" id="image" name="image" value="upload" >
+              @error('image')
+      <div id="image_feedback" class="invalid-feedback">
+        {{ $message }}
+      </div>
+      @enderror
+            </div>
+            <div class="formGroupe">
               <label for="price">Prix</label>
               <input type="float" id="price" name="price" value="{{old('price')}}" required>
               @error('price')
@@ -73,87 +212,22 @@
       </div>
       @enderror
             </div>
-            <div class="formGroupe">
-              <label for="catId">Catégorie</label>
-              <input type="text" id="catId" name="catId" value="{{old('catId')}}" required>
-              @error('catId')
-      <div id="catId_feedback" class="invalid-feedback">
+            <div class="form-group">
+		<label for="category">Catégorie</label>
+
+      <select class="form-control" id="category" name="category">
+      @foreach($categories as $category)
+          <option value="{{$category['id']}}" > {{ $category['name'] }} </option>
+      @endforeach
+      </select>
+    </div>  
+    <div class="formGroupe">
+              <label for="stock">Stock</label>
+              <input type="integer" id="stock"  name="stock" value="{{old('stock')}}" required>
+               @error('stock')
+      <div id="stock_feedback" class="invalid-feedback">
         {{ $message }}
-      </div>
-      @enderror
-            </div>
-            <div class="formGroupe">
-              <label for="numstreet">Numéro de rue</label>
-              <input type="int" id="numstreet" name="numstreet" value="{{old('numstreet')}}" required>
-              @error('numstreet')
-      <div id="numstreet_feedback" class="invalid-feedback">
-        {{ $message }}
-      </div>
-      @enderror
-            </div>
-            <div class="formGroupe">
-              <label for="namestreet">Nom de la rue</label>
-              <input type="text" id="namestreet" name="namestreet" value="{{old('namestreet')}}" required>
-              @error('namestreet')
-      <div id="namestreet_feedback" class="invalid-feedback">
-        {{ $message }}
-      </div>
-      @enderror
-            </div>
-            <div class="formGroupe">
-              <label for="postcode">Code Postal</label>
-              <input type="text" id="postcode" name="postcode" value="{{old('postcode')}}" required>
-              @error('postcode')
-      <div id="postcode_feedback" class="invalid-feedback">
-        {{ $message }}
-      </div>
-      @enderror
-            </div>
-            <div class="formGroupe">
-              <label for="city">Ville</label>
-              <input type="text" id="city" name="city" value="{{old('city')}}" required>
-              @error('city')
-      <div id="city_feedback" class="invalid-feedback">
-        {{ $message }}
-      </div>
-      @enderror
-            </div>
-            
-            <div class="formGroupe">
-              <label for="storename">Nom du commerce</label>
-              <input type="text" id="storename" name="storename" value="{{old('storename')}}" required>
-              @error('storename')
-      <div id="storename_feedback" class="invalid-feedback">
-        {{ $message }}
-      </div>
-      @enderror
-            </div>
-            <div class="formGroupe">
-              <label for="siret">Numéro de SIRET</label>
-              <input type="text" id="siret" name="siret" value="{{old('siret')}}" minLength="14" 
-              maxLength="14" required>
-              @error('siret')
-      <div id="siret_feedback" class="invalid-feedback">
-        {{ $message }}
-      </div>
-      @enderror
-            </div>
-            <div class="formGroupe">
-              <label for="password">Mot de passe</label>
-              <input type="password" id="password" name="password" value="{{old('password')}}" minLength="8" required>
-              @error('password')
-      <div id="password_feedback" class="invalid-feedback">
-        {{ $message }}
-      </div>
-      @enderror
-            </div>
-            <div class="formGroupe">
-              <label for="passwordConfirm">Confirmation du mot de passe</label>
-              <input type="password" id="passwordConfirm" name="passwordConfirm" value="{{old('passwordConfirm')}}" minLength="8" required>
-              @error('passwordConfirm')
-      <div id="passwordConfirm_feedback" class="invalid-feedback">
-        {{ $message }}
-      </div>
+        </div>
       @enderror
             </div>
             <div class="formGroupe">
@@ -161,9 +235,6 @@
             </div>
           </form>
         </div>
-        
-       
-
 
 
       </div>

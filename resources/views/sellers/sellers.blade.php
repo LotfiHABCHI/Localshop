@@ -255,6 +255,7 @@ a {
                 <label for="quantity"> </label>
                 <input type="number" value="1" class="form-control" id="quantity" name="quantity" min="0">
                 </form>
+
                 </div>
               </div>
             </div>

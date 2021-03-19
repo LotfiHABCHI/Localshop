@@ -259,6 +259,11 @@ a {
         <div class="form_core">
           <form class="form" method="POST" action="{{route('seller_login.post')}}">
             @csrf
+            @if ($errors->any())
+	<div class="alert alert-warning">
+	Vous n'avez pas pu être authentifié &#9785;
+	</div>
+	@endif
             <p class="subTitle">
               <h3>S'identifier</h3>
             </p>
@@ -284,8 +289,7 @@ a {
       @enderror
             </div>
             <div class="formGroupe">
-            <button type="submit" class="btn btn-primary">Se connecter</button>
-            </div>
+            <input type="submit" value="VALIDER" class="buttonSub">            </div>
             <div class="mdpPerdu">
               <a href="/connexion/passwordForget.html">Mot de passe oublié ?</a>
             </div>
@@ -297,6 +301,12 @@ a {
           Vous n'avez pas encore de compte ?<br>
           Inscrivez-vous <a href="{{route('customer_register')}}"><button type="submit" class="btn btn-sm btn-outline-secondary">Client/Cliente</button></a>
            <a href="{{route('seller_register')}}"><button type="submit" class="btn btn-sm btn-outline-secondary">Producteur/productrice</button></a>
+          </p>
+        </div>
+        <div id="forgotPassword">
+          <p>
+          Vous avez oublié votre mot de passe ?<br>
+          Rénitialisez le <a href="{{route('reset_password')}}"><button type="submit" class="btn btn-sm btn-outline-secondary">Réinitialiser</button></a>
           </p>
         </div>
         

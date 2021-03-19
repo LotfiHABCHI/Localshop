@@ -197,6 +197,7 @@ a {
               
           </div>   
         @endforeach
+
       </nav>
     </div>
     <div id="core_products">
@@ -211,7 +212,9 @@ a {
 
           <div class="card mb-4 shadow-sm">
 
-          <img class="card-img-top " src="{{asset('images/'.$detail->image)}}" >
+          
+          <img class="card-img-top " src="{{asset('storage/images/'.$detail->image)}}" >
+
             <div class="card-body">
             <h4><a href="{{route('showProductOfSeller',['id'=>$detail->sellerId])}}">{{ $detail->store}}</a></h4>
 
@@ -228,7 +231,7 @@ a {
             </div>
           </div>
         </div>
-       
+
 
         @endforeach
        

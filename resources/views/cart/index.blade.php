@@ -185,7 +185,7 @@ a {
                 @foreach ($content as $product)
                     <tr>
                         <td>
-                            <img class="card-img-top" src="{{asset('images/'.$product->attributes['image'])}}" >
+                            <img class="card-img-top" src="{{asset('storage/images/'.$product->attributes['image'])}}" >
                             {{ $product->name }}
                         </td>
                         <td>

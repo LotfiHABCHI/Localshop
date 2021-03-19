@@ -106,7 +106,7 @@ public function login(Request $request, Repository $repository)
         if($validatedData['password']==$validatedData['passwordConfirm']){
             try {
                 $this->repository->addCustomer($lastname, $firstname, $email, $password, $numstreet, $namestreet, $postcode, $city); 
-                 $request->session()->put('people', $this->repository->getCustomer($email, $password));
+                 $request->session()->put('people', $this->repository->getPeople($email, $password));
                 
             } catch (Exception $e) {
                 return redirect()->back()->withInput()->withErrors("Impossible de vous inscrire.");

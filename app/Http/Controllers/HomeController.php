@@ -17,6 +17,8 @@ use App\Repositories\Repository;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+
 
 
 
@@ -61,7 +63,6 @@ class HomeController extends Controller
         ->orderBy('p.price')
         ->paginate(10);
         */
-        
         return view('home',compact('products','categories', 'sellers', 'detailproducts', 'details'));
     }
     
@@ -74,8 +75,9 @@ class HomeController extends Controller
         //select * from produits where id=?
        //$product = Products::find($request->id); 
        $products=$this->repository->product($id);    
+       $productName=DB::table('products')->where('id',$id)->select('name')->get(); //a mettre plutot dans une fct dans le repository peut etre
 
-        return view('products',compact('products','categories'));
+        return view('products',compact('products','categories', 'productName'));
     }
 
 
@@ -156,8 +158,9 @@ class HomeController extends Controller
         
         //$products = Products::where('catId',$request->id)->get();
         $products=$this->repository->detailProductsOfCategory($id);
-        
-        return view('categories',compact('products', 'categories'));
+        $cat=DB::table('categories')->where('id',$id)->select('name')->get(); //a mettre plutot dans une fct dans le repository peut etre
+        //dd($cat);
+        return view('categories',compact('products', 'categories', 'cat'));
     }
 
 
@@ -177,6 +180,8 @@ class HomeController extends Controller
         $details= $this->repository->productsOfSeller($id);
         //dd($details[1]->productId);
         $count=$this->repository->productCount($id);
+        //dd($details);
+
         return view('sellers/sellers', ['details'=>$details, 'categories'=>$categories, 'products'=>$products, 'sellers'=>$sellers, 'count'=>$count] );
 
     }
@@ -198,13 +203,13 @@ class HomeController extends Controller
         $detailproducts = DetailProducts::all();
         $products=Products::all();
         $details= $this->repository->productInfos();
+
        
         return view('test', ['details'=>$details, 'categories'=>$categories, 'products'=>$products, 'detailproducts'=>$detailproducts] );
 
        
     }
 
-    ////////////////////// ↓ copier coller de web_cci register //////////////////////
 
     public function showRegisterForm()
     {
@@ -262,7 +267,7 @@ class HomeController extends Controller
         if($validatedData['password']==$validatedData['passwordConfirm']){
             try {
                 $this->repository->addSeller($lastname, $firstname, $email, $phone, $password, $numstreet, $namestreet, $postcode, $city, $storename, $siret); 
-                 $request->session()->put('people', $this->repository->getSeller($email, $password));
+                 $request->session()->put('people', $this->repository->getPeople($email, $password));
                 
             } catch (Exception $e) {
                 return redirect()->back()->withInput()->withErrors("Impossible de vous inscrire.");
@@ -274,7 +279,8 @@ class HomeController extends Controller
     }
 
 
-    
+        ////////////////////// ↓ copier coller de web_cci register //////////////////////
+
 
     public function showChangePasswordForm() 
     {
@@ -284,7 +290,7 @@ class HomeController extends Controller
     public function changePassword(Request $request,Repository $repository)
     {
         $rules = [
-            'email' => ['required', 'email', 'exists:users,email'],
+            'email' => ['required', 'email', 'exists:people,email'],
             'old_password' => ['required'],
             'new_password' => ['required'],
             'new_passwordConfirm' => ['required'],
@@ -302,7 +308,7 @@ class HomeController extends Controller
         if($validatedData['new_password']==$validatedData['new_passwordConfirm']){
             try {
 
-                $user=$this->repository->getUser($email, $validatedData['old_password']);
+                $user=$this->repository->getPeople($email, $validatedData['old_password']);
 
                 $user=$this->repository->changePassword($email,$validatedData['old_password'], $validatedData['new_password'] );
             
@@ -323,8 +329,7 @@ class HomeController extends Controller
     public function login(Request $request, Repository $repository)
     {
         $rules = [
-            'email' => ['required', 'email', 'exists:people,email'],
-            //'email' => ['required', 'email', 'exists:customers,email'],
+        'email' => ['required', 'email', 'exists:people,email'],
             'password' => ['required']
         ];
         $messages = [
@@ -337,6 +342,7 @@ class HomeController extends Controller
         //$pass = Hash::make($validatedData['password']);
         $email = $validatedData['email'];
         try {
+            //$this->repository->connectValide($email);
             $infos=$request->session()->put('people', $this->repository->getPeople($email, $validatedData['password']));
             $info= $request->session()->get('people');
            //dd($info);
@@ -349,6 +355,41 @@ class HomeController extends Controller
         return redirect()->route('home');
     }
 
+    public function showResetPasswordForm()
+    {
+        return view('reset_password');
+    }
+
+    public function resetPassword(Request $request, Repository $repository){
+        $rules = [
+            'email' => ['required', 'email', 'exists:people,email'],
+            'new_password' => ['required'],
+            'new_passwordConfirm' => ['required'],
+        ];
+        $messages = [
+            'email.required' => 'Vous devez saisir un e-mail.',
+            'email.email' => 'Vous devez saisir un e-mail valide.',
+            'email.exists' => "Cet utilisateur n'existe pas.",
+            'new_password.required' => "Vous devez saisir un nouveau mot de passe.",
+            'new_passwordConfirm.required' => "Vous devez confirmer votre nouveau mot de passe.",
+        ];
+        $validatedData = $request->validate($rules, $messages);
+        $email = $validatedData['email'];
+        Mail::to($request->user())->send("oo");
+
+        if($validatedData['new_password']==$validatedData['new_passwordConfirm']){
+            try {
+
+                $user= $this->repository->resetPassword($email,  $validatedData['new_password']);
+            
+            } catch (Exception $e) {
+                return redirect()->back()->withInput()->withErrors("Impossible de changer le mot de passe.");
+            }
+        }else{
+            return redirect()->back()->withInput()->withErrors("mots de passe différents.");
+        }
+        return redirect()->route('home');
+    }
         ////////////////////// ↑ copier coller de web_cci register //////////////////////
 
    public function test(Request $req)

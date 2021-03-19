@@ -79,6 +79,13 @@ Route::post('/seller_login', [App\Http\Controllers\HomeController::class, 'login
 Route::get('/seller_register', [App\Http\Controllers\HomeController::class, 'showRegisterForm'])->name('seller_register');
 Route::post('/seller_register', [App\Http\Controllers\HomeController::class, 'sellerRegister'])->name('seller_register.post');
 
+Route::get('/changepass', [App\Http\Controllers\HomeController::class, 'showChangePasswordForm'])->name('changepass');
+Route::post('/changepass', [App\Http\Controllers\HomeController::class, 'changePassword'])->name('changepass.post');
+
+Route::get('/reset_password', [App\Http\Controllers\HomeController::class, 'showResetPasswordForm'])->name('reset_password');
+Route::post('/reset_password', [App\Http\Controllers\HomeController::class, 'resetPassword'])->name('reset_password.post');
+
+
 
 Route::get('/add_product', [App\Http\Controllers\SellerController::class, 'showAddProductForm'])->name('add_product');
 Route::post('/add_product', [App\Http\Controllers\SellerController::class, 'addProduct'])->name('add_product.post');

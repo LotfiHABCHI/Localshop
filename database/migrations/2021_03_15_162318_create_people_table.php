@@ -17,11 +17,16 @@ class CreatePeopleTable extends Migration
             $table->id();
             $table->string('lastname');
             $table->string('firstname');
-            $table->string('email')->unique();
+            $table->string('email')->unique(); //pourrait ne pas être unique dans people au cas ou un vendeur s'inscrit en tant que client avec le même mail
             $table->string('password');
+            $table->integer('customerId')->nullable();
+            $table->integer('sellerId')->nullable();
             $table->integer('role');
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
+            $table->foreign('customerId')->references('id')->on('customers')->onDelete('cascade');
+            $table->foreign('sellerId')->references('id')->on('sellers')->onDelete('cascade');
+
         });
     }
 

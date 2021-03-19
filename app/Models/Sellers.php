@@ -32,14 +32,14 @@ class Sellers extends Authenticatable
         'firstname',
         'lastname',
         'email',
+        'phone',
         'password',
-        'tel',
         'numstreet',
         'namestreet',
-        'cp',
+        'postcode',
+        'city',
         'storename',
-        'tel',
-        'siren',
+        'siret',
     ];
 
     /**

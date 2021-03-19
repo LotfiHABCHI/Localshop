@@ -5,6 +5,126 @@
 	<title>@yield('title')</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
 	 crossorigin="anonymous">
+
+     <style>
+
+body{
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: normal;
+  background-image: url("/img_header/test2.jpg");
+}
+
+.header{
+  display: flex;
+  width: 100%;
+}
+
+#co{
+  padding:2%;
+  float: left;
+  display: flex;
+}
+
+#panier{
+  padding:2%;
+  float: right;
+  display: flex;
+}
+
+#logo img{
+  text-align: center;
+}
+
+#logo{
+  margin-left: 24.2%;
+  display: flex;
+  text-align: center;
+}
+
+hr{
+  width:100%;
+  color: rgb(57, 58, 58);
+}
+
+
+.core{
+  height: 70%;
+  padding: 9%;
+}
+
+#text{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#click{
+  text-align: center;
+  font-size: 40px;
+  font-style: bold ;
+  color: rgb(57, 58, 58);
+}
+
+#below_click{
+  text-align: center;
+  font-size: 30px;
+  font-style: bold ;
+  color: rgb(57, 58, 58);
+}
+
+#input{
+  text-align: center; 
+  cursor: pointer; 
+}
+
+#valid{
+  border-color: #B9863A;
+  background-color: #B9863A;
+}
+
+
+.footer{
+  display: flex;
+  padding: 2%;
+}
+#propos, #faq, #mention, #contact, #cci{
+  padding-left: 5%;
+  display: inline-block;
+}
+
+#cci{
+  color: rgb(57, 58, 58);
+}
+
+a {
+  outline: none;
+  text-decoration: none;
+  padding: 2px 1px 0;
+}
+
+.footer a:link {
+  color: rgb(108, 115, 116);
+}
+
+.footer a:visited {
+  color: rgb(108, 115, 116);
+}
+
+.footer a:focus {
+  border-bottom: 1px solid;
+  background: rgb(57, 58, 58);
+}
+
+.footer a:hover {
+  border-bottom: 1px solid;
+  background: rgba(119, 126, 127, 0.452);
+}
+
+.footer a:active {
+  background: rgb(57, 58, 58);
+  color:rgba(119, 126, 127, 0.452);
+}
+
+     </style>
 </head>
 
 <body>
@@ -16,15 +136,8 @@
         @if (session()->has('people'))
        
 
-        {{ session()->get('people')['firstname'] }}
+        Salut {{ session()->get('people')['firstname'] }}
 
-
-        @if( session()->get('people')['role'] ==2)
-        
-        <li class="nav-item">
-                            <a href="{{ route('seller.login') }}"><img class="img_header" src="{{asset('images/'.'connexion.png')}}" alt="connect" height="47" width=""/></a>
-                        </li>        
-        @endif                           
 
         <ul class="navbar-nav ml-auto">
                         
@@ -45,10 +158,16 @@
                             <a class="dropdown-item" href=" #">
                                         {{ __('Mon compte') }}
                                 </a>
-
-                                <a class="dropdown-item" href="#">
+                                @if( session()->get('people')['role'] ==2)
+                                <a class="dropdown-item" href="{{ route('add_product') }}">
+                                        {{ __('Ajouter un produit') }}
+                                </a>
+                                    @else
+                                    <a class="dropdown-item" href="#">
                                         {{ __('Mes commandes') }}
                                 </a>
+                                @endif
+                                <a class="dropdown-item"   href="{{route('changepass')}}">{{__('Modifier le mot de passe')}}</a>
 
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();

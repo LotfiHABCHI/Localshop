@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.80.0">
-    <title>Catégories </title>
+    <title> {{$cat[0]->name}} - Localshop </title> 
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
 
@@ -193,7 +193,7 @@ a {
 
           <div class="card mb-4 shadow-sm">
           <a href="{{route('showProductOfSeller',['id'=>$product->sellerId])}}">{{ $product->store}}</a>
-          <img class="card-img-top" src="{{asset('images/'.$product->image)}}" >
+          <img class="card-img-top" src="{{asset('storage/images/'.$product->image)}}" >
             <div class="card-body">
               <h5> <a href="{{route('product',['id'=>$product->id])}}">{{ $product->name}}<a></h5>
               <p> {{ $product->description}}</p>
