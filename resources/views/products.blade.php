@@ -186,6 +186,22 @@ a {
         @endforeach
       </nav>
     </div>
+    <div classe="search"> 
+      <form  action="{{route('searchProduct')}}">
+      @csrf
+        <div class="form-group">
+          <label for="search">Rechercher</label>
+            <input type="search" id="search" name="search" value="{{old('search')}}"
+                  aria-describedby="search_feedback" class="form-control @error('search') is-invalid @enderror"> 
+            @error('search')
+            <div id="search_feedback" class="invalid-feedback">
+              {{ $message }}
+            </div>
+          @enderror
+        </div>
+        <button type="submit" class="btn btn-primary">Valider</button>
+      </form>
+    </div>
         </nav>
    
     </div>
@@ -203,15 +219,12 @@ a {
                 @else
                 <p>{{ number_format($product->price,2) }}€</p>
                 @endif
-                <div class="d-flex justify-content-between align-items-center">
+                <div >
                 
-                <form  action="{{route('cart.add', ['id'=>$product->id])}}" method="POST" id="add_cart">
+                <form class="d-flex justify-content-between align-items-center mr-1" action="{{route('cart.add', ['id'=>$product->id])}}" method="POST" id="add_cart">
                 @csrf
                 <label for="quantity">Quantité</label>
                 <input type="number" value="1" class="form-control" id="quantity" name="quantity" min="0">
-                </form>
-                
-
                 @if (session()->has('people'))
            
                 <button type="submit" form="add_cart" class="btn btn-sm btn-outline-secondary"><img class="img_header" src="{{asset('images/'.'panier.png')}}" alt="panier" height="30" width="30" /></button>
@@ -219,10 +232,8 @@ a {
                 @else 
                 <a href="{{route('seller.login')}}"><img class="img_header" src="{{asset('images/'.'panier.png')}}" alt="panier" height="38" width="39" /></a> 
                 @endif
-
-
-
-                </div>
+                </form>
+                 </div>
             </div>
         </div>
      </div>

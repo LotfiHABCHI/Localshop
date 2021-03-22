@@ -10,6 +10,8 @@ use App\Models\Customers;
 use App\Models\Orders;
 use App\Models\DetailOrders;
 use App\Models\DetailProducts;
+use App\Models\People;
+
 
 use App\Repositories\Repository;
 
@@ -17,7 +19,12 @@ use App\Repositories\Repository;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
+use App\Http\Requests\ContactRequest;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\Contact;
+use App\Mail\resetPassword;
+
 
 
 
@@ -116,17 +123,36 @@ class HomeController extends Controller
 
    
 
-    public function ordersOfCustomer(int $id)
+    /*public function ordersOfCustomer(int $customerid)
     {
         $detail_orders = DetailOrders::all();
         $customers = Customers::all();
         $orders = Orders::all();
 
-        $details= $this->repository->ordersOfCustomer($id);
-       
-
+        $details= $this->repository->ordersOfCustomer($customerid);
+       //dd($details);
 
         return view('detail_orders',compact('details'));
+    }*/
+
+    public function ordersOfCustomer(int $customerid)
+    {
+        $detail_orders = DetailOrders::all();
+        $customers = Customers::all();
+        $orders = Orders::find(request()->customerId);
+
+        $details= $this->repository->ordersOfCustomer($customerid);
+        //dd($details);
+        //dd($details, $orders);
+        return view('orders',compact('orders', 'details'));
+    }
+
+
+    public function detailOrder(int $orderId)
+    {
+        $detailOrder= $this->repository->detailOrder($orderId);
+        return view('detail_orders',compact('detailOrder'));
+
     }
 
     public function detailProducts()
@@ -355,12 +381,33 @@ class HomeController extends Controller
         return redirect()->route('home');
     }
 
-    public function showResetPasswordForm()
+    public function showResetForm()
     {
+        return view('reset');
+    }
+
+    public function showResetPasswordForm()
+    {// formulaire de réinitialisation du mot de passe
         return view('reset_password');
     }
 
-    public function resetPassword(Request $request, Repository $repository){
+    public function reset(Request $request, Repository $repository)
+    {// pour savoir a quel mail envoyer le lien de réinitialisation
+
+        //dd(request()->all());
+        $rules = [
+            'email' => ['required', 'email', 'exists:people,email'],
+        ];
+            $validatedData = $request->validate($rules);
+            $email = $validatedData['email'];
+        Mail::to($email)
+            ->send(new resetPassword());
+            return back()->withText("Message envoyé");
+
+    }
+
+    public function resetPassword(Request $request, Repository $repository)
+    {//réinitialisation du mot de passe
         $rules = [
             'email' => ['required', 'email', 'exists:people,email'],
             'new_password' => ['required'],
@@ -375,7 +422,7 @@ class HomeController extends Controller
         ];
         $validatedData = $request->validate($rules, $messages);
         $email = $validatedData['email'];
-        Mail::to($request->user())->send("oo");
+       
 
         if($validatedData['new_password']==$validatedData['new_passwordConfirm']){
             try {
@@ -392,6 +439,51 @@ class HomeController extends Controller
     }
         ////////////////////// ↑ copier coller de web_cci register //////////////////////
 
+        public function showFormContact(){
+            return view('nousContacter');
+        }   
+       
+     
+        public function contact()
+        {
+            //dd(request()->all());
+            $contact=request()->validate([
+                'name'=> 'required', 
+                'email' => 'required',
+                'message' => 'required'
+            ]);
+            Mail::to('localshop@localshop.com')
+                ->send(new Contact($contact));
+                return back()->withText("Message envoyé");
+
+            //pour envoyer un msg aux people
+            /*$people = People::all();
+            Mail::to($people)->send(new Contact(request()->all()));*/
+        }
+
+        public function search()
+        {
+           // $categories = Categories::all();
+
+            $sellers = Sellers::all();
+            $categories = Categories::all();
+            $detailproducts = DetailProducts::all();
+       
+            //$search=request()->input('search');
+            $products = $this->repository->search();
+            //dd($products);
+            return view('search_product', compact('products', 'sellers', 'categories', 'products'));
+        }
+
+    
+
+
+
+
+
+
+
+
    public function test(Request $req)
    {
        //print_r($req->input());
@@ -400,6 +492,11 @@ class HomeController extends Controller
 
        $info= $req->session()->get('info');
        print_r($info['password']);
+   }
+
+   public function faq()
+   {
+       return view('faq');
    }
     
 }

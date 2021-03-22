@@ -306,7 +306,7 @@ a {
         <div id="forgotPassword">
           <p>
           Vous avez oublié votre mot de passe ?<br>
-          Rénitialisez le <a href="{{route('reset_password')}}"><button type="submit" class="btn btn-sm btn-outline-secondary">Réinitialiser</button></a>
+          Rénitialisez le <a href="{{route('reset')}}"><button type="submit" class="btn btn-sm btn-outline-secondary">Réinitialiser</button></a>
           </p>
         </div>
         

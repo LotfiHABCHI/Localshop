@@ -155,15 +155,22 @@ a {
                             </a>
                            
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href=" #">
+                            @if( session()->get('people')['role'] ==2)
+                            <a class="dropdown-item" 
+                            href="{{route('sellerProducts', ['sellerId'=>session()->get('people')['sellerId']])}}">
                                         {{ __('Mon compte') }}
                                 </a>
+                                @else
+                                <a class="dropdown-item" 
+                            href="#">
+                                        {{ __('Mon compte') }}
+                                  @endif
                                 @if( session()->get('people')['role'] ==2)
                                 <a class="dropdown-item" href="{{ route('add_product') }}">
                                         {{ __('Ajouter un produit') }}
                                 </a>
                                     @else
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item"  href="{{route('order',  ['customerId'=>session()->get('people')['customerId']] )}}">
                                         {{ __('Mes commandes') }}
                                 </a>
                                 @endif

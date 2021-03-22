@@ -164,7 +164,7 @@ a {
 
 
         <hr>
-
+        @if( session()->get('people')['role'] ==2)
         <div class="form_core">
           <form class="form" method="POST" action="{{route('add_product.post')}}" enctype="multipart/form-data">
 	      @csrf 
@@ -235,7 +235,9 @@ a {
             </div>
           </form>
         </div>
-
+        @else
+        <p> Vous n'avez pas accès à cette page </p>
+@endif
 
       </div>
     </div>

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\People;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,8 +38,9 @@ Route::get('/detail_product', [App\Http\Controllers\HomeController::class, 'deta
 
 
 //route en relation avec les commandes
-Route::get('/detail_order/{orderId}', [App\Http\Controllers\HomeController::class, 'ordersOfCustomer'])->where('orderId', '[0-9]+')->name('detail_orders');
-//peut etre changer le nom de la vue ??
+Route::get('/orders/{customerId}', [App\Http\Controllers\HomeController::class, 'ordersOfCustomer'])->where('customerId', '[0-9]+')->name('order');
+
+Route::get('/detail_orders/{orderId}', [App\Http\Controllers\HomeController::class, 'detailOrder'])->where('orderId', '[0-9]+')->name('detail_order');
 
 
 //routes en relation avec les produits
@@ -50,14 +52,17 @@ Route::get('/categories/{id}', [App\Http\Controllers\HomeController::class, 'Sho
 
 
 //routes en relation avec le panier
+Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
+
 Route::post('/cart/add/{id}', [App\Http\Controllers\CartController::class, 'add'])->name('cart.add');
 
 Route::post('/cart/update/{id}', [App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
 
 Route::post('/cart/destroy/{id}', [App\Http\Controllers\CartController::class, 'destroy'])->name('cart.destroy');
 
+Route::post('/cart/clear', [App\Http\Controllers\CartController::class, 'clear'])->name('cart.clear');
 
-Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
+
 
 
 
@@ -82,8 +87,18 @@ Route::post('/seller_register', [App\Http\Controllers\HomeController::class, 'se
 Route::get('/changepass', [App\Http\Controllers\HomeController::class, 'showChangePasswordForm'])->name('changepass');
 Route::post('/changepass', [App\Http\Controllers\HomeController::class, 'changePassword'])->name('changepass.post');
 
+
+// les routes pour recevoir le lien de réinitialisation
+Route::get('/reset', [App\Http\Controllers\HomeController::class, 'showResetForm'])->name('reset');
+Route::post('/reset', [App\Http\Controllers\HomeController::class, 'reset'])->name('reset.post');
+
+// les route pour réinitialiser
 Route::get('/reset_password', [App\Http\Controllers\HomeController::class, 'showResetPasswordForm'])->name('reset_password');
 Route::post('/reset_password', [App\Http\Controllers\HomeController::class, 'resetPassword'])->name('reset_password.post');
+
+
+
+
 
 
 
@@ -91,4 +106,33 @@ Route::get('/add_product', [App\Http\Controllers\SellerController::class, 'showA
 Route::post('/add_product', [App\Http\Controllers\SellerController::class, 'addProduct'])->name('add_product.post');
 
 
+/*Route::get('/contact', function () {
+    return new App\Mail\Contact([
+      'nom' => 'Durand',
+      'email' => 'durand@chezlui.com',
+      'message' => 'Je voulais vous dire que votre site est magnifique !'
+      ]);
+});*/
 
+Route::get('/nousContacter', [App\Http\Controllers\HomeController::class, 'showFormContact'])->name('contact');
+Route::post('/nousContacter', [App\Http\Controllers\HomeController::class, 'contact'])->name('contact.post');
+
+Route::get('/orderCart', [App\Http\Controllers\CartController::class, 'contact'])->name('orderCart');
+Route::post('/orderCart', [App\Http\Controllers\CartController::class, 'contact'])->name('order.post');
+
+
+
+Route::get('/sellerProducts/{sellerId}', [App\Http\Controllers\SellerController::class, 'productsOfSeller'])->where('sellerId', '[0-9]+')->name('sellerProducts');
+Route::post('/sellerProducts/{productId}', [App\Http\Controllers\SellerController::class, 'updateStock'])->where('productId', '[0-9]+')->name('stock.update');
+
+/*Route::get('/contact', function () {
+    $people=DB::table('people')->where('email', 'v1@gmail.com')->get();
+    return new App\Mail\Contact([
+      'nom' => $people[0]->firstname,
+      'email' => $people[0]->email,
+      'message' => 'Je voulais vous dire que votre site est magnifique !'
+      ]);
+});*/
+Route::get('search_product/', [App\Http\Controllers\HomeController::class, 'search'])->name('searchProduct');
+
+Route::get('faq', [App\Http\Controllers\HomeController::class, 'faq']);

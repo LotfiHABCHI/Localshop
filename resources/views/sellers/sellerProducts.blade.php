@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.80.0">
-    <title>Accueil</title>
+    <title>{{ $products[0]->storename }}</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
 
@@ -40,6 +40,7 @@
           font-size: 3.5rem;
         }
       }
+
       *, ::before, ::after {
   box-sizing: border-box;
   margin: 0;
@@ -58,7 +59,6 @@ h1 {
     font-size: 40px;
     color:rgb(57, 58, 58);
 }
-
 
 
 
@@ -86,26 +86,10 @@ h1 {
   display: flex;
 }
 
-
-
-
-
-
 hr{
   width:100%;
   color: rgb(57, 58, 58);
 }
-
-.core hr{
-  width:50%;
-  color: rgb(57, 58, 58);
-  margin: 0 auto 0 auto;
-}
-
-
-
-
-
 
 .footer_hr{
   width:100%;
@@ -113,8 +97,67 @@ hr{
   margin-top: 3%;
 }
 
+
+.core{
+  height: 70%;
+}
+
+
+
+.category li{
+  display: inline-block;
+  height: 12%;
+  width: 12%;
+}
+
+
+
+
+.seller{
+  display: flex;
+border: solid 2px red;
+}
+
+.human{
+  display: inline-block;
+border: solid 2px blue;
+margin:1%;
+width: 40%;
+height: auto;
+}
+
+.seller_title{
+  font-size: 25px;
+  text-align: center;
+  color: rgb(57, 58, 58);
+}
+
+.item{
+  display: inline-block;
+border: solid 2px green;
+margin:1%;
+width: 100%;
+height: auto;
+}
+
+.nb_item{
+border: solid 2px yellow;
+margin:1%;
+height: auto;
+}
+
+.seller_description{
+  text-align: justify;
+  color: rgb(57, 58, 58);
+}
+
+
+
+
+
 .footer{
   display: flex;
+  padding: 2%;
 }
 
 #propos, #faq, #mention, #contact, #cci{
@@ -160,114 +203,63 @@ a {
   </head>
   <body>
     
-<header>
-<hr></hr>
-  @section('content')
- 
-  
-    <div class="container">
-    <a href="{{route('home')}}" class="navbar-brand d-flex align-items-center">
-				
-						<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"
-						/>
-						<circle cx="12" cy="13" r="4" /></svg>
-          
-      </a>
-     
 
-    </div>
-  
-</header>
 
 <main>
-
-<!--<div class="container">  -->
+@section('content')
+<div class="container">
   
-<div class="core">
 
-    <div id="core_category">
-    <nav class="nav d-flex justify-content-between"> 
-      
-      @foreach ($categories as $category)
-          <div class="col-1">
 
-              <article >
-                     <a href="{{route('showProductsOfCategory',['id'=>$category->id])}}"> <img class="card-img-top" src="{{asset('images/'.$category->image)}}"><a> 
-              </article>
-              
-          </div>   
-        @endforeach
+<div class="seller">
+  <div class="human">
 
-      </nav>
+    <p class="seller_title">{{ $products[0]->storename }}</p>
+    <img src="">
+    <div class="nb_item">
+   {{$count}} produits
     </div>
+    <p class="seller_description">Bonjour, je vends des supers legumes Bonjour, je vends des supers legumes Bonjour, je vends des supers legumes</p>
+  
+  </div>
+ 
+  <div class="item" class="album py-5 bg-light"> <!-- ici ça ne prend que la 2eme class -->
 
-    <div classe="search"> 
-      <form  action="{{route('searchProduct')}}">
-      @csrf
-        <div class="form-group">
-            <input type="search" id="search" name="search" value="{{old('search')}}"
-                  aria-describedby="search_feedback" class="form-control @error('search') is-invalid @enderror"> 
-            @error('search')
-            <div id="search_feedback" class="invalid-feedback">
-              {{ $message }}
-            </div>
-          @enderror
-        </div>
-        <button type="submit" class="btn btn-primary">Valider</button>
-      </form>
-    </div>
-
-    <div id="core_products">
-    <div class="album py-5 bg-light">
-    <div class="container">
-    
+    <div class="container-fluid">
       <div class="row row-cols ">
-      
-      @foreach($details as $detail)
-      
-        <div class="col-md-3">
-
-          <div class="card mb-4 shadow-sm">
-
-          
-          <img class="card-img-top " src="{{asset('storage/images/'.$detail->image)}}" >
+      @foreach ($products as $detail)
+      <div class="card shadow-sm">
+      <img class="card-img-top"  src="{{asset('storage/images/'.$detail->image)}}">
 
             <div class="card-body">
-            <h4><a href="{{route('showProductOfSeller',['id'=>$detail->sellerId])}}">{{ $detail->store}}</a></h4>
-
-              <h5><a href="{{route('product',['id'=>$detail->id])}}">{{ $detail->name}}<a> </h5>
-              <p> {{ $detail->description}}</p>
-
-              <p>{{ number_format($detail->price,2) }}€</p>
+              <p class="card-text"><a href="{{route('product',['id'=>$detail->id])}}">{{ $detail->name }} ({{$detail->id}})<a> </p>
+              {{ number_format($detail->price,2) }}€
               <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                <button>voir</button>
+                <div class="btn-group">                
+                  <form action="{{ route('stock.update', $detail->id) }}" method="POST" id="stock_update">
+                    @csrf
+                      <input class="form-control" name="stock" type="number" style="height: 2rem" min="1" max="99" value="{{ $detail->stock }}">
+                      <button class="btn btn-sm btn-outline-tertiary" id="stock_update"> &#10004 </button>                  
+                  </form>   
                 </div>
-               
               </div>
             </div>
           </div>
-        </div>
 
-
-        @endforeach
-       
+          @endforeach
+          
       </div>
     </div>
-    
+      <button class="btn btn-sm btn-outline-secondary"><a  href="{{ route('add_product') }}"> Ajouter un produit </a> </button>
   </div>
-  
-    </div>
 </div>
 
-    
-  
+</div>
 </main>
 
+@endsection
 
 
-
-      @endsection
       
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
@@ -278,5 +270,11 @@ a {
       
   </body>
 </html>
+
+
+
+
+
+
 
 

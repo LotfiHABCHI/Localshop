@@ -7,28 +7,31 @@
 <table class="table table-borderd table-responsive-sm">
             <thead>
                 <tr>
-                    <td>Commande</td>
-                    <td>Produit</td>
-                    <td>Prix unitaire</td>
-                    <td>Quantité</td>
-                    <td>prix total</td>
+                    <th>Commerce</th>
+                    <th>Produit</th>
+                    <th>Prix unitaire</th>
+                    <th>Quantité</th>
+                    <th>Prix total</th>
                 </tr>
             </thead>
             <tbody>
            <!-- {{$Total =0}} -->
-                @foreach ($details as $detail)
+                @foreach ($detailOrder as $detail)
                     <tr>
                         <td>
-                            {{ $detail->orderId }}
-                            ({{ $detail->firstname }})
+                            {{ $detail->storename }}
                         </td>
                         <td>
                 
-                                 {{$detail->productId}}      
+                                 {{$detail->name}}      
                   </td>
                   
                         <td> 
-                            {{number_format($detail->price,2)}}€
+                            @if($detail->catId==1 or $detail->catId==2 or $detail->catId==4)
+                                {{ number_format($detail->price,2) }}€/kg
+                            @else
+                                {{ number_format($detail->price,2) }}€
+                            @endif
                         </td>
                         <td>
                   {{$detail->quantity}}
@@ -47,9 +50,9 @@
                 <tr>
                     <td> </td>
                     <td></td>
-                    <td> total</td>
+                    <td> Total</td>
                     <td> </td>
-                    <td> {{$Total}}</td>
+                    <td><strong> {{$Total}}€<strong></td>
                 </tr>
             </tfooter>
 

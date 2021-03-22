@@ -74,4 +74,22 @@ class SellerController extends Controller
 
     }
 
+    public function productsOfSeller(int $id)
+    {
+        $products=$this->repository->productsOfSeller($id);
+        $count=$this->repository->productCount($id);
+
+        return view('sellers/sellerProducts', compact('products', 'count'));
+
+    }
+
+    public function updateStock(Request $request, $id)
+    {
+        $sellerId= $request->session()->get('people')['sellerId'];
+
+        $this->repository->updateStock($id, $request->stock);
+        return redirect()->route('sellerProducts', ['sellerId'=>session()->get('people')['sellerId']]);
+        
+    }
+
 }

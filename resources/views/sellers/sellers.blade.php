@@ -242,7 +242,7 @@ a {
       <div class="row row-cols ">
       @foreach ($details as $detail)
       <div class="card shadow-sm">
-      <img class="card-img-top" src="{{asset('images/'.$detail->image)}}"  width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em"></text></svg>
+      <img class="card-img-top" src="{{asset('storage/images/'.$detail->image)}}" >
 
             <div class="card-body">
               <p class="card-text"><a href="{{route('product',['id'=>$detail->id])}}">{{ $detail->name }} ({{$detail->id}})<a> </p>

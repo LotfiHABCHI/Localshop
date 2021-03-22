@@ -170,7 +170,11 @@ a {
 
     <div class="container">
    
-
+    @if ($errors->any())
+	<div class="alert alert-warning">
+		{{$errors}}
+	</div>
+	@endif
      
         <table class="table table-borderd table-responsive-sm">
             <thead>
@@ -179,6 +183,14 @@ a {
                     <td>Quantité</td>
                     <td>Prix unitaire</td>
                     <td>Prix total</td>
+                    <td>
+                      <form action="{{ route('cart.clear') }}" method="POST" id="cart_clear">
+                      @csrf
+                      <div class="d-flex justify-content-between align-items-center">
+                      <button class="btn btn-outline-danger" id="cart_clear"> Vider </button>
+                      </div>
+                      </form>
+                    </td>
                 </tr>
             </thead>
             <tbody>
@@ -186,7 +198,8 @@ a {
                     <tr>
                         <td>
                             <img class="card-img-top" src="{{asset('storage/images/'.$product->attributes['image'])}}" >
-                            {{ $product->name }}
+                            {{ $product->name }}     
+
                         </td>
                         <td>
                         <form action="{{ route('cart.update', $product->id) }}" method="POST" id="cart_update">
@@ -209,7 +222,7 @@ a {
                         <form action="{{ route('cart.destroy', $product->id) }}" method="POST" id="cart_destroy">
                     @csrf                    
                     </div>
-                    <button class="btn btn-sm btn-outline-tertiary" id="cart_destroy"> &#10060 &#128465</button>
+                    <button class="btn btn-sm btn-outline-tertiary" id="cart_destroy"> &#10060</button>
                   </form>       
                        
                         </td>      
@@ -218,7 +231,13 @@ a {
             </tbody>
             <tfooter>
                 <tr>
-                    <td> </td>
+                    @if($count==0)
+                    <td>  Aucun produit</td>
+                    @elseif($count==1)
+                    <td>{{$count}} produit</td>
+                    @else
+                    <td> {{$count}} produits</td>
+                    @endif
                     <td></td>
                     <td> Sous total</td>
                     <td> {{number_format($total, 2)}}€</td>
@@ -226,6 +245,12 @@ a {
             </tfooter>
 
         </table>
+
+        <form action="{{ route('order.post') }}" method="POST" id="order">
+        @csrf
+        <button type="submit" class="btn btn-sm btn-outline-secondary" id="buy">Payer</button>
+
+        </form>
 
 </main>
 @endsection

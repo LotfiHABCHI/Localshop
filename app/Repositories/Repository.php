@@ -5,6 +5,9 @@ namespace App\Repositories;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use dateTime;
+
 
 use App\Models\Data;
 use App\Models\Categories;
@@ -247,27 +250,36 @@ class Repository
     function ordersOfCustomer($id) : array
     { //Affiche toutes les commandes (et leurs détails) passées par un client id=
 
-        $orders = DB::table('customers as c')
+        $orders = DB::table('customers as c')        
         ->join('orders as o','o.customerId', 'c.id')
         ->join('detail_orders as d', 'd.OrderId', 'o.id')
+        ->join('products as p', 'p.id', 'd.productId')
+        ->join('detail_products as dp', 'dp.productId', 'p.id')
+        ->join('sellers as s', 's.id', 'dp.sellerId' )
         ->where('c.id',$id)
-        ->select('c.*', 'o.*', 'd.*')
+        ->groupBy('o.id',  'o.price', 'o.orderDate')
+        ->select('o.id', 'o.price', 'd.orderId',  'o.price as oprice', 'o.orderDate')
         ->get()
         ->toArray();
        
         return $orders;
+    }
 
-
+    function detailOrder($id) : array
+    {
         //Affiche les details de la commande id=
-        /*$orders = DB::table('detail_orders as d')
+        $orders = DB::table('detail_orders as d')
         ->join('orders as o','o.id', 'd.orderId')
         ->join('customers as c', 'c.id', 'o.customerId')
+        ->join('products as p', 'p.id', 'd.productId')
+        ->join('detail_products as dp', 'dp.productId', 'p.id')
+        ->join('sellers as s', 's.id', 'dp.sellerId')
         ->where('d.orderId',$id)
-        ->select('c.*', 'o.*', 'd.*')
+        ->select('c.*', 'o.*', 'd.*', 'p.*', 's.storename')
         ->get()
         ->toArray();
-        return $orders;*/
-
+        return $orders;
+    }
 
         //Affiche les commandes (sans détailler les produits achetés) du client id=
         /*$orders = DB::table('customers as c')
@@ -277,7 +289,7 @@ class Repository
         ->get()
         ->toArray();
         return $orders;*/
-    }
+    
 
 
     
@@ -375,7 +387,7 @@ class Repository
         if (!$ok){
             throw new Exception('Utilisateur inconnu');
         }
-    return ['id'=>$people->id, 'email'=>$people->email,'firstname'=>$people->firstname, 'role'=>$people->role, 'sellerId'=>$people->sellerId];
+    return ['id'=>$people->id, 'email'=>$people->email,'firstname'=>$people->firstname, 'role'=>$people->role, 'sellerId'=>$people->sellerId, 'customerId'=>$people->customerId];
     }
    
 
@@ -433,9 +445,49 @@ class Repository
       DB::table('people')->where('email', $email)->update(['password'=> $newPasswordHash]);
     }
 
-    function sendEmail(){
-        
+
+    function addOrder(int $customerId, float $price, DateTime $orderdate ) : int
+    {
+        return DB::table('orders')->insertGetId(['customerId'=> $customerId, 'price'=> $price, 'orderDate'=> $orderdate]);    
     }
+
+    function addDetailOrder(int $productId, int $orderId, int $quantity ) : int
+    {
+        return DB::table('detail_orders')->insertGetId(['productId'=> $productId, 'orderId'=> $orderId, 'quantity'=> $quantity]);    
+    }
+
+    function updateStock(int $productId, int $newStock)
+    {
+        //$stock=DB::table('detail_products')->where('ProductId', $productId)->select('stock')->get();
+        
+        DB::table('detail_products')->where('ProductId', $productId)->update(['stock'=> $newStock]);
+    }
+
+    public function search() : array
+    {
+        $search=request()->input('search');
+
+        $products=DB::table('products as p')->join('detail_products as dp','p.id', 'dp.productId')
+                                    ->join('sellers as s', 's.id', 'dp.sellerId')
+                                    ->where('p.name','like', "%$search%")
+                                    ->orWhere('p.description', 'like', "%$search%")
+                                    ->select('p.id as pid','s.id as sid','s.*', 'p.*', 'dp.*')
+                                    ->get()
+                                    ->toArray();
+        return $products;
+    }
+
+    
+
+    
+
+    
+
+    /*function sendEmail(){
+
+        $people=DB::table('people')->where('email', 'misteriftol@gmail.com')->get();
+
+    }*/
 
     
 

@@ -162,8 +162,9 @@ a {
     
 <header>
 <hr></hr>
+
   @section('content')
- 
+
   
     <div class="container">
     <a href="{{route('home')}}" class="navbar-brand d-flex align-items-center">
@@ -205,7 +206,8 @@ a {
       <form  action="{{route('searchProduct')}}">
       @csrf
         <div class="form-group">
-            <input type="search" id="search" name="search" value="{{old('search')}}"
+          <label for="search">Rechercher un produit</label>
+            <input type="search" id="search" name="search" minLength="3" value="{{request()->input('search')}}"
                   aria-describedby="search_feedback" class="form-control @error('search') is-invalid @enderror"> 
             @error('search')
             <div id="search_feedback" class="invalid-feedback">
@@ -214,6 +216,7 @@ a {
           @enderror
         </div>
         <button type="submit" class="btn btn-primary">Valider</button>
+
       </form>
     </div>
 
@@ -223,22 +226,22 @@ a {
     
       <div class="row row-cols ">
       
-      @foreach($details as $detail)
+      @foreach($products as $product)
       
-        <div class="col-md-3">
+        <div class="col-md-2">
 
           <div class="card mb-4 shadow-sm">
 
           
-          <img class="card-img-top " src="{{asset('storage/images/'.$detail->image)}}" >
+          <img class="card-img-top " src="{{asset('storage/images/'.$product->image)}}" >
 
             <div class="card-body">
-            <h4><a href="{{route('showProductOfSeller',['id'=>$detail->sellerId])}}">{{ $detail->store}}</a></h4>
+            <h4><a href="{{route('showProductOfSeller',['id'=>$product->sellerId])}}">{{ $product->storename}}</a></h4>
 
-              <h5><a href="{{route('product',['id'=>$detail->id])}}">{{ $detail->name}}<a> </h5>
-              <p> {{ $detail->description}}</p>
+              <h5><a href="{{route('product',['id'=>$product->pid])}}">{{ $product->name}}<a> </h5>
+              <p> {{ $product->description}}</p>
 
-              <p>{{ number_format($detail->price,2) }}€</p>
+              <p>{{ number_format($product->price,2) }}€</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                 <button>voir</button>
@@ -263,7 +266,6 @@ a {
     
   
 </main>
-
 
 
 
