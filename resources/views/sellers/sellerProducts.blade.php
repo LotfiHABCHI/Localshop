@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.80.0">
-    <title>{{ $products[0]->storename }}</title>
+    <title>{{ $seller[0]->storename }}</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
 
@@ -197,7 +197,230 @@ a {
   background: rgb(57, 58, 58);
   color:rgba(119, 126, 127, 0.452);
 }
+
+.seller{
+    display: inline-block;
+    padding: 15px;
+    width: 40%;
+    border: 3px solid #70AD47;
+    border-radius: 10px;
+    box-shadow: 10px 5px 5px grey;
+}
+
+#btnDescription{
+  background-color: #70AD47;
+  border: none;
+  color: white;
+  padding: 30px 50px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 50px;
+  margin: 20px auto 20px auto;
+  border-radius: 10px;
+}
+
+#divDescription{
+  border: 2px solid red;
+}
+
+#formDescription{
+  border: 2px solid yellow;
+  padding: 5px;
+  height: 300px;
+}
+
+#txtDescription{
+  border: 2px solid blue;
+  width: 100%;
+  max-width: 100%;
+  min-width: 100%;
+  max-height: 80%;
+  min-height: 80%;
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: normal;
+
+}
+
+#btnValider, #btnEdit{
+  border: 2px solid green;
+  background-color: #70AD47;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  margin: 10px 0px auto 70%;
+  border-radius: 10px;
+}
+
     </style>
+
+    <script>
+
+
+
+///HTML
+
+
+
+//JS
+function load_div_edit() {
+        //supp div existante
+        var removediv = document.getElementById('divDescription');
+        removediv.parentNode.removeChild(removediv);
+
+        //creer nouvelle div
+        var divDescription = document.createElement('div');
+
+        //position div + info div
+        var ancreDescription = document.getElementById('ancre');
+        ancreDescription.appendChild(divDescription);
+        divDescription.setAttribute("id", "divDescription");
+        
+        //contenu div
+        divDescription.innerHTML='Modifier votre description ci-dessous : ';
+        //creer form + input + btnValider
+        var formDescription = document.createElement('form');
+        var txtDescription = document.createElement('textarea');
+        var btnValider = document.createElement('button');
+
+        //form
+        divDescription.appendChild(formDescription);
+        formDescription.setAttribute("id", "formDescription");
+        formDescription.setAttribute("method", "POST");
+        formDescription.setAttribute("action", "{{route('desc.edit', ['sellerid'=>$seller[0]->sellerid])}}");
+
+        //input
+        formDescription.appendChild(txtDescription);
+        txtDescription.setAttribute("id", "txtDescription");
+        txtDescription.setAttribute("name", 'txtDescription');
+
+        //btn
+        formDescription.appendChild(btnValider);
+        btnValider.setAttribute("id", "btnValider");
+        btnValider.setAttribute("onclick", "load_description()");
+        btnValider.setAttribute("type", "submit")
+        btnValider.innerHTML ="Valider";
+    };
+
+    function load_description() {
+        //supp div
+        var removediv = document.getElementById('divDescription');
+        removediv.parentNode.removeChild(removediv);
+
+        //creer div
+        var divDescription = document.createElement('div');
+
+        //position div
+        var ancreDescription = document.getElementById('ancre');
+        ancreDescription.appendChild(divDescription);
+        divDescription.setAttribute("id", "divDescription");
+
+        //contenu div
+        //rempli div de notre txt
+        divDescription.innerHTML="{{$seller[0]->sellerdescription}}";
+
+        //creer btn edit pour modifier
+        var btnEdit = document.createElement('button');
+        divDescription.appendChild(btnEdit);
+        btnEdit.setAttribute("id", "btnEdit");
+        btnEdit.setAttribute("onclick", "load_div_edit()");
+        btnEdit.setAttribute("type", "submit")
+        btnEdit.innerHTML ="Edit"
+
+    };
+
+
+
+
+
+
+   /* function load_div_edit() {
+        //supp div
+        var removediv = document.getElementById('divDescription');
+        removediv.parentNode.removeChild(removediv);
+
+        //creer div
+        var divDescription = document.createElement('div');
+
+        //position div
+        var ancreDescription = document.getElementById('ancre');
+        ancreDescription.appendChild(divDescription);
+        divDescription.setAttribute("id", "divDescription");
+        
+        //contenu div
+        divDescription.innerHTML='Modifier votre description ci-dessous : ';
+
+        //creer form + input + btnValider
+        var formDescription = document.createElement('form');
+        var txtDescription = document.createElement('input');
+        var btnValider = document.createElement('input');
+
+        //form
+        divDescription.appendChild(formDescription);
+        formDescription.setAttribute("id", "formDescription");
+        formDescription.setAttribute("method", "POST");
+        formDescription.setAttribute("action", "");
+
+        //input
+        formDescription.appendChild(txtDescription);
+        txtDescription.setAttribute("id", "txtDescription");
+        txtDescription.setAttribute("name", 'txtDescription');
+
+
+        //btn
+        formDescription.appendChild(btnValider);
+        btnValider.setAttribute("id", "btnValider");
+        btnValider.setAttribute("onclick", "load_description()");
+       // btnValider.setAttribute("type", "button")
+        btnValider.setAttribute("type", "hidden");
+        btnValider.setAttribute("value", "valider");
+        btnValider.setAttribute("name", "txtDescription");
+        //btnValider.innerHTML ="Valider";
+
+        
+
+
+      
+    };
+
+    function load_description() {
+        //supp div
+        var removediv = document.getElementById('divDescription');
+        removediv.parentNode.removeChild(removediv);
+
+        //creer div
+        var divDescription = document.createElement('div');
+
+        //position div
+        var ancreDescription = document.getElementById('ancre');
+        ancreDescription.appendChild(divDescription);
+        divDescription.setAttribute("id", "divDescription");
+
+        //contenu div
+        //rempli div de notre txt
+        divDescription.innerHTML="{{$seller[0]->sellerdescription}}";
+
+        //creer btn edit pour modifier
+        var btnEdit = document.createElement('button');
+        divDescription.appendChild(btnEdit);
+        btnEdit.setAttribute("id", "btnEdit");
+        btnEdit.setAttribute("onclick", "load_div_edit()");
+        btnEdit.setAttribute("type", "submit");
+        btnEdit.innerHTML ="Edit";
+
+        formDescription.submit();
+
+    };*/
+
+    
+    
+
+
+      </script>
 
     
   </head>
@@ -212,33 +435,48 @@ a {
 
 
 <div class="seller">
-  <div class="human">
+ 
 
-    <p class="seller_title">{{ $products[0]->storename }}</p>
-    <img src="">
+  <div class="seller">
+      <h2>{{ $seller[0]->storename }}</h2>
+      <img id="img_seller" src="{{asset('storage/images/'.$seller[0]->sellerimage)}}">
+      <div id="divDescription">
+      <button id="btnDescription" onclick="load_div_edit()" type="button">EDITER</button>
+      </div>
+      <p id="ancre"></p>
+      <div class="nb_item">
+        <p> {{$count}} produit(s)</p>
+      </div>
+    </div>
+
+    <!-- <div class="human">
+
+    <p class="seller_title">{{ $seller[0]->storename }}</p>
+    <img class="card-img-top"  src="{{asset('storage/images/'.$seller[0]->sellerimage)}}">
     <div class="nb_item">
-   {{$count}} produits
+   {{$count}} produit(s)
     </div>
     <p class="seller_description">Bonjour, je vends des supers legumes Bonjour, je vends des supers legumes Bonjour, je vends des supers legumes</p>
   
-  </div>
- 
-  <div class="item" class="album py-5 bg-light"> <!-- ici ça ne prend que la 2eme class -->
+  </div> -->
+
+
+
 
     <div class="container-fluid">
       <div class="row row-cols ">
       @foreach ($products as $detail)
       <div class="card shadow-sm">
-      <img class="card-img-top"  src="{{asset('storage/images/'.$detail->image)}}">
+      <img class="card-img-top"  src="{{asset('storage/images/'.$detail->productimage)}}">
 
             <div class="card-body">
-              <p class="card-text"><a href="{{route('product',['id'=>$detail->id])}}">{{ $detail->name }} ({{$detail->id}})<a> </p>
-              {{ number_format($detail->price,2) }}€
+              <p class="card-text"><a href="{{route('product',['id'=>$detail->productid])}}">{{ $detail->productname }} ({{$detail->productid}})<a> </p>
+              {{ number_format($detail->productprice,2) }}€
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">                
-                  <form action="{{ route('stock.update', $detail->id) }}" method="POST" id="stock_update">
+                  <form action="{{ route('stock.update', $detail->productid) }}" method="POST" id="stock_update">
                     @csrf
-                      <input class="form-control" name="stock" type="number" style="height: 2rem" min="1" max="99" value="{{ $detail->stock }}">
+                      <input class="form-control" name="stock" type="number" style="height: 2rem" min="1" max="99" value="{{ $detail->productquantity }}">
                       <button class="btn btn-sm btn-outline-tertiary" id="stock_update"> &#10004 </button>                  
                   </form>   
                 </div>

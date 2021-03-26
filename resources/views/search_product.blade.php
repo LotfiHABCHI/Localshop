@@ -193,7 +193,7 @@ a {
           <div class="col-1">
 
               <article >
-                     <a href="{{route('showProductsOfCategory',['id'=>$category->id])}}"> <img class="card-img-top" src="{{asset('images/'.$category->image)}}"><a> 
+                     <a href="{{route('showProductsOfCategory',['id'=>$category->categoryid])}}"> <img class="card-img-top" src="{{asset('images/'.$category->categoryimage)}}"><a> 
               </article>
               
           </div>   
@@ -233,15 +233,15 @@ a {
           <div class="card mb-4 shadow-sm">
 
           
-          <img class="card-img-top " src="{{asset('storage/images/'.$product->image)}}" >
+          <img class="card-img-top " src="{{asset('storage/images/'.$product->productimage)}}" >
 
             <div class="card-body">
-            <h4><a href="{{route('showProductOfSeller',['id'=>$product->sellerId])}}">{{ $product->storename}}</a></h4>
+            <h4><a href="{{route('showProductOfSeller',['id'=>$product->sellerid])}}">{{ $product->storename}}</a></h4>
 
-              <h5><a href="{{route('product',['id'=>$product->pid])}}">{{ $product->name}}<a> </h5>
-              <p> {{ $product->description}}</p>
+              <h5><a href="{{route('product',['id'=>$product->productid])}}">{{ $product->productname}}<a> </h5>
+              <p> {{ $product->productinfo}}</p>
 
-              <p>{{ number_format($product->price,2) }}€</p>
+              <p>{{ number_format($product->productprice,2) }}€</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                 <button>voir</button>

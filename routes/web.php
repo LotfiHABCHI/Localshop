@@ -70,6 +70,7 @@ Route::post('/cart/clear', [App\Http\Controllers\CartController::class, 'clear']
 Route::post('/test', [App\Http\Controllers\HomeController::class, 'test']);
 Route::view('test', 'test');
 
+Route::get('/test', [App\Http\Controllers\HomeController::class, 'showProductsinfos']);
 
 
 Route::get('/customer_register', [App\Http\Controllers\CustomerController::class, 'showRegisterForm'])->name('customer_register');
@@ -136,3 +137,18 @@ Route::post('/sellerProducts/{productId}', [App\Http\Controllers\SellerControlle
 Route::get('search_product/', [App\Http\Controllers\HomeController::class, 'search'])->name('searchProduct');
 
 Route::get('faq', [App\Http\Controllers\HomeController::class, 'faq']);
+
+
+Route::post('/sellerProducts/{sellerId}', [App\Http\Controllers\SellerController::class, 'editDescription'])->where('sellerId', '[0-9]+')->name('desc.edit');
+Route::post('/sellerProducts', [App\Http\Controllers\SellerController::class, 'editDescription'])->name('desc.edit');
+
+Route::get('/orderValidation', [App\Http\Controllers\SellerController::class, 'orderValidation'])->name('orderValidate'); 
+Route::post('/orderValidation', [App\Http\Controllers\SellerController::class, 'contact'])->name('orderValidate.post'); 
+
+
+/*route checkout payement*/
+Route::get('payement', [App\Http\Controllers\CheckOutController::class, 'index'])->name('checkout.index');
+Route::post('payement', [App\Http\Controllers\CheckOutController::class, 'store'])->name('checkout.store');
+Route::get('/merci', function(){
+    return view('payement_success');
+});

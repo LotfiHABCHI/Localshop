@@ -9,10 +9,15 @@
 		Impossible d'envoyer votre message &#9785;
 	</div>
 	@endif
+
+  @if(session('success'))
+    <div>{{session('success')}}
+    </div>
+    @endif
 	<div class="form-group">
 		<label for="email">E-mail</label>
-    @if(session()->has('people'))
-      <input type="email" id="email" name="email" value="{{ session()->get('people')['email'] }}"
+    @if(session()->has('alluser'))
+      <input type="email" id="email" name="email" value="{{ session()->get('alluser')['alluseremail'] }}"
              aria-describedby="email_feedback" class="form-control @error('email') is-invalid @enderror"> 
       @else
       <input  type="email" id="email" name="email" value="{{old('email')}}"

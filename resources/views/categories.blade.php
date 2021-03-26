@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.80.0">
-    <title> {{$cat[0]->name}} - Localshop </title> 
+    <title> {{$cat[0]->categoryname}} - Localshop </title> 
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
 
@@ -173,7 +173,7 @@ a {
         @foreach ($categories as $category)
             <div class="col-1">
                 <article >
-                      <a href="{{route('showProductsOfCategory',['id'=>$category->id])}}"> <img class="card-img-top" src="{{asset('images/'.$category->image)}}"><a> 
+                      <a href="{{route('showProductsOfCategory',['id'=>$category->categoryid])}}"> <img class="card-img-top" src="{{asset('images/'.$category->categoryimage)}}"><a> 
                 </article>
                 
             </div>   
@@ -192,15 +192,15 @@ a {
         <div class="col-md-2">
 
           <div class="card mb-4 shadow-sm">
-          <a href="{{route('showProductOfSeller',['id'=>$product->sellerId])}}">{{ $product->store}}</a>
-          <img class="card-img-top" src="{{asset('storage/images/'.$product->image)}}" >
+          <a href="{{route('showProductOfSeller',['id'=>$product->sellerid])}}">{{ $product->storename}}</a>
+          <img class="card-img-top" src="{{asset('storage/images/'.$product->productimage)}}" >
             <div class="card-body">
-              <h5> <a href="{{route('product',['id'=>$product->id])}}">{{ $product->name}}<a></h5>
-              <p> {{ $product->description}}</p>
+              <h5> <a href="{{route('product',['id'=>$product->productid])}}">{{ $product->productname}}<a></h5>
+              <p> {{ $product->productinfo}}</p>
             
              
 
-              <p>{{ number_format($product->price,2) }}€</p>
+              <p>{{ number_format($product->productprice,2) }}€</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                 </div>

@@ -14,20 +14,24 @@ class CreateSellersTable extends Migration
     public function up()
     {
         Schema::create('sellers', function (Blueprint $table) {
-            $table->id()->unsigned();  
-            $table->string('lastname');
-            $table->string('firstname');
-            $table->string('email')->unique();
-            $table->string('phone');
+           // $table->id()->unsigned();  
+            $table->increments('sellerid');
+            $table->string('sellerfirstname');
+            $table->string('sellerlastname');
+            $table->string('selleremail')->unique();
             $table->string('password');
-            $table->Integer('numstreet');
-            $table->string('namestreet');
-            $table->Integer('postcode');
+            $table->string('sellerphone');
+            $table->BigInteger('siret');
+            $table->Integer('sellernumstreet');
+            $table->string('sellernamestreet');
+            $table->Integer('cp');
             $table->string('city');
             $table->string('storename');
-            $table->BigInteger('siret');
+            $table->string('sellerimage');
+            $table->string('sellerdescription');
             $table->timestamps();
-            $table->foreign('postcode')->references('cp')->on('postcodes')->onDelete('cascade');
+            //$table->primary('sellerid');
+            $table->foreign('cp')->references('cp')->on('postcodes')->onDelete('cascade');
             
         });
     }

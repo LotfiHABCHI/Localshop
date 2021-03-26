@@ -198,7 +198,8 @@ a {
                     <tr>
                         <td>
                             <img class="card-img-top" src="{{asset('storage/images/'.$product->attributes['image'])}}" >
-                            {{ $product->name }}     
+                            {{ $product->name }} 
+                             
 
                         </td>
                         <td>

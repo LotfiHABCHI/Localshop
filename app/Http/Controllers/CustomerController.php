@@ -71,6 +71,7 @@ public function login(Request $request, Repository $repository)
             'firstname' => ['required'],  
             'email' => ['required', 'email'],
             'password' => ['required'], 
+            'phone'=>['required'],
             'passwordConfirm'=>['required'],
             'numstreet' => ['required'], 
             'namestreet' => ['required'],
@@ -96,6 +97,7 @@ public function login(Request $request, Repository $repository)
         $firstname = $validatedData['firstname'];
         $email = $validatedData['email'];
         $password = $validatedData['password'];
+        $phone=$validatedData['phone'];
         $numstreet = $validatedData['numstreet'];
         $namestreet = $validatedData['namestreet'];
         $postcode = $validatedData['postcode'];
@@ -105,8 +107,8 @@ public function login(Request $request, Repository $repository)
 
         if($validatedData['password']==$validatedData['passwordConfirm']){
             try {
-                $this->repository->addCustomer($lastname, $firstname, $email, $password, $numstreet, $namestreet, $postcode, $city); 
-                 $request->session()->put('people', $this->repository->getPeople($email, $password));
+                $this->repository->addCustomer($firstname, $lastname, $email, $password, $phone, $numstreet, $namestreet, $postcode, $city); 
+                 $request->session()->put('alluser', $this->repository->getAlluser($email, $password));
                 
             } catch (Exception $e) {
                 return redirect()->back()->withInput()->withErrors("Impossible de vous inscrire.");

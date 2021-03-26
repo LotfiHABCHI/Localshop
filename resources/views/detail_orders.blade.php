@@ -23,21 +23,21 @@
                         </td>
                         <td>
                 
-                                 {{$detail->name}}      
+                                 {{$detail->productname}}      
                   </td>
                   
                         <td> 
-                            @if($detail->catId==1 or $detail->catId==2 or $detail->catId==4)
-                                {{ number_format($detail->price,2) }}€/kg
+                            @if($detail->categoryid==1 or $detail->categoryid==2 or $detail->categoryid==4)
+                                {{ number_format($detail->productprice,2) }}€/kg
                             @else
-                                {{ number_format($detail->price,2) }}€
+                                {{ number_format($detail->productprice,2) }}€
                             @endif
                         </td>
                         <td>
-                  {{$detail->quantity}}
+                  {{$detail->orderproductquantity}}
                   </td>
                         <td>
-                           <strong>{{$total=number_format($detail->price * $detail->quantity,2)}}€ </strong>
+                           <strong>{{$total=number_format($detail->productprice * $detail->orderproductquantity,2)}}€ </strong>
                               <!--{{$Total+=$total}}    -->  
                         </td>          
                         <td>

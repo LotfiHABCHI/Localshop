@@ -115,15 +115,15 @@ hr{
 
 .seller{
   display: flex;
-border: solid 2px red;
+  border: solid 2px red;
 }
 
 .human{
   display: inline-block;
-border: solid 2px blue;
-margin:1%;
-width: 40%;
-height: auto;
+  border: solid 2px blue;
+  margin:1%;
+  width: 40%;
+  height: auto;
 }
 
 .seller_title{
@@ -134,16 +134,16 @@ height: auto;
 
 .item{
   display: inline-block;
-border: solid 2px green;
-margin:1%;
-width: 100%;
-height: auto;
+  border: solid 2px green;
+  margin:1%;
+  width: 100%;
+  height: auto;
 }
 
 .nb_item{
-border: solid 2px yellow;
-margin:1%;
-height: auto;
+  border: solid 2px yellow;
+  margin:1%;
+  height: auto;
 }
 
 .seller_description{
@@ -216,7 +216,7 @@ a {
       @foreach ($categories as $category)
           <div class="col-1">
               <article >
-                     <a href="{{route('showProductsOfCategory',['id'=>$category->id])}}"> <img class="card-img-top" src="{{asset('images/'.$category->image)}}"><a> 
+                     <a href="{{route('showProductsOfCategory',['id'=>$category->categoryid])}}"> <img class="card-img-top" src="{{asset('images/'.$category->categoryimage)}}"><a> 
               </article>
           </div>   
         @endforeach
@@ -242,15 +242,15 @@ a {
       <div class="row row-cols ">
       @foreach ($details as $detail)
       <div class="card shadow-sm">
-      <img class="card-img-top" src="{{asset('storage/images/'.$detail->image)}}" >
+      <img class="card-img-top" src="{{asset('storage/images/'.$detail->productimage)}}" >
 
             <div class="card-body">
-              <p class="card-text"><a href="{{route('product',['id'=>$detail->id])}}">{{ $detail->name }} ({{$detail->id}})<a> </p>
-              {{ number_format($detail->price,2) }}€
+              <p class="card-text"><a href="{{route('product',['id'=>$detail->productid])}}">{{ $detail->productname }} <a> </p>
+              {{ number_format($detail->productprice,2) }}€
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                 
-                <form  action="{{route('cart.add', ['id'=>$detail->id])}}" method="POST" id="add_cart">
+                <form  action="{{route('cart.add', ['id'=>$detail->productid])}}" method="POST" id="add_cart">
                 @csrf
                 <label for="quantity"> </label>
                 <input type="number" value="1" class="form-control" id="quantity" name="quantity" min="0">
@@ -262,22 +262,7 @@ a {
           </div>
 
 
-            <!--<div class="col-4">
-              <article class="card">
-                <img class="card-img-top" src="{{asset('images/'.$detail->image)}}" >
-                  <h4><a href="{{route('product',['id'=>$detail->id])}}">{{ $detail->name}}<a> 
-                  </h4>      
-                  {{ number_format($detail->price,2) }}€
-                  <div class="d-flex justify-content-between align-items-center">
-                <form  action="{{route('cart.add', ['id'=>$detail->id])}}" method="POST" id="add_cart">
-                @csrf
-                <label for="quantity"> </label>
-                <input type="number" value="1" class="form-control" id="quantity" name="quantity" min="0">
-                </form>
-                <button type="submit" form="add_cart" class="btn btn-primary">Ajouter au panier</button>
-          </div>
-              </article>
-            </div>   -->
+            
           @endforeach
           
       </div>

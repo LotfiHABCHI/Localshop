@@ -9,22 +9,8 @@
     <meta name="generator" content="Hugo 0.80.0">
     <title>Accueil</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
 
-    
-
-    <!-- Bootstrap core CSS -->
-<link href="{{asset('resources/css/bootstrap.min.css')}}" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-
-    <!-- Favicons -->
-<link rel="apple-touch-icon" href="/docs/5.0/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
-<link rel="icon" href="/docs/5.0/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
-<link rel="icon" href="/docs/5.0/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
-<link rel="manifest" href="/docs/5.0/assets/img/favicons/manifest.json">
-<link rel="mask-icon" href="/docs/5.0/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
-<link rel="icon" href="/docs/5.0/assets/img/favicons/favicon.ico">
-<meta name="theme-color" content="#7952b3">
-
+  
 
     <style>
       .bd-placeholder-img {
@@ -107,6 +93,8 @@ hr{
 
 
 
+
+
 .footer_hr{
   width:100%;
   color: rgb(57, 58, 58);
@@ -154,6 +142,135 @@ a {
   background: rgb(57, 58, 58);
   color:rgba(119, 126, 127, 0.452);
 }
+
+body{
+      font-family: 'Roboto', sans-serif;
+  }
+  a{
+      text-decoration: none;
+  }
+
+  .products{
+    text-align: center;
+    
+  }
+  .product-card {
+   
+    display: inline-block;
+      width: 280px;
+      position: relative;
+      box-shadow: 0 2px 7px #dfdfdf;
+      margin: 50px auto;
+      background: #fafafa;
+      text-align: center;
+  }
+  
+  .badge {
+      position: absolute;
+      left: 0;
+      top: 30px;
+      text-transform: uppercase;
+      font-size: 13px;
+      font-weight: 700;
+      background: green;
+      color: #fff;
+      padding: 3px 10px;
+  }
+  
+  .product-tumb {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 250px;
+     /* padding: 1px;*/
+      background: #f0f0f0;
+  }
+  
+  .product-tumb img {
+    border : 2px solid black;
+      max-width: 100%;
+      max-height: 100%;
+  }
+  
+  .product-details {
+      padding: 30px;
+  }
+  
+  .product-catagory {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #ccc;
+      margin-bottom: 18px;
+  }
+  
+  .product-details h4 a {
+      font-weight: 500;
+      display: block;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+      color: #363636;
+      text-decoration: none;
+      transition: 0.3s;
+  }
+  
+  .product-details h4 a:hover {
+      color: #fbb72c;
+  }
+  
+  .product-details p {
+      font-size: 15px;
+      line-height: 22px;
+      margin-bottom: 18px;
+      color: #999;
+  }
+  
+  .product-bottom-details {
+      overflow: hidden;
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+      text-align: center  ;
+  }
+  
+  .product-bottom-details div {
+      float: left;
+      width: 50%;
+      text-al;
+      
+  }
+  
+  .product-price {
+      font-size: 30px;
+      color: #fbb72c;
+      font-weight: 400;
+      text-align: center;
+     
+  }
+  
+  .product-price small {
+      font-size: 80%;
+      font-weight: 400;
+      text-decoration: line-through;
+      display: inline-block;
+      margin-right: 5px;
+  }
+  
+  .product-links {
+      text-align: right;
+  }
+  
+  .product-links a {
+      display: inline-block;
+      margin-left: 5px;
+      color: #e1e1e1;
+      transition: 0.3s;
+      font-size: 17px;
+  }
+  
+  .product-links a:hover {
+      color: #fbb72c;
+  }
     </style>
 
     
@@ -165,17 +282,7 @@ a {
   @section('content')
  
   
-    <div class="container">
-    <a href="{{route('home')}}" class="navbar-brand d-flex align-items-center">
-				
-						<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"
-						/>
-						<circle cx="12" cy="13" r="4" /></svg>
-          
-      </a>
-     
-
-    </div>
+    
   
 </header>
 
@@ -185,24 +292,29 @@ a {
   
 <div class="core">
 
-    <div id="core_category">
+  <div id="core_category">
     <nav class="nav d-flex justify-content-between"> 
       
       @foreach ($categories as $category)
           <div class="col-1">
 
               <article >
-                     <a href="{{route('showProductsOfCategory',['id'=>$category->id])}}"> <img class="card-img-top" src="{{asset('images/'.$category->image)}}"><a> 
+                     <a href="{{route('showProductsOfCategory',['id'=>$category->categoryid])}}"> <img class="card-img-top" src="{{asset('images/'.$category->categoryimage)}}"></a> 
               </article>
               
           </div>   
         @endforeach
 
       </nav>
-    </div>
+  </div>
+
+
+   
+
+
 
     <div classe="search"> 
-      <form  action="{{route('searchProduct')}}">
+      <form  action="{{route('searchProduct')}}"> <!-- ['id'=>sellers[0]->sellerid])-->
       @csrf
         <div class="form-group">
             <input type="search" id="search" name="search" value="{{old('search')}}"
@@ -213,51 +325,44 @@ a {
             </div>
           @enderror
         </div>
-        <button type="submit" class="btn btn-primary">Valider</button>
+        <button type="submit" class="btn btn-primary">Rechercher</button>
       </form>
     </div>
 
-    <div id="core_products">
-    <div class="album py-5 bg-light">
-    <div class="container">
+   
+  
+ 
     
-      <div class="row row-cols ">
-      
-      @foreach($details as $detail)
-      
-        <div class="col-md-3">
 
-          <div class="card mb-4 shadow-sm">
-
-          
-          <img class="card-img-top " src="{{asset('storage/images/'.$detail->image)}}" >
-
-            <div class="card-body">
-            <h4><a href="{{route('showProductOfSeller',['id'=>$detail->sellerId])}}">{{ $detail->store}}</a></h4>
-
-              <h5><a href="{{route('product',['id'=>$detail->id])}}">{{ $detail->name}}<a> </h5>
-              <p> {{ $detail->description}}</p>
-
-              <p>{{ number_format($detail->price,2) }}€</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                <button>voir</button>
-                </div>
-               
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        @endforeach
-       
+<div class="products">
+    @foreach($details as $detail)
+  <div class="product-card">
+  
+      <div class="badge">
+          {{ $detail->category}}
       </div>
-    </div>
+
+      <div class="product-tumb">
+          <img src="{{asset('storage/images/'.$detail->productimage)}}" alt="image">
+      </div>
+
+      <div class="product-details">
+          <span class="product-catagory"> <a href="{{route('product',['id'=>$detail->productid])}}"> {{ $detail->productname }}</a></span>
+          <h4>	<a href="{{route('showProductOfSeller',['id'=>$detail->sellerId])}}">{{ $detail->store}}</a></h4>
+          <p>{{ $detail->productinfo }} </p>
+          <div class="product-bottom-details">
+              <div class="product-price">
+                  {{ number_format($detail->productprice,2) }}€ 
+              </div>
+              
+          </div>
+      </div>
     
   </div>
+  @endforeach
+</div>
+
   
-    </div>
 </div>
 
     
@@ -272,8 +377,7 @@ a {
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
-
-    <script src= "{{asset('resources/js/bootstrap.bundle.min.js')}}"  integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+<script src= "{{asset('resources/js/bootstrap.bundle.min.js')}}"  integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 
       
   </body>

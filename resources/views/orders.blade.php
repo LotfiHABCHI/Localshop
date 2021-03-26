@@ -8,6 +8,7 @@
             <thead>
                 <tr>
                     <th>N° de Commande</th>
+                    <th>Nbre</th>
                     <th>Montant</th>
                     <th>Date</th>
                 </tr>
@@ -17,17 +18,18 @@
                 @foreach ($details as $detail)
                     <tr>
                         <td>
-                         <a href="{{route('detail_order',['orderId'=>$detail->orderId])}}"> {{ $detail->orderId }}<a>
+                         <a href="{{route('detail_order',['orderId'=>$detail->orderid])}}"> {{ $detail->orderid }}<a>
                            
                         </td>
                         
+                        <td>{{$detail->orderquantity}}</td>
                   
                         <td> 
-                            {{number_format($detail->oprice,2)}}€
+                            {{number_format($detail->orderprice,2)}}€
                         </td>
                     
                         <td>
-                        {{$detail->orderDate}}   
+                        {{$detail->orderdate}}   
                         </td>          
                         <td>
                      

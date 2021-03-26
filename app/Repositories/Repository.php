@@ -18,6 +18,8 @@ use App\Models\Customers;
 use App\Models\Orders;
 use App\Models\DetailOrders;
 use App\Models\DetailProducts;
+use App\Models\Roles;
+
 
 
 class Repository
@@ -73,10 +75,27 @@ class Repository
     }
 
 
-
     function insertDetail_Order(array $detail_order): int
     {
         return DB::table('detail_orders')->insertGetId($detail_order);
+    
+    }
+
+    function insertAlluser(array $alluser): int
+    {
+        return DB::table('allusers')->insertGetId($alluser);
+    
+    }
+
+    function insertRole(array $role): int
+    {
+        return DB::table('roles')->insertGetId($role);
+    
+    }
+
+    function insertAdmin(array $admin): int
+    {
+        return DB::table('admins')->insertGetId($admin);
     
     }
 
@@ -143,30 +162,59 @@ class Repository
         foreach($detail_products as $detail_product){
             $this->insertDetail_Product($detail_product);
         }
+
+        /*$data = new AllUsers();
+        $allusers=$data->allUsers();
+
+        foreach($allusers as $alluser){
+            $this->insertAlluser($alluser);
+        }*/
+
+        $data = new Roles();
+        $roles=$data->roles();
+
+        foreach($roles as $role){
+            $this->insertRole($role);
+        }
+
+        /*$data = new Admins();
+        $admins=$data->admins();
+
+        foreach($admins as $admin){
+            $this->insertAdmin($admin);
+        }*/
     }
 
     function productsOfCategory($id) : array
     //
-    {
+   /* {
         $prods = DB::table('products')->join('categories as cat', 'cat.id', '=', 'products.catId')
                         ->where('cat.id', $id)
                               ->get(['cat.name as namecat', 'products.name as prodname', 'products.price as prodprice'])
                                ->toArray();
         return $prods;
+    }*/
+
+    {
+        $prods = DB::table('products')->join('categories as cat', 'cat.categoryid', '=', 'products.categoryid')
+                        ->where('cat.categoryid', $id)
+                              ->get(['cat.*', 'products.*'])
+                               ->toArray();
+        return $prods;
     }
 
 
-    function productsOfSeller($id) : array
+    /*function productsOfSeller($id) : array
     { 
 
        $prods = DB::table('detail_products as d')
         ->join('sellers as s','s.id', 'd.sellerId')
         ->join('products as p', 'p.id', 'd.productId')
         ->where('s.id', $id)
-        ->select('s.storename', 'p.*', 'p.id as id', 'd.*')
         ->get()
         ->toArray();
         return $prods;
+    }*/
 
         /*$prods = DB::table('sellers as s')
         ->join('people as p', 'p.sellerId', 's.id')
@@ -176,9 +224,20 @@ class Repository
         ->toArray();
         return $prods;*/
 
+    function productsOfSeller($id) : array
+    {
+       $prods = DB::table('detail_products as d')
+        ->join('sellers as s','s.sellerid', 'd.sellerid')
+        ->join('products as p', 'p.productid', 'd.productid')
+        ->where('s.sellerid', $id)
+        ->get()
+        ->toArray();
+        return $prods;
     }
+    
+    
 
-    public function connectValide($email)
+    /*public function connectValide($email)
     {
         $customer=DB::table('customers')->where('email',$email)->get()->toArray();
         $seller=DB::table('sellers')->where('email',$email)->get()->toArray();
@@ -190,15 +249,15 @@ class Repository
             return redirect()->back()->withInput()->withErrors("email inexistant."); 
         }
 
-    }
+    }*/
 
     function detailProductsOfCategory($id) : array
     {
         $prods = DB::table('detail_products as d')
-        ->join('sellers as s','s.id', 'd.sellerId')
-        ->join('products as p', 'p.id', 'd.productId')
-        ->where('p.catId',$id)
-        ->select('s.storename as store', 'p.*', 'd.*')
+        ->join('sellers as s','s.sellerid', 'd.sellerid')
+        ->join('products as p', 'p.productid', 'd.productid')
+        ->where('p.categoryid',$id)
+        ->select('s.*' /*storename as store'*/, 'p.*', 'd.*')
         ->get()
         ->toArray();
         return $prods;
@@ -208,8 +267,8 @@ class Repository
     {
         $count=0;
         $count = DB::table('detail_products as d')
-        ->where('sellerId',$id)
-        ->select('productId')
+        ->where('sellerid',$id)
+        ->select('productid')
         ->get()
         ->count();
 
@@ -219,10 +278,10 @@ class Repository
     function product($id) : array
     {
         $product = DB::table('detail_products as d')
-        ->join('sellers as s','s.id', 'd.sellerId')
-        ->join('products as p', 'p.id', 'd.productId')
-        ->where('p.id',$id)
-        ->select('s.storename as store','s.id as sellerId', 'p.*', 'd.stock', 'p.catId as catId')
+        ->join('sellers as s','s.sellerid', 'd.sellerid')
+        ->join('products as p', 'p.productid', 'd.productid')
+        ->where('p.productid',$id)
+        ->select('s.*', 'p.*')
         ->get()
         ->toArray();
         return $product;
@@ -238,19 +297,48 @@ class Repository
         
 
         $prods = DB::table('detail_products as d')
-        ->join('sellers as s','s.id', 'd.sellerId')
-        ->join('products as p', 'p.id', 'd.productId')
-        ->select('s.storename as store','s.id as sellerId', 'p.*', 'd.stock')
-        ->orderBy('p.price')
+        ->join('sellers as s','s.sellerid', 'd.sellerid')
+        ->join('products as p', 'p.productid', 'd.productid')
+        ->join('categories as c', 'c.categoryid', 'p.categoryid')
+        ->select('s.storename as store','s.sellerid as sellerId', 'p.*', /*'d.stock'*/ 'p.productquantity', 'c.categoryname as category')
+       // ->orderBy('productprice')
         ->get()
         ->toArray();
         return $prods;
     }
+    
 
     function ordersOfCustomer($id) : array
     { //Affiche toutes les commandes (et leurs détails) passées par un client id=
 
         $orders = DB::table('customers as c')        
+        ->join('orders as o','o.customerid', 'c.customerid')
+        ->join('detail_orders as d', 'd.orderid', 'o.orderid')
+        ->join('products as p', 'p.productid', 'd.productid')
+        ->join('detail_products as dp', 'dp.productid', 'p.productid')
+        ->join('sellers as s', 's.sellerid', 'dp.sellerid' )
+        ->where('c.customerid',$id)
+        ->groupBy('o.orderid',  'o.orderprice', 'o.orderdate')
+        ->select('o.*')
+        ->get()
+        ->toArray();
+
+        /*$orders = DB::table('customers as c')        
+        ->join('orders as o','o.customerid', 'c.customerid')
+        ->join('detail_orders as d', 'd.orderid', 'o.id')
+        ->join('products as p', 'p.productid', 'd.productid')
+        ->join('detail_products as dp', 'dp.productid', 'p.productid')
+        ->join('sellers as s', 's.sellerid', 'dp.sellerid' )
+        ->where('c.customerid',$id)
+        ->groupBy('o.id',  'o.orderprice', 'o.orderdate')
+        ->select('o.*')
+        ->get()
+        ->toArray();*/
+
+       
+        return $orders;
+
+        /*$orders = DB::table('customers as c')        
         ->join('orders as o','o.customerId', 'c.id')
         ->join('detail_orders as d', 'd.OrderId', 'o.id')
         ->join('products as p', 'p.id', 'd.productId')
@@ -262,13 +350,13 @@ class Repository
         ->get()
         ->toArray();
        
-        return $orders;
+        return $orders;*/
     }
 
     function detailOrder($id) : array
     {
         //Affiche les details de la commande id=
-        $orders = DB::table('detail_orders as d')
+        /*$orders = DB::table('detail_orders as d')
         ->join('orders as o','o.id', 'd.orderId')
         ->join('customers as c', 'c.id', 'o.customerId')
         ->join('products as p', 'p.id', 'd.productId')
@@ -276,6 +364,18 @@ class Repository
         ->join('sellers as s', 's.id', 'dp.sellerId')
         ->where('d.orderId',$id)
         ->select('c.*', 'o.*', 'd.*', 'p.*', 's.storename')
+        ->get()
+        ->toArray();
+        return $orders;*/
+
+        $orders = DB::table('detail_orders as d')
+        ->join('orders as o','o.orderid', 'd.orderid')
+        ->join('customers as c', 'c.customerid', 'o.customerid')
+        ->join('products as p', 'p.productid', 'd.productid')
+        ->join('detail_products as dp', 'dp.productid', 'p.productid')
+        ->join('sellers as s', 's.sellerid', 'dp.sellerid')
+        ->where('d.orderid',$id)
+        ->select('c.*', 'o.*', 'd.*', 'p.*', 's.*')
         ->get()
         ->toArray();
         return $orders;
@@ -299,15 +399,35 @@ class Repository
 
     /* ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ juste un copier coller du web_cci pour l'instant ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ */
 
-
-
-
-    function addSeller(string $lastname, string $firstname, string $email, string $phone, string $password, int $numstreet, string $namestreet, int $postcode, string $city, string $storename, int $siret)/*: int*/
+    public function getRole($rolename) : array
     {
-        $role=2;
+      return $role=DB::table('roles')->where('rolename', $rolename)->select('roleid')->get()->toArray();
+    }
+
+
+    function addSeller(string $firstname, string $lastname, string $email, string $password, string $phone,  int $siret, int $numstreet, string $namestreet, int $cp, string $city, string $storename,string $image, string $description )/*: int*/
+    {
+        $role=$this->getRole('seller')[0]->roleid;
+       
+        //$role=$roles[0]->roleid;
         $passwordHash = Hash::make($password);
-        $sellerId=DB::table('sellers')->insertGetId(["lastname"=>$lastname, 'firstname'=>$firstname, 'email'=>$email, "phone"=>$phone, 'password'=> $passwordHash, "numstreet"=>$numstreet, "namestreet"=>$namestreet, "postcode"=>$postcode, "city"=>$city, "storename"=>$storename, "siret"=>$siret]);
-        DB::table('people')->insert(["lastname"=>$lastname, 'firstname'=>$firstname, 'email'=>$email, 'password'=> $passwordHash,"sellerId"=>$sellerId, 'role'=>$role]);
+
+        $sellerId=DB::table('sellers')->insertGetId(['sellerfirstname'=>$firstname,
+                                                     "sellerlastname"=>$lastname,
+                                                      'selleremail'=>$email,
+                                                      'password'=> $passwordHash,
+                                                       "sellerphone"=>$phone,
+                                                       "siret"=>$siret,
+                                                         "sellernumstreet"=>$numstreet,
+                                                          "sellernamestreet"=>$namestreet,
+                                                           "cp"=>$cp,
+                                                            "city"=>$city,
+                                                             "storename"=>$storename,
+                                                             "sellerimage"=>$image,
+                                                             "sellerdescription"=>$description
+                                                              ]);
+
+        DB::table('allusers')->insert([ 'alluserfirstname'=>$firstname, 'alluseremail'=>$email, 'password'=> $passwordHash,"allusersellerid"=>$sellerId, 'roleid'=>$role]);
 
         //return DB::table('sellers')->insert(["lastname"=>$lastname, 'firstname'=>$firstname, 'email'=>$email, "phone"=>$phone, 'password'=> $passwordHash, "numstreet"=>$numstreet, "namestreet"=>$namestreet, "postcode"=>$postcode, "city"=>$city, "storename"=>$storename, "siret"=>$siret]);
     }
@@ -318,7 +438,7 @@ class Repository
     // TODO
     //$customers= DB::table('customers')->where('email', $email)->get()->toArray();
 
-    $sellers= DB::table('sellers')->where('email', $email)->get()->toArray();
+    $sellers= DB::table('sellers')->where('selleremail', $email)->get()->toArray();
                         //customers pour loguer les customers
     if (count($sellers)==0){
         throw new Exception('Utilisateur inconnu');
@@ -334,8 +454,30 @@ class Repository
     }
 
 
+    function addCustomer(string $firstname, string $lastname, string $email, string $password, string $phone, int $numstreet, string $namestreet, int $cp, string $city)/*: int*/
+    {
+      
+        $roles=$this->getRole('customer');
+        $role=$roles[0]->roleid;
 
-    function addCustomer(string $lastname, string $firstname, string $email, string $password, int $numstreet, string $namestreet, int $postcode, string $city)/*: int*/
+        
+        $passwordHash = Hash::make($password);
+        
+        $customerId=DB::table('customers')->insertGetId(['customerfirstname'=>$firstname,
+                                                            "customerlastname"=>$lastname,
+                                                            'customeremail'=>$email,
+                                                            'password'=> $passwordHash,
+                                                            "customerphone"=>$phone,
+                                                                "customernumstreet"=>$numstreet,
+                                                                "customernamestreet"=>$namestreet,
+                                                                "cp"=>$cp,
+                                                                "city"=>$city,
+        ]);
+        DB::table('allusers')->insert(['alluserfirstname'=>$firstname, 'alluseremail'=>$email, 'password'=> $passwordHash,"allusercustomerid"=>$customerId, 'roleid'=>$role]);
+
+    }
+
+    /*function addCustomer(int $id, string $firstname, string $lastname, string $email, string $password, string $phone,  int $siret, int $numstreet, string $namestreet, int $cp, string $city, string $storename,string $image, string $description)
     {
       //  $role=DB::table('roles')->where('rolename', '=', 'customer');
         $role=1;
@@ -345,7 +487,7 @@ class Repository
         DB::table('people')->insert(["lastname"=>$lastname, 'firstname'=>$firstname, 'email'=>$email, 'password'=> $passwordHash,"customerId"=>$customerId, 'role'=>$role]);
 
        // return DB::table('customers')->insert(["lastname"=>$lastname, 'firstname'=>$firstname, 'email'=>$email, 'password'=> $passwordHash, "numstreet"=>$numstreet, "namestreet"=>$namestreet, "postcode"=>$postcode, "city"=>$city]);
-    }
+    }*/
 
 
     function getCustomer(string $email, string $password): array
@@ -353,7 +495,7 @@ class Repository
     // TODO
     //$customers= DB::table('customers')->where('email', $email)->get()->toArray();
 
-    $customers= DB::table('customers')->where('email', $email)->get()->toArray();
+    $customers= DB::table('customers')->where('customeremail', $email)->get()->toArray();
                         //customers pour loguer les customers
     if (count($customers)==0){
         throw new Exception('Utilisateur inconnu');
@@ -369,7 +511,7 @@ class Repository
     }
 
 
-    function getPeople(string $email, string $password): array
+    /*function getPeople(string $email, string $password): array
     {
     // TODO
     //$customers= DB::table('customers')->where('email', $email)->get()->toArray();
@@ -388,6 +530,26 @@ class Repository
             throw new Exception('Utilisateur inconnu');
         }
     return ['id'=>$people->id, 'email'=>$people->email,'firstname'=>$people->firstname, 'role'=>$people->role, 'sellerId'=>$people->sellerId, 'customerId'=>$people->customerId];
+    }*/
+
+    function getAlluser(string $email, string $password): array
+    {
+ 
+
+    $allusers= DB::table('allusers')->where('alluseremail', $email)->get()->toArray();
+                        //customers pour loguer les customers
+    if (count($allusers)==0){
+        throw new Exception('Utilisateur inconnu');
+    }
+    $alluser=$allusers[0];
+
+   
+    $ok = Hash::check($password, $alluser->password);
+
+        if (!$ok){
+            throw new Exception('Utilisateur inconnu');
+        }
+    return ['alluserid'=>$alluser->alluserid, 'alluseremail'=>$alluser->alluseremail,'alluserfirstname'=>$alluser->alluserfirstname, 'roleid'=>$alluser->roleid, 'allusersellerid'=>$alluser->allusersellerid, 'allusercustomerid'=>$alluser->allusercustomerid];
     }
    
 
@@ -400,7 +562,7 @@ class Repository
 
       //verifier si le mot de passe est correct:
 
-      $people= DB::table('people')->where('email', $email)->get()->toArray();
+      $people= DB::table('allusers')->where('alluseremail', $email)->get()->toArray();
 
       if(count($people)==0){
         throw new Exception('Utilisateur inconnu');
@@ -413,25 +575,29 @@ class Repository
       }
       
       $newPasswordHash = Hash::make($newPassword);
-      DB::table('people')->where('email', $email)->update(['password'=> $newPasswordHash]);
+      DB::table('allusers')->where('alluseremail', $email)->update(['password'=> $newPasswordHash]);
     }
 
 
-    function addProduct(string $name, string $description, string $image, float $price, int $category ) : int
-    {
-        
-        return DB::table('products')->insertGetId(['name'=> $name, 'description'=> $description, 'image'=> $image,'price'=> $price, 'catId'=> $category]);    
 
+    function addProduct(string $name, string $productinfo, string $image, float $price, int $category, int $productquantity ) : int
+    {//version stock dans products
+        return DB::table('products')->insertGetId(['productname'=> $name, 'productimage'=> $image, 'productinfo'=> $productinfo, 'productprice'=> $price, 'categoryid'=> $category, 'productquantity'=>$productquantity]);    
     }
 
-    function addDetailProduct(int $productId, int $sellerId, int $stock) : int
-    {
-        
+
+    function addDetailProduct(int $productId, int $sellerId) : int
+    {//version stock dans products
+        return DB::table('detail_products')->insert(['productid'=> $productId, 'sellerid'=> $sellerId]);    
+    }
+
+   /* function addDetailProduct(int $productId, int $sellerId, int $stock) : int
+    {//version stock dans dp
+
         return DB::table('detail_products')->insert(['productId'=> $productId, 'sellerId'=> $sellerId, 'stock'=> $stock]);    
+    }*/
 
-    }
-
-    function resetPassword(string $email, string $newPassword): void 
+    /*function resetPassword(string $email, string $newPassword): void 
     {
     
       $people= DB::table('people')->where('email', $email)->get()->toArray();
@@ -443,42 +609,89 @@ class Repository
             
       $newPasswordHash = Hash::make($newPassword);
       DB::table('people')->where('email', $email)->update(['password'=> $newPasswordHash]);
+    }*/
+
+    function resetPassword(string $email, string $newPassword): void 
+    {
+    
+      $people= DB::table('allusers')->where('alluseremail', $email)->get()->toArray();
+
+      if(count($people)==0){
+        throw new Exception('Utilisateur inconnu');
+      }
+
+            
+      $newPasswordHash = Hash::make($newPassword);
+      DB::table('allusers')->where('alluseremail', $email)->update(['password'=> $newPasswordHash]);
     }
 
 
-    function addOrder(int $customerId, float $price, DateTime $orderdate ) : int
+    function addOrder(DateTime $orderdate, int $orderquantity, float $price, int $customerId ) : int
     {
-        return DB::table('orders')->insertGetId(['customerId'=> $customerId, 'price'=> $price, 'orderDate'=> $orderdate]);    
+        return DB::table('orders')->insertGetId(['orderdate'=> $orderdate, 'orderquantity'=>$orderquantity , 'orderprice'=> $price, 'customerid'=> $customerId ]);    
     }
 
-    function addDetailOrder(int $productId, int $orderId, int $quantity ) : int
+    function addDetailOrder(int $orderId, int $productId, int $quantity ) : int
     {
-        return DB::table('detail_orders')->insertGetId(['productId'=> $productId, 'orderId'=> $orderId, 'quantity'=> $quantity]);    
+        return DB::table('detail_orders')->insertGetId(['orderid'=> $orderId, 'productid'=> $productId, 'orderproductquantity'=> $quantity]);    
     }
 
-    function updateStock(int $productId, int $newStock)
+    function updateStock(int $productId, int $newQuantity)
     {
-        //$stock=DB::table('detail_products')->where('ProductId', $productId)->select('stock')->get();
+        DB::table('products')->where('productid', $productId)->update(['productquantity'=> $newQuantity]);
         
-        DB::table('detail_products')->where('ProductId', $productId)->update(['stock'=> $newStock]);
+        //DB::table('detail_products')->where('ProductId', $productId)->update(['stock'=> $newStock]);
     }
 
     public function search() : array
     {
         $search=request()->input('search');
-
-        $products=DB::table('products as p')->join('detail_products as dp','p.id', 'dp.productId')
-                                    ->join('sellers as s', 's.id', 'dp.sellerId')
-                                    ->where('p.name','like', "%$search%")
-                                    ->orWhere('p.description', 'like', "%$search%")
-                                    ->select('p.id as pid','s.id as sid','s.*', 'p.*', 'dp.*')
+        $sellerId=request()->all();
+        $products=DB::table('products as p')->join('detail_products as dp','p.productid', 'dp.productid')
+                                    ->join('sellers as s', 's.sellerid', 'dp.sellerid')
+                        
+                                    ->where('p.productname','like', "%$search%")
+                                    ->orWhere('p.productinfo', 'like', "%$search%")
+                                    ->select('s.*', 'p.*', 'dp.*')
                                     ->get()
                                     ->toArray();
         return $products;
     }
 
-    
+    public function description()
+    {
+        $sellerId=request()->session()->get('alluser')['allusersellerid'];
+        $desc=request()->input('test');
+        
+        DB::table('sellers')->where('sellerid', $sellerId)->update(['sellerdescription'=> $desc]);
+    }
 
+    
+    public function orderValidation() : array
+    {
+        $sellerId=request()->session()->get('alluser')['allusersellerid'];
+
+         return DB::table('sellers')->join('detail_products as dp', 'sellers.sellerid', 'dp.sellerid')
+        ->join('detail_orders as do', 'do.productid', 'dp.productid')
+        ->join('orders as o', 'o.orderid', 'do.orderid')
+        ->join('products as p', 'p.productid', 'dp.productid')
+        ->where('sellers.sellerid', $sellerId)
+        ->orderBy('orderdate')
+        ->groupBy('o.orderid', 'o.customerid', 'o.orderdate', 'dp.productid', 'p.productprice')
+        ->select('o.orderid', 'o.customerid', 'o.orderdate', 'dp.productid', 'p.productprice')
+        ->get()
+        ->toArray();
+    }
+
+    public function sendToCustomer($orderId)
+    {
+        return DB::table('customers as c')
+        ->join('orders as o', 'o.customerid', 'c.customerid')
+        ->where('o.orderid', $orderId)
+        ->select('c.customeremail')
+        ->get()
+        ->toArray();
+    }
     
 
     

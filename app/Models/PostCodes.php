@@ -12,13 +12,13 @@ class PostCodes extends Model
     function postCodes()
     {
         return [
-            ['CP'=>13009, 'city'=>'luminy'],
-            ['CP'=>13004, 'city'=>'castellane'],
-            ['CP'=>13008, 'city'=>'redon'],
-            ['CP'=>13001, 'city'=>'Saint charles'],
-            ['CP'=>13002, 'city'=>'deux'],
-            ['CP'=>13010, 'city'=>'dix'],
-            ['CP'=>13012, 'city'=>'douze'],
+            ['cp'=>13009, 'city'=>'luminy'],
+            ['cp'=>13004, 'city'=>'castellane'],
+            ['cp'=>13008, 'city'=>'redon'],
+            ['cp'=>13001, 'city'=>'Saint charles'],
+            ['cp'=>13002, 'city'=>'deux'],
+            ['cp'=>13010, 'city'=>'dix'],
+            ['cp'=>13012, 'city'=>'douze'],
         ];
     }
 }

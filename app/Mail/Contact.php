@@ -35,9 +35,9 @@ class Contact extends Mailable
 
     public function build()
     {
-        $customer=request()->session()->get('people');
+        $customer=request()->session()->get('alluser');
 
-        return $this->from($customer['email']) // L'expéditeur
+        return $this->from($customer['alluseremail']) // L'expéditeur
                     ->subject("Message via le formulaire de contact") // Le sujet
                     ->view('contact'); // La vue
     }

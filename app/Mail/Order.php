@@ -35,8 +35,9 @@ class Order extends Mailable
         $count=Cart::getContent()->count();
        
 
-        $customer=request()->session()->get('people');
-        return $this->from($customer['email']) // L'expéditeur
+        $customer=request()->session()->get('alluser');
+       // dd($customer);
+        return $this->from($customer['alluseremail']) // L'expéditeur
                     ->subject("Commande ") // Le sujet
                     ->view('cart/orderCart', compact('content', 'total', 'count')); // La vue
     }

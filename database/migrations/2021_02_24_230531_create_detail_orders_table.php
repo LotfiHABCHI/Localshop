@@ -16,13 +16,14 @@ class CreateDetailOrdersTable extends Migration
         Schema::create('detail_orders', function (Blueprint $table) {
             //$table->bigIncrements('id');
            // $table->id();
-            $table->BigInteger('productId')->unsigned(); 
-            $table->BigInteger('orderId')->unsigned(); 
-          
-            $table->Integer('quantity');
-            $table->foreign('orderId')->references('id')->on('orders')->onDelete('cascade');
-            $table->foreign('productId')->references('id')->on('products')->onDelete('cascade');
-            $table->primary(['orderId', 'productId']);
+           $table->Integer('orderid')->unsigned();
+            $table->Integer('productid')->unsigned(); 
+            $table->Integer('orderproductquantity');
+           // $table->foreign('orderid')->references('orderid')->on('orders')->onDelete('cascade');
+           $table->foreign('orderid')->references('orderid')->on('orders')->onDelete('cascade');
+            
+           $table->foreign('productid')->references('productid')->on('products')->onDelete('cascade');
+            $table->primary(['orderid', 'productid']);
         });
     }
 

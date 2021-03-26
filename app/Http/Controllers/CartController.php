@@ -32,13 +32,13 @@ class CartController extends Controller
        // $product = Products::find($request->id);
           //dd($product);
           $cartItem=Cart::add([
-            'id' => $product[0]->id,
-            'name' => $product[0]->name,
-            'price' => $product[0]->price,
-            'description' => $product[0]->description,
+            'id' => $product[0]->productid,
+            'name' => $product[0]->productname,
+            'price' => $product[0]->productprice,
+            'description' => $product[0]->productinfo,
             'quantity' => $request->quantity,
-            'attributes' => ['image'=>$product[0]->image],
-            'associatedModel' => $product[0]->sellerId,
+            'attributes' => ['image'=>$product[0]->productimage],
+            'associatedModel' => $product[0]->sellerid,
           ]
         );
         //dd($cartItem);
@@ -52,7 +52,7 @@ class CartController extends Controller
         $content = Cart::getContent()->sort();
         $total = Cart::getTotal();
         $count=Cart::getContent()->count();
-        
+       
                 //dd($content, $total, $sellerMail);
         return view('cart.index', compact('content', 'total', 'count'));
     }
@@ -79,29 +79,32 @@ class CartController extends Controller
 
     public function contact()
     {
-        $customerId= request()->session()->get('people')['customerId'];
+        $customerId= request()->session()->get('alluser')['allusercustomerid'];
         //dd($customerId);
 
         $content = Cart::getContent();
         $total = Cart::getTotal();
         $date = new \DateTime();
+        $count=Cart::getContent()->count();
         //$seller = Cart::get($content[2]['id']);
 
     
         foreach($content as $product) {
-            $stock=DB::table('detail_products')->where('ProductId', $product['id'])->select('stock')->get();//faire une méthode getStock dans repository
-            $newStock=$stock[0]->stock-$product['quantity'];
+           //version stock dp// $stock=DB::table('detail_products')->where('ProductId', $product['id'])->select('stock')->get();//faire une méthode getStock dans repository
+           
+            $stock=DB::table('products')->where('productid', $product['id'])->select('productquantity')->get();//faire une méthode getStock dans repository
+
+           $newStock=$stock[0]->productquantity-$product['quantity'];
 
             if($newStock<0){
-                return redirect()->back()->withErrors("Stock de " . $product['name'] ." insuffisant");
+                return redirect()->back()->withErrors("Qauntite de " . $product['name'] ." insuffisante");
             }
+        }
+            $order=$this->repository->addOrder($date, $count, $total, $customerId );
 
-            $order=$this->repository->addOrder($customerId, $total, $date);
-
-            $detailOrder=$this->repository->addDetailOrder($product['id'], $order, $product['quantity']);
+        foreach($content as $product) {
+            $detailOrder=$this->repository->addDetailOrder($order, $product['id'], $product['quantity']);
             //dd($product['quantity']);
-
-           
 
             $this->repository->updateStock($product['id'], $newStock);
         }
@@ -112,8 +115,8 @@ class CartController extends Controller
         //dd($content);
         //dd(request()->all());
         foreach($content as $row) {
-            $sellerMail=DB::table('sellers')->where('id',$row->associatedModel)->select('email', 'id')->get();
-            Mail::to($sellerMail)->send(new Order());
+            $sellerMail=DB::table('sellers')->where('sellerid',$row->associatedModel)->select('selleremail', 'sellerid')->get();
+            Mail::to($sellerMail[0]->selleremail)->send(new Order());
         }
         $this->clear();
         return redirect()->route('detail_order',  ['orderId'=>$order]);

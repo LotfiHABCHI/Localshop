@@ -12,12 +12,20 @@ class Orders extends Model
     function orders()
     {//le prix ne devrait pas etre dans la bd je pense ou alors il faut le calculer!!
         return [
-            ['id'=>1, 'customerId'=>3, 'price'=>23, 'orderDate'=>NOW()],
-            ['id'=>2, 'customerId'=>2, 'price'=>5.50, 'orderDate'=>NOW()],
-            ['id'=>3, 'customerId'=>1, 'price'=>35, 'orderDate'=>NOW()],
-            ['id'=>4, 'customerId'=>2, 'price'=>24.59, 'orderDate'=>NOW()],
-            ['id'=>5, 'customerId'=>3, 'price'=>15.59, 'orderDate'=>NOW()],
+            ['orderid'=>1, 'orderdate'=>NOW(), 'orderquantity'=>3, 'orderprice'=>23, 'customerid'=>3,],
+            ['orderid'=>2, 'orderdate'=>NOW(), 'orderquantity'=>3, 'orderprice'=>5.50, 'customerid'=>2,],
+            ['orderid'=>3, 'orderdate'=>NOW(), 'orderquantity'=>3, 'orderprice'=>35, 'customerid'=>1,],
+            ['orderid'=>4, 'orderdate'=>NOW(), 'orderquantity'=>3, 'orderprice'=>24.59, 'customerid'=>2,],
+            ['orderid'=>5, 'orderdate'=>NOW(), 'orderquantity'=>3, 'orderprice'=>15.59, 'customerid'=>3,],
         ];
+
+        /*return [
+            ['id'=>1, 'orderdate'=>NOW(), 'orderquantity'=>3, 'orderprice'=>23, 'customerid'=>3,],
+            ['id'=>2, 'orderdate'=>NOW(), 'orderquantity'=>3, 'orderprice'=>5.50, 'customerid'=>2,],
+            ['id'=>3, 'orderdate'=>NOW(), 'orderquantity'=>3, 'orderprice'=>35, 'customerid'=>1,],
+            ['id'=>4, 'orderdate'=>NOW(), 'orderquantity'=>3, 'orderprice'=>24.59, 'customerid'=>2,],
+            ['id'=>5, 'orderdate'=>NOW(), 'orderquantity'=>3, 'orderprice'=>15.59, 'customerid'=>3,],
+        ];*/
     }
 
 }
