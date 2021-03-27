@@ -176,8 +176,12 @@ body{
       color: #fff;
       padding: 3px 10px;
   }
+  .product-card{
+    border-radius: 25px;
+  }
   
   .product-tumb {
+      border-radius : 25px 25px 0px 0px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -187,7 +191,7 @@ body{
   }
   
   .product-tumb img {
-    border : 2px solid black;
+    
       max-width: 100%;
       max-height: 100%;
   }
@@ -329,6 +333,14 @@ body{
       </form>
     </div>
 
+<form naem="sortProducts" id="sortProducts" >
+@csrf
+<label>Trier par</label>
+  <select name="sort" id="sort">
+    <option value="lowestFirst">Prix croissant</option>
+  </select>
+
+</form>
    
   
  

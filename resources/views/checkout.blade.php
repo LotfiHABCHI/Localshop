@@ -212,7 +212,7 @@ button:disabled {
 
 @section('extra_js')
     <script>
-        var stripe = Stripe("pk_test_51ITCtVJAi7S74ISiuKe1jwo9bP6c4fu9AOBZB7LL487RdwodToDpX43PnYH7OG9qabR1A8yooBTYS4xASXZVOjle00JG2ZB0jK");
+        var stripe = Stripe("pk_test_51IZEUWFf2uA4NKwFF6Ou4zYdWcrltas9jomZUW0EuURskH3ML43sJbfnY3YIhBHdvpVQCihvbz0nemr7M98pVb9P00yJ4UIjfo");
         var elements = stripe.elements();
         
         var style = {
@@ -263,7 +263,7 @@ button:disabled {
         var paymentIntent = result.paymentIntent ;
         var form = document.getElementById('payment-form');
         var url = form.action ;
-        var redirect = '/merci' ;
+        var redirect = '/orderCart' ;
 
         fetch (
           url,

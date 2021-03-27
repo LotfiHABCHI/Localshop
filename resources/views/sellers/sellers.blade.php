@@ -207,8 +207,30 @@ a {
 
 <main>
 @section('content')
+
+
 <div class="container">
   
+<div classe="search"> 
+      <form method="GET" action="{{route('searchProductInStore', ['sellerId'=>$details[0]->sellerid])}}"> <!-- ['id'=>sellers[0]->sellerid])-->
+      @csrf
+      @if ($errors->any())
+	<div class="alert alert-warning">
+	Ce vendeur ne propose pas de {{old('searchInStore')}} &#9785;
+	</div>
+	@endif
+        <div class="form-group">
+            <input type="searchInStore" id="searchInStore" name="searchInStore" value="{{old('searchInStore')}}"
+                  aria-describedby="searchInStore_feedback" class="form-control @error('searchInStore') is-invalid @enderror"> 
+            @error('searchInStore')
+            <div id="searchInStore_feedback" class="invalid-feedback">
+              {{ $message }}
+            </div>
+          @enderror
+        </div>
+        <button type="submit" class="btn btn-primary">Rechercher</button>
+      </form>
+    </div>
 
 <div id="core_category">
     <nav class="nav d-flex justify-content-between"> 
@@ -216,7 +238,7 @@ a {
       @foreach ($categories as $category)
           <div class="col-1">
               <article >
-                     <a href="{{route('showProductsOfCategory',['id'=>$category->categoryid])}}"> <img class="card-img-top" src="{{asset('images/'.$category->categoryimage)}}"><a> 
+                     <a href="{{route('showProductsOfCategory',['id'=>$category->categoryid])}}"> <img class="card-img-top" src="{{asset('images/'.$category->categoryimage)}}"></a> 
               </article>
           </div>   
         @endforeach

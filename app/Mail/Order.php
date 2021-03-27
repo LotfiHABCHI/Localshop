@@ -37,8 +37,8 @@ class Order extends Mailable
 
         $customer=request()->session()->get('alluser');
        // dd($customer);
-        return $this->from($customer['alluseremail']) // L'expéditeur
-                    ->subject("Commande ") // Le sujet
+        return $this->from('localShop@localShop.com') // L'expéditeur
+                    ->subject("Récapitulatif de votre commande ") // Le sujet
                     ->view('cart/orderCart', compact('content', 'total', 'count')); // La vue
     }
 }

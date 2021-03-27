@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 
 use App\Models\Categories;
 use App\Models\Products;
@@ -200,14 +201,20 @@ class HomeController extends Controller
         //FROM ((sellers s JOIN detail_products d ON s.id=d.sellerId)
         //JOIN products p ON p.id=d.productId)
         //WHERE s.id=$id?
-
+       
+        //dd($seller);
         $sellers = Sellers::all();
         $categories = Categories::all();
         $products = DetailProducts::all();
         $details= $this->repository->productsOfSeller($id);
         //dd($details[1]->productId);
         $count=$this->repository->productCount($id);
-        //dd($details);
+       // dd($details);
+        /*if(session()->has('alluser')){
+            $sellerId=request()->session()->get('alluser')['allusersellerid'];
+            $seller=$this->repository->getInfos($sellerId);
+        }
+        else $seller=$details;*/
 
         return view('sellers/sellers', ['details'=>$details, 'categories'=>$categories, 'products'=>$products, 'sellers'=>$sellers, 'count'=>$count] );
 
@@ -485,14 +492,71 @@ class HomeController extends Controller
             $sellers = Sellers::all();
             $categories = Categories::all();
             $detailproducts = DetailProducts::all();
-       
+            
             //$search=request()->input('search');
             $products = $this->repository->search();
+            //dd(request()->all());
             //dd($products);
-            dd(request()->all());
-            $sellerId=request()->all();
+            //dd(request()->all());
+            $sellerId=request()->id;
             
-            return view('search_product', compact('products', 'sellers', 'categories', 'products'));
+            //dd(request()->all());
+            return view('search_product', compact('products', 'sellers', 'categories'));
+        }
+
+        public function searchInStore()
+        {
+           // $categories = Categories::all();
+
+            $sellers = Sellers::all();
+            $categories = Categories::all();
+            $detailproducts = DetailProducts::all();
+            //$count=$this->repository->productCount($id);
+            $sellerId=request()->sellerId;
+
+            $store=Sellers::where('sellerid',$sellerId)->get()->toArray();// [$sellerId]['storename'];
+            //dd($sellerId, $store[0]['storename']);
+            
+                $products = $this->repository->searchInStore($sellerId);
+           
+
+            if(count($products)==0){
+               
+                return  redirect()->back()->withInput()->withErrors(' $store[0]["storename"] ne vend pas de ça.'); # ou l'appel d'une fonction ou méthode qui peut lever une exception
+            }
+            //dd($sellerId);
+            
+            //dd(request()->all());
+            return view('searchProductOfSeller', compact('products', 'sellers', 'categories', 'store' ));
+        }
+
+        public function searchInCategory()
+        {
+           // $categories = Categories::all();
+
+            $sellers = Sellers::all();
+            $categories = Categories::all();
+            $detailproducts = DetailProducts::all();
+            //$count=$this->repository->productCount($id);
+           // $sellerId=request()->sellerId;
+            $categoryId=request()->categoryId;
+            //dd($categoryId);
+            //dd($sellerId, $categoryId);
+            //$cat=Categories::where('categoryid',$categoryid)->get()->toArray();// [$sellerId]['storename'];
+            //dd($sellerId, $store[0]['storename']);
+            
+                $products = $this->repository->searchInCategory($categoryId);
+           
+            //dd($products);
+            if(count($products)==0){
+               
+                return  redirect()->back()->withInput()->withErrors(' $store[0]["storename"] ne vend pas de ça.'); # ou l'appel d'une fonction ou méthode qui peut lever une exception
+            }
+            //dd($sellerId);
+            
+            
+            //dd(request()->all());
+            return view('searchProductInCategory', compact('products', 'sellers', 'categories' ));
         }
 
         /*public function productview( Request $request){

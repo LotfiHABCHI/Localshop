@@ -108,18 +108,22 @@ class CartController extends Controller
 
             $this->repository->updateStock($product['id'], $newStock);
         }
+        
 
         //dd($detailOrder);
 
         //dd($sellerMail);
         //dd($content);
         //dd(request()->all());
+        $customer=request()->session()->get('alluser');
+
         foreach($content as $row) {
-            $sellerMail=DB::table('sellers')->where('sellerid',$row->associatedModel)->select('selleremail', 'sellerid')->get();
-            Mail::to($sellerMail[0]->selleremail)->send(new Order());
+           // $sellerMail=DB::table('sellers')->where('sellerid',$row->associatedModel)->select('selleremail', 'sellerid')->get();
+            Mail::to($customer['alluseremail'])->send(new Order());
         }
         $this->clear();
-        return redirect()->route('detail_order',  ['orderId'=>$order]);
+        //dd(request()->all());
+        return redirect()->route('detail_order',  ['orderId'=>$order])->with(['success'=>"Merci pour votre achat! A bientot sur LocalShop"]);
       
     }
 

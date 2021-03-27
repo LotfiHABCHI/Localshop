@@ -157,7 +157,7 @@ a {
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             @if( session()->get('alluser')['roleid'] ==1)
                             <a class="dropdown-item" 
-                            href="{{route('sellerProducts', ['sellerId'=>session()->get('alluser')['allusersellerid']])}}">
+                            href="{{route('productOfSeller', ['sellerId'=>session()->get('alluser')['allusersellerid']])}}">
                                         {{ __('Mon compte') }}
                                 </a>
                                 @else

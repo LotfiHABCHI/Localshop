@@ -3,6 +3,18 @@
 @section('title','Accueil')
 @section('content')
 
+<style>
+    .msg{
+       margin-top: 10px;
+       margin-bottom : 10px ;
+    }
+</style>
+@if(session('success'))
+    <div class="msg">
+    {{session('success')}}  &#128512;
+    
+    </div>
+    @endif
 
 <table class="table table-borderd table-responsive-sm">
             <thead>

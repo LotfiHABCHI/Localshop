@@ -131,6 +131,7 @@ a {
 
 <main>
 
+Merci pour votre achat
     <div class="container">
    
    

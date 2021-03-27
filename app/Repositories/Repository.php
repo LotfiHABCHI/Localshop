@@ -646,10 +646,8 @@ class Repository
     public function search() : array
     {
         $search=request()->input('search');
-        $sellerId=request()->all();
         $products=DB::table('products as p')->join('detail_products as dp','p.productid', 'dp.productid')
                                     ->join('sellers as s', 's.sellerid', 'dp.sellerid')
-                        
                                     ->where('p.productname','like', "%$search%")
                                     ->orWhere('p.productinfo', 'like', "%$search%")
                                     ->select('s.*', 'p.*', 'dp.*')
@@ -657,6 +655,41 @@ class Repository
                                     ->toArray();
         return $products;
     }
+
+    public function searchInStore(int $id) : array
+    {
+        
+        $search=request()->input('searchInStore');
+        
+        $products=DB::table('products as p')->join('detail_products as dp','p.productid', 'dp.productid')
+                                    ->join('sellers as s', 's.sellerid', 'dp.sellerid')
+                                    ->where('s.sellerid', $id)
+                                    ->where('p.productname','like', "%$search%")
+                                    ->orWhere('p.productinfo', 'like', "%$search%")
+                                    
+                                    ->select('s.*', 'p.*', 'dp.*')
+                                    ->get()
+                                    ->toArray();
+        return $products;
+    }
+
+    public function searchInCategory(int $id) : array
+    {
+        
+        $search=request()->input('searchInCategory');
+        
+        $products=DB::table('products as p')->join('detail_products as dp','p.productid', 'dp.productid')
+                                    ->join('sellers as s', 's.sellerid', 'dp.sellerid')
+                                    ->where('p.productname','like', "%$search%")
+                                    ->orWhere('p.productinfo', 'like', "%$search%")
+                                    ->where('p.categoryid', $id)
+                                    ->select('s.*', 'p.*', 'dp.*')
+                                    ->get()
+                                    ->toArray();
+        return $products;
+    }
+
+
 
     public function description()
     {
@@ -691,6 +724,19 @@ class Repository
         ->select('c.customeremail')
         ->get()
         ->toArray();
+    }
+
+
+    public function deleteProduct(int $id){
+
+        DB::table('products')->where('productid', $id)->delete();
+        DB::table('detail_products')->where('productid', $id)->delete();
+
+    }
+
+    public function getInfos($sellerId) : array // plus utilisée
+    {
+       return  DB::table('sellers')->where('sellerid', $sellerId)->select('sellers.*')->get()->toArray();
     }
     
 

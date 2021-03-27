@@ -247,7 +247,7 @@ a {
 
         </table>
 
-        <form action="{{ route('order.post') }}" method="POST" id="order">
+        <form action="{{ route('checkout.index')}}" method="GET" id="order">
         @csrf
         <button type="submit" class="btn btn-sm btn-outline-secondary" id="buy">Payer</button>
 

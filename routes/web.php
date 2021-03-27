@@ -105,6 +105,7 @@ Route::post('/reset_password', [App\Http\Controllers\HomeController::class, 'res
 
 Route::get('/add_product', [App\Http\Controllers\SellerController::class, 'showAddProductForm'])->name('add_product');
 Route::post('/add_product', [App\Http\Controllers\SellerController::class, 'addProduct'])->name('add_product.post');
+Route::post('/delete_product/{id}', [App\Http\Controllers\SellerController::class, 'deleteProduct'])->name('delete_product.post');
 
 
 /*Route::get('/contact', function () {
@@ -123,7 +124,7 @@ Route::post('/orderCart', [App\Http\Controllers\CartController::class, 'contact'
 
 
 
-Route::get('/sellerProducts/{sellerId}', [App\Http\Controllers\SellerController::class, 'productsOfSeller'])->where('sellerId', '[0-9]+')->name('sellerProducts');
+Route::get('/sellerProducts/{sellerId}', [App\Http\Controllers\SellerController::class, 'productsOfSeller'])->where('sellerId', '[0-9]+')->name('productOfSeller');
 Route::post('/sellerProducts/{productId}', [App\Http\Controllers\SellerController::class, 'updateStock'])->where('productId', '[0-9]+')->name('stock.update');
 
 /*Route::get('/contact', function () {
@@ -135,6 +136,10 @@ Route::post('/sellerProducts/{productId}', [App\Http\Controllers\SellerControlle
       ]);
 });*/
 Route::get('search_product/', [App\Http\Controllers\HomeController::class, 'search'])->name('searchProduct');
+Route::get('searchProductOfSeller/{sellerId}', [App\Http\Controllers\HomeController::class, 'searchInStore'])->where('sellerId', '[0-9]+')->name('searchProductInStore');
+Route::get('searchProductInCategory/{categoryId}', [App\Http\Controllers\HomeController::class, 'searchInCategory'])->where('categoryId', '[0-9]+')->name('searchProductInCategory');
+
+
 
 Route::get('faq', [App\Http\Controllers\HomeController::class, 'faq']);
 
@@ -152,3 +157,5 @@ Route::post('payement', [App\Http\Controllers\CheckOutController::class, 'store'
 Route::get('/merci', function(){
     return view('payement_success');
 });
+
+Route::get('/sellerPage', [App\Http\Controllers\SellerController::class, 'showSellerPage'])->name('sellerPage.show');

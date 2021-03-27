@@ -157,281 +157,191 @@ a {
   color:rgba(119, 126, 127, 0.452);
 }
   
-body{
-      font-family: 'Roboto', sans-serif;
-  }
-  a{
-      text-decoration: none;
-  }
-  .product-card {
-    display: inline-block;
-      width: 380px;
-      position: relative;
-      box-shadow: 0 2px 7px #dfdfdf;
-      margin: 50px auto;
-      background: #fafafa;
-      text-align: center;
-  }
+* {
+	box-sizing: border-box;
+}
+
+.wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-family: Montserrat;
+	background: transparent;
+	width: 100%;
+	height: 100vh;
   
-  .badge {
-      /*position: absolute;*/
-      left: 0;
-      top: 20px;
-      text-transform: uppercase;
-      font-size: 13px;
-      font-weight: 700;
-      background: green;
-      color: #fff;
-      padding: 3px 10px;
-  }
   
-  .product-tumb {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 300px;
-      padding: 50px;
-      background: #f0f0f0;
-  }
+}
+
+.outer {
+	position: relative;
+	background: #fff;
+	height: 600px;
+	width: 900px;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+  transition: 0.3s ease-out;
+   box-shadow: 0 3px 15px rgba(0, 0, 0, 0.7); 
+   /*margin-left: 110px;*/
+   margin : 0 auto 0 110px;
+   
+}
+
+/*img {
+	position: absolute;
+	top: 190px;
+	right:  30px;
   
-  .product-tumb img {
-      max-width: 100%;
-      max-height: 100%;
-  }
+	z-index: 0;
+	animation-delay: 0.5s;
+}*/
+
+.imgtomate{
+  position: absolute;
+	top: 190px;
+	right:  90px;
   
-  .product-details {
-      padding: 30px;
-  }
-  
-  .product-catagory {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: #ccc;
-      margin-bottom: 18px;
-  }
-  
-  .product-details h4 a {
-      font-weight: 500;
-      display: block;
-      margin-bottom: 18px;
-      text-transform: uppercase;
-      color: #363636;
-      text-decoration: none;
-      transition: 0.3s;
-  }
-  
-  .product-details h4 a:hover {
-      color: #fbb72c;
-  }
-  
-  .product-details p {
-      font-size: 15px;
-      line-height: 22px;
-      margin-bottom: 18px;
-      color: #999;
-  }
-  
-  .product-bottom-details {
-      overflow: hidden;
-      border-top: 1px solid #eee;
-      padding-top: 20px;
-      text-align: center  ;
-  }
-  
-  .product-bottom-details div {
-      float: left;
-      width: 50%;
-      text-al;
-      
-  }
-  
-  .product-price {
-      font-size: 30px;
-      color: #fbb72c;
-      font-weight: 400;
-      text-align: center;
-     
-  }
-  
-  .product-price small {
-      font-size: 80%;
-      font-weight: 400;
-      text-decoration: line-through;
-      display: inline-block;
-      margin-right: 5px;
-  }
-  
-  .product-links {
-      text-align: right;
-  }
-  
-  .product-links a {
-      display: inline-block;
-      margin-left: 5px;
-      color: #e1e1e1;
-      transition: 0.3s;
-      font-size: 17px;
-  }
-  
-  .product-links a:hover {
-      color: #fbb72c;
-  }
+	z-index: 0;
+	animation-delay: 0.5s;
 
-  .box1{
-           
-           display: inline-block;
-           text-align: center;
-           position: absolute;
-           
-           
-           
-           
-       }
-       .p1{
-            background-color: transparent;
-           height: 350px;
-           width: 500px;
-           text-align: center;
-           padding: 15px;
-           border: 1px solid black;
-           margin: 30px;
-           
+}
 
-       }
-       .box2{
-           
-           display: inline-block;
-           text-align: center;
-           margin-left: 600px;
-          
-           
-           
-       }
-       .p2{
-           background-color: transparent;
-           display: block;
-           height: 150px;
-           width: 400px;
-           text-align: center;
-           padding: 15px;
-           border: 1px solid black;
-           margin: 30px;
-           
-           
-           
-       }
-       .p3{
-           background-color: transparent;
-           display: block;
-           height: 150px;
-           width: 400px;
-           text-align: center;
-           padding: 15px;
-           border: 1px solid black;
-           margin: 30px;
-           
-           
-           
-       }
+.content {
+	animation-delay: 0.3s;
+	position: relative;
+	left: 20px;
+	z-index: 3;
+  text-align: center;
+  margin : 0 auto 0 110px;
+}
 
-       .box3{
-            
-           display: block;
-           text-align: center;
-           float: right;
-           margin-right: 300px;
-           margin: 30px;
-          
-           
-           
+h1 {
+	color: #111;
+}
 
-       }
+p {
+	width: 350  px;
+	font-size: 13px;
+	line-height: 1.4;
+	color: #aaa;
+	margin: 20px 0;
+	
+}
 
-       .div1{
-           background-color: transparent;
-           display: block;
-           height: 100px;
-           width: 350px;
-           text-align: center;
-           padding: 15px;
-           border: 1px solid black;
-           
+.bg {
+	display: inline-block;
+	color: #fff;
+	background: rgb(30, 236, 99);
+	padding: 5px 10px;
+	border-radius: 50px;
+	font-size: 4em;
+  align-items : center;
+}
+.button {
+	width: fit-content;
+	height: fit-content;
+	margin-top: 10px;
+  margin-left: 150px;
+	
+	
+	
+}
 
-       }
+.button a {
+	display: inline-block;
+	overflow: hidden;
+	position: relative;
+	font-size: 20px;
+	color: #111;
+	text-decoration: none;
+	padding: 10px 15px;
+	border: 1px solid #aaa;
+	font-weight: bold;
+  background: rgb(30, 236, 99);
+	
+	
+}
 
-       .div2{
-           background-color: transparent;
-           display: block;
-           height: 100px;
-           width: 350px;
-           text-align: center;
-           padding: 15px;
-           border: 1px solid black;
-           
+.button a:after{
+	content: "";
+	position: absolute;
+	top: 0;
+	right: -10px;
+	width: 0%;
+	background: #111;
+	height: 100%;
+	z-index: -1;
+	transition: width 0.3s ease-in-out;
+	transform: skew(-25deg);
+	transform-origin: right;
+}
 
-       }
+.button a:hover:after {
+	width: 150%;
+	left: -10px;
+	transform-origin: left;
+	
+}
 
-       .div3{
-           background-color: transparent;
-           display: block;
-           height: 100px;
-           width: 350px;
-           text-align: center;
-           padding: 15px;
-           border: 1px solid black;
-           
+.button a:hover {
+	color: #fff;
+	transition: all 0.5s ease;
+}
 
-       }
+
+.button a:nth-of-type(1) {
+	border-radius: 50px 0 0 50px;
+	border-right: none;
+}
+
+.button a:nth-of-type(2) {
+	border-radius: 0px 50px 50px 0;
+}
+
+.cart-icon {
+	padding-right: 8px;
+	
+}
 
 
 
-       
-       .box4{
-           background-color: transparent;
-           width: 800px;
-           height: 250px;
-           margin-left: 40px;
-           padding: 15px;
-           border: 1px solid black;
-           display: block;
-     margin: 30px;
-       }
+.boxe1{
 
-       /*-----------------button----------------*/
+    background-color: transparent;
+    height: 60px;
+    width: 500px;
+    text-align: center;
+    padding: 15px;
+    border: dashed black;
+    
+}
+.vendeur{
+  display: inline-block;
+  border: solid red;
+	background: #fff;
+	height: 600px;
+	width: 400px;
+	overflow: hidden;
 
-               .styled {
-                   border: solid;
-                   height: 100px;
-                   width: 350px;
-               }
-               .styled {
-           
-           line-height: 2.5;
-           padding: 0 20px;
-           font-size: 1rem;
-           text-align: center;
-           color: #fff;
-           text-shadow: 1px 1px 1px #000;
-           border-radius: 10px;
-           background-color: rgb(155, 228, 177);
-           background-image: linear-gradient(to top left,
-                                           rgba(0, 0, 0, .2),
-                                           rgba(0, 0, 0, .2) 30%,
-                                           rgba(0, 0, 0, 0));
-           box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6),
-                       inset -2px -2px 3px rgba(0, 0, 0, .6);
-       }
+	align-items: center;
+  transition: 0.3s ease-out;
+   box-shadow: 0 3px 15px rgba(0, 0, 0, 0.7); 
+   margin-left: 10px;
 
-       .styled:hover {
-           background-color: rgb(14, 9, 9);
-       }
-
-       .styled:active {
-           box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
-                       inset 2px 2px 3px rgba(0, 0, 0, .6);
-       }
+}
+.imageV{
+  height: 400px;
+  width: 400px; 
+  display: block;
+  border: rgba(0, 0, 0, 0.7) solid;
+}
+.Descr{
+  height: 200px;
+  width: 400px;
+  border: rgba(0, 0, 0, 0.7) solid;
+  padding: 5px;
+}
 	</style>
 
 
@@ -473,7 +383,79 @@ body{
         </nav>
    
     </div>
+
 @foreach($products as $product)
+    <div class="wrapper">
+  <div class="vendeur"> 
+    <div class="imageV">
+      <img  src="img_avatar5.png" alt="" width="400px" height="400px">
+    </div>
+    <div class="Descr">
+      <h2><center>{{$product->storename}}</center></h2>
+      <h3> Adresse :{{$product->sellernumstreet}} {{$product->sellernamestreet}} </h3>
+      <h3> Téléphone : {{$product->sellerphone}}</h3>
+      <h3> Description :{{$product->sellerdescription}}</h3>
+    </div>
+    
+  </div>
+
+  
+
+
+	<div class="outer">
+		<div class="content animated fadeInLeft">
+			<span class="bg animated fadeInDown">Légumes</span>
+      
+			<h1> {{$product->productname}}</h1>
+      <div>
+  <img  src="{{asset('storage/images/'.$product->productimage)}}" alt="image" width="250px"   class="animated fadeInRight">
+
+  </div>
+      
+			<p>{{$product->productinfo}}</p>
+
+      <form class="d-flex justify-content-between align-items-center mr-1" action="{{route('cart.add', ['id'=>$product->productid])}}" method="POST" id="add_cart">
+                      @csrf
+                      <label for="quantity"></label>
+                      <input type="number" value="1" class="form-control" id="quantity" name="quantity" min="0">
+                      @if (session()->has('alluser'))
+                
+                        <button type="submit" form="add_cart" class="btn btn-sm btn-outline-secondary"><img class="img_header" src="{{asset('images/'.'panier.png')}}" alt="panier" height="30" width="30" /></button>
+              
+                      @else 
+                        <a href="{{route('seller.login')}}"><img class="img_header" src="{{asset('images/'.'panier.png')}}" alt="panier" height="38" width="39" /></a> 
+                      @endif
+                    </form>
+			
+			<div class="button">
+				<a href="#">{{$product->productprice}}€</a><a class="cart-btn" href="#">Ajouter au panier</a>
+			</div>
+			
+		</div>
+    <div class="imgtomate">
+		
+  </div>
+	</div>
+	
+</div>
+@endforeach
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- @foreach($products as $product)
     <div class="box1">
            <p class="p1"> <img src="{{asset('storage/images/'.$product->productimage)}}" alt="image"></p>
         </div>
@@ -509,11 +491,8 @@ body{
                     </form>
                   </div>
             </div>
-            <!--
-            <div class="div3">
-                <button class="styled"> Ajouter au Panier</button>
-            </div>
-            -->
+            
+            
 
          </div> 
 
@@ -524,6 +503,7 @@ body{
             
          </article>
          @endforeach
+         -->
 <!--
     @foreach($products as $product)
   <div class="product-card">
@@ -606,7 +586,7 @@ body{
      </div>
      @endforeach -->
 
-     <body>
+     
         
 @endsection
 
@@ -621,55 +601,4 @@ body{
 
       
   </body>
-
-  @foreach($products as $product)
-    <div class="box1">
-           <p class="p1"> <img src="{{asset('storage/images/'.$product->productimage)}}" alt="image"></p>
-        </div>
-        <div class="box2">
-            <p class="p2"> 
-            <a href="{{route('product',['id'=>$product->productid])}}"> {{ $product->productname}} </a>
-            </p>
-
-            <p class="p3"> 
-            {{ $product->productinfo}}
-            </p>
-
-         </div>  
-
-         <div class="box3">
-            <div class="div1"> 
-            {{ $product->productprice}}
-            </div>
-
-            <div class="div2"> 
-            <div>
-                    <form class="d-flex justify-content-between align-items-center mr-1" action="{{route('cart.add', ['id'=>$product->productid])}}" method="POST" id="add_cart">
-                      @csrf
-                                            @if (session()->has('alluser'))
-                
-                      <div class="div3">
-                <button class="styled"> Ajouter au Panier</button>
-            </div>              
-                      @else 
-                        <a href="{{route('seller.login')}}"><img class="img_header" src="{{asset('images/'.'panier.png')}}" alt="panier" height="38" width="39" /></a> 
-                      @endif
-                    </form>
-                  </div>
-            </div>
-            <!--
-            <div class="div3">
-                <button class="styled"> Ajouter au Panier</button>
-            </div>
-            -->
-
-         </div> 
-
-         <article class="box4">
-             <h1><center><a href="{{route('showProductOfSeller',['id'=>$product->sellerid])}}">{{ $product->storename}}</a></center></h1>
-             <h2> Adresse : {{ $product->sellernumstreet}} {{$product->sellernamestreet}}</h2>
-             <h2> Téléphone : {{ $product->sellerphone}}</h2>
-            
-         </article>
-         @endforeach
 </html>

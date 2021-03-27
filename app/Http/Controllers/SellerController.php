@@ -100,7 +100,7 @@ class SellerController extends Controller
         $sellerId= $request->session()->get('alluser')['allusersellerid'];
 
         $this->repository->updateStock($id, $request->stock);
-        return redirect()->route('sellerProducts', ['sellerId'=>session()->get('alluser')['allusersellerid']]);
+        return redirect()->route('productOfSeller', ['sellerId'=>session()->get('alluser')['allusersellerid']]);
         
     }
 
@@ -174,6 +174,18 @@ class SellerController extends Controller
         /*$people = People::all();
         Mail::to($people)->send(new Contact(request()->all()));*/
     }
+
+    public function showSellerPage(){
+        return view('sellers/sellerPage');
+    }
+
+    public function deleteProduct(Request $request){
+
+        $this->repository->deleteProduct($request->id);
+        return redirect()->back();
+      
+    }
+
 
 
 
