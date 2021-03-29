@@ -65,14 +65,6 @@ class HomeController extends Controller
         
         // pour la pagination
         
-<<<<<<< HEAD
-        /* $details= DB::table('detail_products as d')
-        ->join('sellers as s','s.id', 'd.sellerId')
-        ->join('products as p', 'p.id', 'd.productId')
-        ->select('s.storename as store','s.id as sellerId', 'p.*', 'd.stock')
-        ->orderBy('p.price')
-        ->paginate(9);*/
-=======
          /*$details= DB::table('detail_products as d')
         ->join('sellers as s','s.sellerid', 'd.sellerid')
         ->join('products as p', 'p.productid', 'd.productid')
@@ -120,7 +112,6 @@ class HomeController extends Controller
         ->join('products as p', 'p.productid', 'd.productid')
         ->select('s.storename as store','s.sellerid as sellerId', 'p.*')
         ->paginate(10);*/
->>>>>>> 5c63bfcad738a0f823907f277ecc1193f864a760
         
         return view('home',compact('products','categories', 'sellers', 'detailproducts', 'details'));
     }
