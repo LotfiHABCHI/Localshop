@@ -100,10 +100,11 @@ class CartController extends Controller
                 return redirect()->back()->withErrors("Qauntite de " . $product['name'] ." insuffisante");
             }
         }
-            $order=$this->repository->addOrder($date, $count, $total, $customerId );
+        $status=1;
+            $order=$this->repository->addOrder($date, $count, $total, $customerId);
 
         foreach($content as $product) {
-            $detailOrder=$this->repository->addDetailOrder($order, $product['id'], $product['quantity']);
+            $detailOrder=$this->repository->addDetailOrder($order, $product['id'], $product['quantity'], $status);
             //dd($product['quantity']);
 
             $this->repository->updateStock($product['id'], $newStock);

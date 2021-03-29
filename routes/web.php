@@ -24,6 +24,10 @@ Auth::routes(); // créée automatiquement par le paquet d'authentification de l
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'productsOrderedByPrice'])->name('orderedProducts');
+Route::get('/home1', [App\Http\Controllers\HomeController::class, 'productsOrderedByDate'])->name('orderedProductsByDate');
+
 //Route::get('/products', [App\Http\Controllers\HomeController::class, 'products'])->name('products');
 
 

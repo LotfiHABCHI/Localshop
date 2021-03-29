@@ -20,6 +20,7 @@ class CreateOrdersTable extends Migration
             $table->Integer('orderquantity'); 
             $table->double('orderprice');
             $table->Integer('customerid')->unsigned(); 
+            //$table->Integer('status');
             $table->timestamps();
             //$table->primary('orderid');
             $table->foreign('customerid')->references('customerid')->on('customers');

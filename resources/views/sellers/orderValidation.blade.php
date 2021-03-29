@@ -35,7 +35,7 @@ id.disabled = "disabled";
         </td>
 
         <td>
-            Prix
+            Quantité
         </td>
         <td>
             Valider
@@ -43,7 +43,8 @@ id.disabled = "disabled";
     </tr>
     <!-- i=0 -->
 @foreach ($orders as $order)
-                        
+                       
+                           
 <!-- i++ -->
 
                     <tr>
@@ -63,22 +64,28 @@ id.disabled = "disabled";
                         </td>
 
                         <td>
-                            {{$order->productid}}
+                            {{$order->productname}}
                         </td>
 
                         <td>
-                            {{$order->productprice}}
+                            {{$order->orderproductquantity}}
                         </td>
                         
                         <td> 
-                        <form method="POST" action="{{route('orderValidate.post', ['id'=>$order->customerid])}}" onsubmit="desactiver(i)">
+                        @if($order->status==1)
+                        <form method="POST" action="{{route('orderValidate.post', ['orderid'=>$order->orderid, 'customerid'=>$order->customerid, 'productid'=>$order->productid])}}" >
                             @csrf 
                                 <button id=i type="submit" class="btn btn-primary" >Valider</button>
                             </form>
+                        @else
+                            <button id=i type="submit" class="btn btn-secondary" disabled="disabled" >Validée</button>
+                        @endif
+
                         </td>
                                     
                              
                     </tr>
+                   
  @endforeach
             </table>
 

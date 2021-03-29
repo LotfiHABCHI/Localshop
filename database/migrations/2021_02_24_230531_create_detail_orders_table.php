@@ -19,6 +19,7 @@ class CreateDetailOrdersTable extends Migration
            $table->Integer('orderid')->unsigned();
             $table->Integer('productid')->unsigned(); 
             $table->Integer('orderproductquantity');
+            $table->Integer('status');
            // $table->foreign('orderid')->references('orderid')->on('orders')->onDelete('cascade');
            $table->foreign('orderid')->references('orderid')->on('orders')->onDelete('cascade');
             

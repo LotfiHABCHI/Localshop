@@ -306,6 +306,44 @@ class Repository
         ->toArray();
         return $prods;
     }
+
+    function productsOrderedByPrice() : array
+    { //Affiche les infos des produits
+        
+        //SELECT sellers.storename, products.*
+        //FROM ((sellers s JOIN detail_products d ON s.id=d.sellerId)
+        //JOIN products p ON p.id=d.productId)
+        
+
+        $prods = DB::table('detail_products as d')
+        ->join('sellers as s','s.sellerid', 'd.sellerid')
+        ->join('products as p', 'p.productid', 'd.productid')
+        ->join('categories as c', 'c.categoryid', 'p.categoryid')
+        ->select('s.storename as store','s.sellerid as sellerId', 'p.*', /*'d.stock'*/ 'p.productquantity', 'c.categoryname as category')
+        ->orderBy('productprice')
+        ->get()
+        ->toArray();
+        return $prods;
+    }
+
+    function productsOrderedByDate() : array
+    { //Affiche les infos des produits
+        
+        //SELECT sellers.storename, products.*
+        //FROM ((sellers s JOIN detail_products d ON s.id=d.sellerId)
+        //JOIN products p ON p.id=d.productId)
+        
+
+        $prods = DB::table('detail_products as d')
+        ->join('sellers as s','s.sellerid', 'd.sellerid')
+        ->join('products as p', 'p.productid', 'd.productid')
+        ->join('categories as c', 'c.categoryid', 'p.categoryid')
+        ->select('s.storename as store','s.sellerid as sellerId', 'p.*', /*'d.stock'*/ 'p.productquantity', 'c.categoryname as category')
+        ->orderBy('productid', 'desc')
+        ->get()
+        ->toArray();
+        return $prods;
+    }
     
 
     function ordersOfCustomer($id) : array
@@ -626,14 +664,14 @@ class Repository
     }
 
 
-    function addOrder(DateTime $orderdate, int $orderquantity, float $price, int $customerId ) : int
+    function addOrder(DateTime $orderdate, int $orderquantity, float $price, int $customerId) : int
     {
         return DB::table('orders')->insertGetId(['orderdate'=> $orderdate, 'orderquantity'=>$orderquantity , 'orderprice'=> $price, 'customerid'=> $customerId ]);    
     }
 
-    function addDetailOrder(int $orderId, int $productId, int $quantity ) : int
+    function addDetailOrder(int $orderId, int $productId, int $quantity, int $status ) : int
     {
-        return DB::table('detail_orders')->insertGetId(['orderid'=> $orderId, 'productid'=> $productId, 'orderproductquantity'=> $quantity]);    
+        return DB::table('detail_orders')->insertGetId(['orderid'=> $orderId, 'productid'=> $productId, 'orderproductquantity'=> $quantity, 'status'=>$status]);    
     }
 
     function updateStock(int $productId, int $newQuantity)
@@ -708,10 +746,11 @@ class Repository
         ->join('detail_orders as do', 'do.productid', 'dp.productid')
         ->join('orders as o', 'o.orderid', 'do.orderid')
         ->join('products as p', 'p.productid', 'dp.productid')
+       // ->where('do.status', 1)
         ->where('sellers.sellerid', $sellerId)
         ->orderBy('orderdate')
         ->groupBy('o.orderid', 'o.customerid', 'o.orderdate', 'dp.productid', 'p.productprice')
-        ->select('o.orderid', 'o.customerid', 'o.orderdate', 'dp.productid', 'p.productprice')
+        ->select('o.*', 'dp.productid', 'p.productprice', 'do.*', 'p.productname')
         ->get()
         ->toArray();
     }
@@ -737,6 +776,10 @@ class Repository
     public function getInfos($sellerId) : array // plus utilisée
     {
        return  DB::table('sellers')->where('sellerid', $sellerId)->select('sellers.*')->get()->toArray();
+    }
+
+    public function setStatus($orderId, $productId){
+        DB::table('detail_orders')->where('orderid', $orderId)->where('productid', $productId)->update(['status'=>0]);
     }
     
 

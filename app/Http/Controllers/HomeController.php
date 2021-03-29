@@ -73,6 +73,49 @@ class HomeController extends Controller
         
         return view('home',compact('products','categories', 'sellers', 'detailproducts', 'details'));
     }
+
+    public function productsOrderedByPrice()
+    {
+        $sellers = Sellers::all();
+        $categories = Categories::all();
+        $detailproducts = DetailProducts::all();
+        $products=Products::all();
+        
+        $details= $this->repository->productsOrderedByPrice();
+        //$role=$this->repository->getRole('customer');
+        
+        // pour la pagination
+        
+         /*$details= DB::table('detail_products as d')
+        ->join('sellers as s','s.sellerid', 'd.sellerid')
+        ->join('products as p', 'p.productid', 'd.productid')
+        ->select('s.storename as store','s.sellerid as sellerId', 'p.*')
+        ->paginate(10);*/
+        
+        return view('home',compact('products','categories', 'sellers', 'detailproducts', 'details'));
+    }
+
+    public function productsOrderedByDate()
+    {
+        $sellers = Sellers::all();
+        $categories = Categories::all();
+        $detailproducts = DetailProducts::all();
+        $products=Products::all();
+        
+        $details= $this->repository->productsOrderedByDate();
+        //$role=$this->repository->getRole('customer');
+        
+        // pour la pagination
+        
+         /*$details= DB::table('detail_products as d')
+        ->join('sellers as s','s.sellerid', 'd.sellerid')
+        ->join('products as p', 'p.productid', 'd.productid')
+        ->select('s.storename as store','s.sellerid as sellerId', 'p.*')
+        ->paginate(10);*/
+        
+        return view('home',compact('products','categories', 'sellers', 'detailproducts', 'details'));
+    }
+    
     
 
     public function products(int $id)

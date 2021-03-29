@@ -154,19 +154,24 @@ class SellerController extends Controller
        // $order=$request->orderid;
         //dd($order);
         //dd(request()->all());
-        $customerid=request()->id;
+        //dd(request()->all());
+        $orderId=request()->orderid;
+        $customerId=request()->customerid;
+        $productId=request()->productid;
         //dd($customerid);
        /* $contact=request()->validate([
             'name'=> 'required', 
             'email' => 'required',
             'message' => 'required'
         ]);*/
-        
-        $customerMail=DB::table('customers')->where('customerid',$customerid)->select('customeremail')->get();
+        //$orderId=DB::table('orders')->where('customerid', $customerid)->select('orderid')->get()->toArray();
+       //dd($orderId);
+        //dd($orderId);
+        $customerMail=DB::table('customers')->where('customerid',$customerId)->select('customeremail')->get();
             //dd($customerMail);
         Mail::to($customerMail[0]->customeremail)
             ->send(new OrderReady());
-
+        $this->repository->setStatus($orderId, $productId);
         return redirect()->back();
           
             

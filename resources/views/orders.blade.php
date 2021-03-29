@@ -8,7 +8,7 @@
             <thead>
                 <tr>
                     <th>N° de Commande</th>
-                    <th>Nbre</th>
+                    <th>Nombre d'articles</th>
                     <th>Montant</th>
                     <th>Date</th>
                 </tr>

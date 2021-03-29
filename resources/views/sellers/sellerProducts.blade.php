@@ -216,7 +216,7 @@ a {
   <div class="human">
 
     <p class="seller_title">{{ $seller[0]->storename }}</p>
-    <img src="">
+    <img src="{{asset('storage/images/'.$seller[0]->sellerimage)}}">
     <div class="nb_item">
    
     </div>

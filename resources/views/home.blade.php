@@ -157,7 +157,7 @@ body{
   .product-card {
    
     display: inline-block;
-      width: 280px;
+      width: 250px;
       position: relative;
       box-shadow: 0 2px 7px #dfdfdf;
       margin: 50px auto;
@@ -178,6 +178,7 @@ body{
   }
   .product-card{
     border-radius: 25px;
+    margin : 5px;
   }
   
   .product-tumb {
@@ -275,9 +276,223 @@ body{
   .product-links a:hover {
       color: #fbb72c;
   }
-    </style>
 
+  
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+
+      #toutemap{
+        
+      
+        margin : 20px auto 20px auto;
+      }
+     #map {
+      
+     
+      
+       height: 500px;
+       width :100%;
+     }
+
+     /* Optional: Makes the sample page fill the window. */
+     html,
+     body {
+       height: 100%;
+       margin: 0;
+       padding: 0;
+     }
+
+     #description {
+       font-family: Roboto;
+       font-size: 15px;
+       font-weight: 300;
+     }
+
+     #infowindow-content .title {
+       font-weight: bold;
+     }
+
+     #infowindow-content {
+       display: none;
+     }
+
+     #map #infowindow-content {
+       display: inline;
+     }
+
+     .pac-card {
+       margin: 10px 10px 0 0;
+       border-radius: 2px 0 0 2px;
+       box-sizing: border-box;
+       -moz-box-sizing: border-box;
+       outline: none;
+       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+       background-color: #fff;
+       font-family: Roboto;
+       z-index : 1000;
+     }
+
+     #pac-container {
+       padding-bottom: 12px;
+       margin-right: 12px;
+     }
+
+     .pac-controls {
+       
+       display: inline-block;
+       padding: 5px 11px;
+     
+     }
+
+     .pac-controls label {
+       font-family: Roboto;
+       font-size: 13px;
+       font-weight: 300;
+     }
+
+     #pac-input {
+       background-color: #fff;
+       font-family: Roboto;
+       font-size: 15px;
+       font-weight: 300;
+       margin-left: 12px;
+       padding: 0 11px 0 13px;
+       text-overflow: ellipsis;
+       width: 400px;
+     }
+
+     #pac-input:focus {
+       border-color: #4d90fe;
+     }
+
+     #title { 
+       color: #fff;
+       background-color: #4d90fe;
+       font-size: 25px;
+       font-weight: 500;
+       padding: 6px 12px;
+     }
+
+     .sort{
+       display : inline-block;
+     }
+    </style>
     
+
+<script>
+      // This example requires the Places library. Include the libraries=places
+      // parameter when you first load the API. For example:
+      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+      function initMap() {
+        const map = new google.maps.Map(document.getElementById("map"), {
+          center: { lat:  43.3, lng: 5.4 },
+          zoom: 13,
+        });
+        const card = document.getElementById("pac-card");
+        const input = document.getElementById("pac-input");
+        const biasInputElement = document.getElementById("use-location-bias");
+        const strictBoundsInputElement = document.getElementById(
+          "use-strict-bounds"
+        );
+        const options = {
+          componentRestrictions: { country: "fr" },
+          fields: ["formatted_address", "geometry", "name"],
+          origin: map.getCenter(),
+          strictBounds: false,
+          types: ["establishment"],
+        };
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+        const autocomplete = new google.maps.places.Autocomplete(
+          input,
+          options
+        );
+        // Bind the map's bounds (viewport) property to the autocomplete object,
+        // so that the autocomplete requests use the current map bounds for the
+        // bounds option in the request.
+        autocomplete.bindTo("bounds", map);
+        const infowindow = new google.maps.InfoWindow();
+        const infowindowContent = document.getElementById("infowindow-content");
+        infowindow.setContent(infowindowContent);
+        const marker = new google.maps.Marker({
+          map,
+          anchorPoint: new google.maps.Point(0, -29),
+        });
+        autocomplete.addListener("place_changed", () => {
+          infowindow.close();
+          marker.setVisible(false);
+          const place = autocomplete.getPlace();
+
+          if (!place.geometry || !place.geometry.location) {
+            // User entered the name of a Place that was not suggested and
+            // pressed the Enter key, or the Place Details request failed.
+            window.alert(
+              "No details available for input: '" + place.name + "'"
+            );
+            return;
+          }
+
+          // If the place has a geometry, then present it on a map.
+          if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+          } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(17);
+          }
+          marker.setPosition(place.geometry.location);
+          marker.setVisible(true);
+          infowindowContent.children["place-name"].textContent = place.name;
+          infowindowContent.children["place-address"].textContent =
+            place.formatted_address;
+          infowindow.open(map, marker);
+        });
+
+        // Sets a listener on a radio button to change the filter type on Places
+        // Autocomplete.
+        function setupClickListener(id, types) {
+          const radioButton = document.getElementById(id);
+          radioButton.addEventListener("click", () => {
+            autocomplete.setTypes(types);
+            input.value = "";
+          });
+        }
+        setupClickListener("changetype-all", []);
+        setupClickListener("changetype-address", ["address"]);
+        setupClickListener("changetype-establishment", ["establishment"]);
+        setupClickListener("changetype-geocode", ["geocode"]);
+        biasInputElement.addEventListener("change", () => {
+          if (biasInputElement.checked) {
+            autocomplete.bindTo("bounds", map);
+          } else {
+            // User wants to turn off location bias, so three things need to happen:
+            // 1. Unbind from map
+            // 2. Reset the bounds to whole world
+            // 3. Uncheck the strict bounds checkbox UI (which also disables strict bounds)
+            autocomplete.unbind("bounds");
+            autocomplete.setBounds({
+              east: 180,
+              west: -180,
+              north: 90,
+              south: -90,
+            });
+            strictBoundsInputElement.checked = biasInputElement.checked;
+          }
+          input.value = "";
+        });
+        strictBoundsInputElement.addEventListener("change", () => {
+          autocomplete.setOptions({
+            strictBounds: strictBoundsInputElement.checked,
+          });
+
+          if (strictBoundsInputElement.checked) {
+            biasInputElement.checked = strictBoundsInputElement.checked;
+            autocomplete.bindTo("bounds", map);
+          }
+          input.value = "";
+        });
+      }
+    </script>
+
+
   </head>
   <body>
     
@@ -293,6 +508,52 @@ body{
 <main>
 
 <!--<div class="container">  -->
+
+<div id="toutemap">
+  <div class="pac-card" id="pac-card">
+      <div>
+        <div id="title">Nos commerçants</div>
+          <div id="type-selector" class="pac-controls">
+            <input
+              type="radio"
+              name="type"
+              id="changetype-all"
+              checked="checked"
+            />
+            <label for="changetype-all">Tous</label>
+
+            <input type="radio" name="type" id="changetype-establishment" />
+            <label for="changetype-establishment">Etablissements</label>
+
+            <input type="radio" name="type" id="changetype-address" />
+            <label for="changetype-address">Adresses</label>
+
+            <input type="radio" name="type" id="changetype-geocode" />
+            <label for="changetype-geocode">Geocodes</label>
+          </div>
+          <br />
+          <div id="strict-bounds-selector" class="pac-controls">
+            <input type="checkbox" id="use-location-bias" value="" checked />
+            <label for="use-location-bias"> Rayon </label>
+ <!--          <input type="range" id="use-location-bias" value="" />
+          <label for="use-location-bias">Bias to map viewport</label> -->
+
+            <input type="checkbox" id="use-strict-bounds" value="" />
+            <label for="use-strict-bounds">Limites</label>
+          </div>
+      </div>
+      <div id="pac-container">
+        <input id="pac-input" type="text" placeholder="Entrez une adresse" />
+      </div>
+    </div>
+    <div id="map"></div>
+    
+    <div id="infowindow-content">
+      <span id="place-name" class="title"></span><br />
+      <span id="place-address"></span>
+    </div>
+
+</div>
   
 <div class="core">
 
@@ -328,20 +589,26 @@ body{
               {{ $message }}
             </div>
           @enderror
+          <button type="submit" class="btn btn-tertiary">&#x1F50D;</button>
         </div>
-        <button type="submit" class="btn btn-primary">Rechercher</button>
+        
+      </form>
+    </div>
+<br>
+    <div class="sort">
+      <form method="GET" action="{{route('orderedProducts')}}">
+      @csrf
+        <button type="submit" class="btn btn-secondary"  >Trier par prix croissant</button>
+      </form>
+
+      <form method="GET" action="{{route('orderedProductsByDate')}}">
+      @csrf
+        <button type="submit" class="btn btn-secondary"  >Trier du plus récent au plus ancien</button>
       </form>
     </div>
 
-<form naem="sortProducts" id="sortProducts" >
-@csrf
-<label>Trier par</label>
-  <select name="sort" id="sort">
-    <option value="lowestFirst">Prix croissant</option>
-  </select>
 
-</form>
-   
+
   
  
     
@@ -390,7 +657,9 @@ body{
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
 <script src= "{{asset('resources/js/bootstrap.bundle.min.js')}}"  integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-
+<script async
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcj3fV0REAoMd7Q5gFJxYE-TWigPH_aeU&libraries=places&callback=initMap&v=weekly">
+        </script>
       
   </body>
 </html>
