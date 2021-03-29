@@ -95,16 +95,19 @@ class CartController extends Controller
             if($newStock<0){
                 return redirect()->back()->withErrors("Stock de " . $product['name'] ." insuffisant");
             }
-
+        }
             $order=$this->repository->addOrder($customerId, $total, $date);
 
-            $detailOrder=$this->repository->addDetailOrder($product['id'], $order, $product['quantity']);
+            foreach($content as $product) {
+                $detailOrder=$this->repository->addDetailOrder($product['id'], $order, $product['quantity']);
+                $this->repository->updateStock($product['id'], $newStock);
+
+            }
             //dd($product['quantity']);
 
            
 
-            $this->repository->updateStock($product['id'], $newStock);
-        }
+        
 
         //dd($detailOrder);
 

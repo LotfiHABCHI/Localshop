@@ -62,14 +62,14 @@ class HomeController extends Controller
         $details= $this->repository->productInfos();
         
         // pour la pagination
-        /*
-         $details= DB::table('detail_products as d')
+        
+        /* $details= DB::table('detail_products as d')
         ->join('sellers as s','s.id', 'd.sellerId')
         ->join('products as p', 'p.id', 'd.productId')
         ->select('s.storename as store','s.id as sellerId', 'p.*', 'd.stock')
         ->orderBy('p.price')
-        ->paginate(10);
-        */
+        ->paginate(9);*/
+        
         return view('home',compact('products','categories', 'sellers', 'detailproducts', 'details'));
     }
     
