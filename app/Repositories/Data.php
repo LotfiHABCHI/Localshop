@@ -93,4 +93,11 @@ class Data extends Model
             ['orderId'=>4, 'prodId'=>1, 'quantity'=>1],
         ];
     }
+
+    function roles(){
+        return [
+            ['roleid'=>1, 'rolename'=>'seller'],
+            ['roleid'=>2, 'rolename'=>'customer'],
+        ];
+    }
 }

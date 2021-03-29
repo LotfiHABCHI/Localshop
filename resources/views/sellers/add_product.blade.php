@@ -164,7 +164,7 @@ a {
 
 
         <hr>
-        @if( session()->get('people')['role'] ==2)
+        @if( session()->get('alluser')['roleid'] ==1)
         <div class="form_core">
           <form class="form" method="POST" action="{{route('add_product.post')}}" enctype="multipart/form-data">
 	      @csrf 
@@ -217,7 +217,7 @@ a {
 
       <select class="form-control" id="category" name="category">
       @foreach($categories as $category)
-          <option value="{{$category['id']}}" > {{ $category['name'] }} </option>
+          <option value="{{$category['categoryid']}}" > {{ $category['categoryname'] }} </option>
       @endforeach
       </select>
     </div>  

@@ -17,12 +17,12 @@ class CreateDetailProductsTable extends Migration
         //$table->id();
             //$table->bigIncrements('id');
            
-            $table->unsignedBigInteger('productId');
-            $table->unsignedBigInteger('sellerId'); 
-            $table->Integer('stock');
-            $table->foreign('sellerId')->references('id')->on('sellers')->onDelete('cascade');
-            $table->foreign('productId')->references('id')->on('products')->onDelete('cascade');
-            $table->primary(['sellerId', 'productId']);
+            $table->Integer('productid');
+            $table->Integer('sellerid'); 
+           // $table->Integer('stock');
+            $table->foreign('sellerid')->references('sellerid')->on('sellers')->onDelete('cascade');
+            $table->foreign('productid')->references('productid')->on('products')->onDelete('cascade');
+            $table->primary('productid');
         });
         
     }

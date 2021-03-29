@@ -11,7 +11,7 @@
 	@endif
 	<div class="form-group">
 		<label for="email">E-mail</label>
-      <input type="email" id="email" name="email" value="{{old('email')}}"
+      <input type="email" id="email" name="email" value="  {{ session()->get('alluser')['alluseremail'] }}"
              aria-describedby="email_feedback" class="form-control @error('email') is-invalid @enderror"> 
       @error('email')
       <div id="email_feedback" class="invalid-feedback">

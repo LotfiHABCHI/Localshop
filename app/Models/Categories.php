@@ -12,12 +12,12 @@ class Categories extends Model
     function categories()
     {
         return [
-            ['id'=>1, 'name'=>'fruits', 'image'=>"fruits2.jpg"],
-            ['id'=>2, 'name'=>'legumes', 'image'=>"legumes.jpg"],
-            ['id'=>3, 'name'=>'boulangerie', 'image'=>"boulangeries.jpg"],
-            ['id'=>4, 'name'=>'viandes', 'image'=>"viandes.jpg"],
-            ['id'=>5, 'name'=>'boissons', 'image'=>"boissons.jpg"],
-            ['id'=>6, 'name'=>'vins', 'image'=>"vins2.jpg"],
+            ['categoryid'=>1, 'categoryname'=>'fruits', 'categoryimage'=>"fruits2.jpg"],
+            ['categoryid'=>2, 'categoryname'=>'legumes', 'categoryimage'=>"legumes.jpg"],
+            ['categoryid'=>3, 'categoryname'=>'boulangerie', 'categoryimage'=>"boulangeries.jpg"],
+            ['categoryid'=>4, 'categoryname'=>'viandes', 'categoryimage'=>"viandes.jpg"],
+            ['categoryid'=>5, 'categoryname'=>'boissons', 'categoryimage'=>"boissons.jpg"],
+            ['categoryid'=>6, 'categoryname'=>'vins', 'categoryimage'=>"vins2.jpg"],
         ];
     }
 }

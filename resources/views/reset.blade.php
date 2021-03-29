@@ -9,6 +9,12 @@
 		Votre mot de passe n'a pas été modifié &#9785;
 	</div>
 	@endif
+
+  @if(session('success'))
+    <div>{{session('success')}}
+    </div>
+    @endif
+
 	<div class="form-group">
 		<label for="email">E-mail</label>
       <input type="email" id="email" name="email" value="{{old('email')}}"

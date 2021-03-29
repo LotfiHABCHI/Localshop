@@ -24,6 +24,10 @@ Auth::routes(); // créée automatiquement par le paquet d'authentification de l
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'productsOrderedByPrice'])->name('orderedProducts');
+Route::get('/home1', [App\Http\Controllers\HomeController::class, 'productsOrderedByDate'])->name('orderedProductsByDate');
+
 //Route::get('/products', [App\Http\Controllers\HomeController::class, 'products'])->name('products');
 
 
@@ -70,6 +74,7 @@ Route::post('/cart/clear', [App\Http\Controllers\CartController::class, 'clear']
 Route::post('/test', [App\Http\Controllers\HomeController::class, 'test']);
 Route::view('test', 'test');
 
+Route::get('/test', [App\Http\Controllers\HomeController::class, 'showProductsinfos']);
 
 
 Route::get('/customer_register', [App\Http\Controllers\CustomerController::class, 'showRegisterForm'])->name('customer_register');
@@ -104,6 +109,7 @@ Route::post('/reset_password', [App\Http\Controllers\HomeController::class, 'res
 
 Route::get('/add_product', [App\Http\Controllers\SellerController::class, 'showAddProductForm'])->name('add_product');
 Route::post('/add_product', [App\Http\Controllers\SellerController::class, 'addProduct'])->name('add_product.post');
+Route::post('/delete_product/{id}', [App\Http\Controllers\SellerController::class, 'deleteProduct'])->name('delete_product.post');
 
 
 /*Route::get('/contact', function () {
@@ -122,7 +128,7 @@ Route::post('/orderCart', [App\Http\Controllers\CartController::class, 'contact'
 
 
 
-Route::get('/sellerProducts/{sellerId}', [App\Http\Controllers\SellerController::class, 'productsOfSeller'])->where('sellerId', '[0-9]+')->name('sellerProducts');
+Route::get('/sellerProducts/{sellerId}', [App\Http\Controllers\SellerController::class, 'productsOfSeller'])->where('sellerId', '[0-9]+')->name('productOfSeller');
 Route::post('/sellerProducts/{productId}', [App\Http\Controllers\SellerController::class, 'updateStock'])->where('productId', '[0-9]+')->name('stock.update');
 
 /*Route::get('/contact', function () {
@@ -134,5 +140,26 @@ Route::post('/sellerProducts/{productId}', [App\Http\Controllers\SellerControlle
       ]);
 });*/
 Route::get('search_product/', [App\Http\Controllers\HomeController::class, 'search'])->name('searchProduct');
+Route::get('searchProductOfSeller/{sellerId}', [App\Http\Controllers\HomeController::class, 'searchInStore'])->where('sellerId', '[0-9]+')->name('searchProductInStore');
+Route::get('searchProductInCategory/{categoryId}', [App\Http\Controllers\HomeController::class, 'searchInCategory'])->where('categoryId', '[0-9]+')->name('searchProductInCategory');
+
+
 
 Route::get('faq', [App\Http\Controllers\HomeController::class, 'faq']);
+
+
+Route::post('/sellerProducts/{sellerId}', [App\Http\Controllers\SellerController::class, 'editDescription'])->where('sellerId', '[0-9]+')->name('desc.edit');
+Route::post('/sellerProducts', [App\Http\Controllers\SellerController::class, 'editDescription'])->name('desc.edit');
+
+Route::get('/orderValidation', [App\Http\Controllers\SellerController::class, 'orderValidation'])->name('orderValidate'); 
+Route::post('/orderValidation', [App\Http\Controllers\SellerController::class, 'contact'])->name('orderValidate.post'); 
+
+
+/*route checkout payement*/
+Route::get('payement', [App\Http\Controllers\CheckOutController::class, 'index'])->name('checkout.index');
+Route::post('payement', [App\Http\Controllers\CheckOutController::class, 'store'])->name('checkout.store');
+Route::get('/merci', function(){
+    return view('payement_success');
+});
+
+Route::get('/sellerPage', [App\Http\Controllers\SellerController::class, 'showSellerPage'])->name('sellerPage.show');

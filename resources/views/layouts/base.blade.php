@@ -133,10 +133,10 @@ a {
     <div class="header">
         <div id="co">
        
-        @if (session()->has('people'))
+        @if (session()->has('alluser'))
        
 
-        Salut {{ session()->get('people')['firstname'] }}
+        Salut {{ session()->get('alluser')['alluserfirstname'] }}
 
 
         <ul class="navbar-nav ml-auto">
@@ -155,9 +155,9 @@ a {
                             </a>
                            
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            @if( session()->get('people')['role'] ==2)
+                            @if( session()->get('alluser')['roleid'] ==1)
                             <a class="dropdown-item" 
-                            href="{{route('sellerProducts', ['sellerId'=>session()->get('people')['sellerId']])}}">
+                            href="{{route('productOfSeller', ['sellerId'=>session()->get('alluser')['allusersellerid']])}}">
                                         {{ __('Mon compte') }}
                                 </a>
                                 @else
@@ -165,12 +165,15 @@ a {
                             href="#">
                                         {{ __('Mon compte') }}
                                   @endif
-                                @if( session()->get('people')['role'] ==2)
+                                @if( session()->get('alluser')['roleid'] ==1)
                                 <a class="dropdown-item" href="{{ route('add_product') }}">
                                         {{ __('Ajouter un produit') }}
                                 </a>
+                                <a class="dropdown-item" href="{{ route('orderValidate') }}">
+                                        {{ __('Mes commandes') }}
+                                </a>
                                     @else
-                                    <a class="dropdown-item"  href="{{route('order',  ['customerId'=>session()->get('people')['customerId']] )}}">
+                                    <a class="dropdown-item"  href="{{route('order',  ['customerId'=>session()->get('alluser')['allusercustomerid']] )}}">
                                         {{ __('Mes commandes') }}
                                 </a>
                                 @endif
@@ -208,7 +211,7 @@ a {
         </div>
 
         <div id="panier">
-        @if (session()->has('people'))
+        @if (session()->has('alluser'))
            
                 <a href="{{route('cart.index')}}"><img class="img_header" src="{{asset('images/'.'panier.png')}}" alt="panier" height="38" width="39" /> </a>
              

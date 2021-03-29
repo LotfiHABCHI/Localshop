@@ -1,6 +1,4 @@
 @extends('layouts.base')
-
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -9,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.80.0">
-    <title> {{$cat[0]->categoryname}} - Localshop </title> 
+    <title>{{ $products[0]->storename }}</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
 
@@ -42,6 +40,7 @@
           font-size: 3.5rem;
         }
       }
+
       *, ::before, ::after {
   box-sizing: border-box;
   margin: 0;
@@ -60,7 +59,6 @@ h1 {
     font-size: 40px;
     color:rgb(57, 58, 58);
 }
-
 
 
 
@@ -88,26 +86,10 @@ h1 {
   display: flex;
 }
 
-
-
-
-
-
 hr{
   width:100%;
   color: rgb(57, 58, 58);
 }
-
-.core hr{
-  width:50%;
-  color: rgb(57, 58, 58);
-  margin: 0 auto 0 auto;
-}
-
-
-
-
-
 
 .footer_hr{
   width:100%;
@@ -115,8 +97,67 @@ hr{
   margin-top: 3%;
 }
 
+
+.core{
+  height: 70%;
+}
+
+
+
+.category li{
+  display: inline-block;
+  height: 12%;
+  width: 12%;
+}
+
+
+
+
+.seller{
+  display: flex;
+  border: solid 2px red;
+}
+
+.human{
+  display: inline-block;
+  border: solid 2px blue;
+  margin:1%;
+  width: 40%;
+  height: auto;
+}
+
+.seller_title{
+  font-size: 25px;
+  text-align: center;
+  color: rgb(57, 58, 58);
+}
+
+.item{
+  display: inline-block;
+  border: solid 2px green;
+  margin:1%;
+  width: 100%;
+  height: auto;
+}
+
+.nb_item{
+  border: solid 2px yellow;
+  margin:1%;
+  height: auto;
+}
+
+.seller_description{
+  text-align: justify;
+  color: rgb(57, 58, 58);
+}
+
+
+
+
+
 .footer{
   display: flex;
+  padding: 2%;
 }
 
 #propos, #faq, #mention, #contact, #cci{
@@ -162,39 +203,26 @@ a {
   </head>
   <body>
     
-@section('content')
+
 
 <main>
+@section('content')
 
-<div class="core">
-  <div id="core_category">
-      <nav class="nav d-flex justify-content-between"> 
-      
-        @foreach ($categories as $category)
-            <div class="col-1">
-                <article >
-                      <a href="{{route('showProductsOfCategory',['id'=>$category->categoryid])}}"> <img class="card-img-top" src="{{asset('images/'.$category->categoryimage)}}"></a> 
-                </article>
-                
-            </div>   
-          @endforeach
-      </nav>
-    </div>
-</div>
-
-<div classe="search"> 
-      <form method="GET" action="{{route('searchProductInCategory', ['categoryId'=>$products[0]->categoryid])}}"> 
-      @csrf
-      @if ($errors->any())
+@if ($errors->any())
 	<div class="alert alert-warning">
-	Ce vendeur ne propose pas de {{old('searchInCategory')}} &#9785;
+	Ce vendeur ne propose pas de {{old('searchInStore')}} &#9785;
 	</div>
 	@endif
+
+
+<div classe="search"> 
+      <form action="{{route('searchProductInStore',  ['sellerId'=>$products[0]->sellerid])}}" >
+      @csrf
         <div class="form-group">
-            <input type="searchInCategory" id="searchInCategory" name="searchInCategory" value="{{old('searchInCategory')}}"
-                  aria-describedby="searchInCategory_feedback" class="form-control @error('searchInCategory') is-invalid @enderror"> 
-            @error('searchInCategory')
-            <div id="searchInCategory_feedback" class="invalid-feedback">
+            <input type="search" id="searchInStore" name="searchInStore" value="{{old('searchInStore')}}"
+                  aria-describedby="searchInStore_feedback" class="form-control @error('searchInStore') is-invalid @enderror"> 
+            @error('searchInStore')
+            <div id="searchInStore_feedback" class="invalid-feedback">
               {{ $message }}
             </div>
           @enderror
@@ -203,59 +231,86 @@ a {
       </form>
     </div>
 
-  <div class="album py-5 bg-light">
-    <div class="container">
+
+<div class="container">
+  
+
+<div id="core_category">
+    <nav class="nav d-flex justify-content-between"> 
+      
+      @foreach ($categories as $category)
+          <div class="col-1">
+              <article >
+                     <a href="{{route('showProductsOfCategory',['id'=>$category->categoryid])}}"> <img class="card-img-top" src="{{asset('images/'.$category->categoryimage)}}"></a> 
+              </article>
+          </div>   
+        @endforeach
+      </nav>
+    </div>
+</div>
+
+<div class="seller">
+  <div class="human">
+
+    <p class="seller_title">{{ $products[0]->storename }}</p>
+    <img src="">
+    <div class="nb_item">
     
+    </div>
+    <p class="seller_description">Bonjour, je vends des supers legumes Bonjour, je vends des supers legumes Bonjour, je vends des supers legumes</p>
+  
+  </div>
+ 
+  <div class="item" class="album py-5 bg-light"> <!-- ici ça ne prend que la 2eme class -->
+
+    <div class="container-fluid">
       <div class="row row-cols ">
-      
-      
-      @foreach($products as $product)
+      @foreach ($products as $product)
+      <div class="card shadow-sm">
+      <img class="card-img-top" src="{{asset('storage/images/'.$product->productimage)}}" >
 
-        <div class="col-md-2">
-
-          <div class="card mb-4 shadow-sm">
-          <a href="{{route('showProductOfSeller',['id'=>$product->sellerid])}}">{{ $product->storename}}</a>
-          <img class="card-img-top" src="{{asset('storage/images/'.$product->productimage)}}" >
             <div class="card-body">
-              <h5> <a href="{{route('product',['id'=>$product->productid])}}">{{ $product->productname}}<a></h5>
-              <p> {{ $product->productinfo}}</p>
-            
-             
-
-              <p>{{ number_format($product->productprice,2) }}€</p>
+              <p class="card-text"><a href="{{route('product',['id'=>$product->productid])}}">{{ $product->productname }} <a> </p>
+              {{ number_format($product->productprice,2) }}€
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
+                
+                <form  action="{{route('cart.add', ['id'=>$product->productid])}}" method="POST" id="add_cart">
+                @csrf
+                <label for="quantity"> </label>
+                <input type="number" value="1" class="form-control" id="quantity" name="quantity" min="0">
+                </form>
+
                 </div>
-               
               </div>
             </div>
           </div>
-        </div>
-        @endforeach
+
+
+            
+          @endforeach
+          
       </div>
     </div>
   </div>
+  
 </div>
+
 </main>
+
 @endsection
 
 
+      
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
 
     <script src= "{{asset('resources/js/bootstrap.bundle.min.js')}}"  integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 
       
   </body>
 </html>
-
-
-
-
-
-
-
-
-
-
 
 
 

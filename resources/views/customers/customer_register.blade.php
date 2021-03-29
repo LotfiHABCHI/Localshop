@@ -297,6 +297,16 @@ a {
       </div>
       @enderror
             </div>
+
+            <div class="formGroupe">
+              <label for="phone">phone</label>
+              <input type="text" id="phone" name="phone" value="{{old('phone')}}" required>
+              @error('phone')
+      <div id="phone_feedback" class="invalid-feedback">
+        {{ $message }}
+      </div>
+      @enderror
+            </div>
            
             <div class="formGroupe">
               <label for="numstreet">Numéro de rue</label>

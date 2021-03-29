@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 
 use App\Models\Categories;
 use App\Models\Products;
@@ -60,18 +61,70 @@ class HomeController extends Controller
         $products=Products::all();
         
         $details= $this->repository->productInfos();
+        //$role=$this->repository->getRole('customer');
         
         // pour la pagination
         
+<<<<<<< HEAD
         /* $details= DB::table('detail_products as d')
         ->join('sellers as s','s.id', 'd.sellerId')
         ->join('products as p', 'p.id', 'd.productId')
         ->select('s.storename as store','s.id as sellerId', 'p.*', 'd.stock')
         ->orderBy('p.price')
         ->paginate(9);*/
+=======
+         /*$details= DB::table('detail_products as d')
+        ->join('sellers as s','s.sellerid', 'd.sellerid')
+        ->join('products as p', 'p.productid', 'd.productid')
+        ->select('s.storename as store','s.sellerid as sellerId', 'p.*')
+        ->paginate(10);*/
         
         return view('home',compact('products','categories', 'sellers', 'detailproducts', 'details'));
     }
+
+    public function productsOrderedByPrice()
+    {
+        $sellers = Sellers::all();
+        $categories = Categories::all();
+        $detailproducts = DetailProducts::all();
+        $products=Products::all();
+        
+        $details= $this->repository->productsOrderedByPrice();
+        //$role=$this->repository->getRole('customer');
+        
+        // pour la pagination
+        
+         /*$details= DB::table('detail_products as d')
+        ->join('sellers as s','s.sellerid', 'd.sellerid')
+        ->join('products as p', 'p.productid', 'd.productid')
+        ->select('s.storename as store','s.sellerid as sellerId', 'p.*')
+        ->paginate(10);*/
+        
+        return view('home',compact('products','categories', 'sellers', 'detailproducts', 'details'));
+    }
+
+    public function productsOrderedByDate()
+    {
+        $sellers = Sellers::all();
+        $categories = Categories::all();
+        $detailproducts = DetailProducts::all();
+        $products=Products::all();
+        
+        $details= $this->repository->productsOrderedByDate();
+        //$role=$this->repository->getRole('customer');
+        
+        // pour la pagination
+        
+         /*$details= DB::table('detail_products as d')
+        ->join('sellers as s','s.sellerid', 'd.sellerid')
+        ->join('products as p', 'p.productid', 'd.productid')
+        ->select('s.storename as store','s.sellerid as sellerId', 'p.*')
+        ->paginate(10);*/
+>>>>>>> 5c63bfcad738a0f823907f277ecc1193f864a760
+        
+        return view('home',compact('products','categories', 'sellers', 'detailproducts', 'details'));
+    }
+    
     
 
     public function products(int $id)
@@ -82,7 +135,7 @@ class HomeController extends Controller
         //select * from produits where id=?
        //$product = Products::find($request->id); 
        $products=$this->repository->product($id);    
-       $productName=DB::table('products')->where('id',$id)->select('name')->get(); //a mettre plutot dans une fct dans le repository peut etre
+       $productName=DB::table('products')->where('productid',$id)->select('productname')->get(); //a mettre plutot dans une fct dans le repository peut etre
 
         return view('products',compact('products','categories', 'productName'));
     }
@@ -139,12 +192,13 @@ class HomeController extends Controller
     {
         $detail_orders = DetailOrders::all();
         $customers = Customers::all();
-        $orders = Orders::find(request()->customerId);
+        //$orders = Orders::find(request()->customerId);
 
         $details= $this->repository->ordersOfCustomer($customerid);
         //dd($details);
         //dd($details, $orders);
-        return view('orders',compact('orders', 'details'));
+        
+        return view('orders',compact(/*'orders',*/ 'details'));
     }
 
 
@@ -184,7 +238,7 @@ class HomeController extends Controller
         
         //$products = Products::where('catId',$request->id)->get();
         $products=$this->repository->detailProductsOfCategory($id);
-        $cat=DB::table('categories')->where('id',$id)->select('name')->get(); //a mettre plutot dans une fct dans le repository peut etre
+        $cat=DB::table('categories')->where('categoryid',$id)->select('categoryname')->get(); //a mettre plutot dans une fct dans le repository peut etre
         //dd($cat);
         return view('categories',compact('products', 'categories', 'cat'));
     }
@@ -199,14 +253,20 @@ class HomeController extends Controller
         //FROM ((sellers s JOIN detail_products d ON s.id=d.sellerId)
         //JOIN products p ON p.id=d.productId)
         //WHERE s.id=$id?
-
+       
+        //dd($seller);
         $sellers = Sellers::all();
         $categories = Categories::all();
         $products = DetailProducts::all();
         $details= $this->repository->productsOfSeller($id);
         //dd($details[1]->productId);
         $count=$this->repository->productCount($id);
-        //dd($details);
+       // dd($details);
+        /*if(session()->has('alluser')){
+            $sellerId=request()->session()->get('alluser')['allusersellerid'];
+            $seller=$this->repository->getInfos($sellerId);
+        }
+        else $seller=$details;*/
 
         return view('sellers/sellers', ['details'=>$details, 'categories'=>$categories, 'products'=>$products, 'sellers'=>$sellers, 'count'=>$count] );
 
@@ -221,6 +281,7 @@ class HomeController extends Controller
         //WHERE s.id=$id?
 
         $sellers = Sellers::all();
+        
 
         // SELECT * FROM produits WHERE catId= ?
         //$products = DetailProducts::where('sellerId',$request->id)->get();
@@ -245,18 +306,20 @@ class HomeController extends Controller
     public function sellerRegister(Request $request, Repository $repository)
     {
         $rules = [
+            'firstname' => ['required'], 
             'lastname' => ['required'], 
-            'firstname' => ['required'],  
             'email' => ['required', 'email'],
             'phone' => ['required'], 
-            'password' => ['required'], 
-            'passwordConfirm'=>['required'],
+            'siret' => ['required'],
             'numstreet' => ['required'], 
             'namestreet' => ['required'],
             'postcode'=>['required'],
             'city'=>['required'],
             'storename' => ['required'], 
-            'siret' => ['required'], 
+            'image'=>['required'],
+            'description'=>['required'],
+            'password' => ['required'], 
+            'passwordConfirm'=>['required']
 
         ];
         $messages = [
@@ -273,6 +336,9 @@ class HomeController extends Controller
             'city.required' => 'Vous devez saisir une ville.',
             'storename.required' => 'Vous devez saisir le nom de votre enseigne.',
             'siret.required' => 'Vous devez saisir votre numéro SIRET.',
+            'image.required' => 'Vous devez saisir une image.',
+            'description.required' => 'Vous devez saisir une description.',
+
         ];
 
         
@@ -288,12 +354,22 @@ class HomeController extends Controller
         $city = $validatedData['city'];
         $storename = $validatedData['storename'];
         $siret = $validatedData['siret'];
+        $image = $validatedData['image'];
+        $description = $validatedData['description'];
+
+
+        if($request->hasFile('image')){
+            //$request->file('image');
+            $fileName=$request->image->getClientOriginalName();
+            $request->image->storeAs('images', $fileName, 'public');
+            
+        }
 
 
         if($validatedData['password']==$validatedData['passwordConfirm']){
             try {
-                $this->repository->addSeller($lastname, $firstname, $email, $phone, $password, $numstreet, $namestreet, $postcode, $city, $storename, $siret); 
-                 $request->session()->put('people', $this->repository->getPeople($email, $password));
+                $this->repository->addSeller($firstname, $lastname, $email,  $password, $phone, $siret, $numstreet, $namestreet, $postcode, $city, $storename, $fileName, $description ); 
+                 $request->session()->put('alluser', $this->repository->getAlluser($email, $password));
                 
             } catch (Exception $e) {
                 return redirect()->back()->withInput()->withErrors("Impossible de vous inscrire.");
@@ -316,7 +392,7 @@ class HomeController extends Controller
     public function changePassword(Request $request,Repository $repository)
     {
         $rules = [
-            'email' => ['required', 'email', 'exists:people,email'],
+            'email' => ['required', 'email', 'exists:allusers,alluseremail'],
             'old_password' => ['required'],
             'new_password' => ['required'],
             'new_passwordConfirm' => ['required'],
@@ -334,7 +410,7 @@ class HomeController extends Controller
         if($validatedData['new_password']==$validatedData['new_passwordConfirm']){
             try {
 
-                $user=$this->repository->getPeople($email, $validatedData['old_password']);
+                $user=$this->repository->getAlluser($email, $validatedData['old_password']);
 
                 $user=$this->repository->changePassword($email,$validatedData['old_password'], $validatedData['new_password'] );
             
@@ -355,7 +431,7 @@ class HomeController extends Controller
     public function login(Request $request, Repository $repository)
     {
         $rules = [
-        'email' => ['required', 'email', 'exists:people,email'],
+        'email' => ['required', 'email', 'exists:allusers,alluseremail'],
             'password' => ['required']
         ];
         $messages = [
@@ -369,8 +445,8 @@ class HomeController extends Controller
         $email = $validatedData['email'];
         try {
             //$this->repository->connectValide($email);
-            $infos=$request->session()->put('people', $this->repository->getPeople($email, $validatedData['password']));
-            $info= $request->session()->get('people');
+            $infos=$request->session()->put('alluser', $this->repository->getAlluser($email, $validatedData['password']));
+            $info= $request->session()->get('alluser');
            //dd($info);
 
         } catch (Exception $e) {
@@ -396,20 +472,20 @@ class HomeController extends Controller
 
         //dd(request()->all());
         $rules = [
-            'email' => ['required', 'email', 'exists:people,email'],
+            'email' => ['required', 'email', 'exists:allusers,alluseremail'],
         ];
             $validatedData = $request->validate($rules);
             $email = $validatedData['email'];
         Mail::to($email)
             ->send(new resetPassword());
-            return back()->withText("Message envoyé");
+            return back()->with(['success'=>"Un lien de réinitialisation a été envoyé à votre adresse e-mail"]);
 
     }
 
     public function resetPassword(Request $request, Repository $repository)
     {//réinitialisation du mot de passe
         $rules = [
-            'email' => ['required', 'email', 'exists:people,email'],
+            'email' => ['required', 'email', 'exists:allusers,alluseremail'],
             'new_password' => ['required'],
             'new_passwordConfirm' => ['required'],
         ];
@@ -454,7 +530,7 @@ class HomeController extends Controller
             ]);
             Mail::to('localshop@localshop.com')
                 ->send(new Contact($contact));
-                return back()->withText("Message envoyé");
+                return back()->with(['success'=>"Votre message a bien été envoyé"]);
 
             //pour envoyer un msg aux people
             /*$people = People::all();
@@ -468,13 +544,111 @@ class HomeController extends Controller
             $sellers = Sellers::all();
             $categories = Categories::all();
             $detailproducts = DetailProducts::all();
-       
+            
             //$search=request()->input('search');
             $products = $this->repository->search();
+            //dd(request()->all());
             //dd($products);
-            return view('search_product', compact('products', 'sellers', 'categories', 'products'));
+            //dd(request()->all());
+            $sellerId=request()->id;
+            
+            //dd(request()->all());
+            return view('search_product', compact('products', 'sellers', 'categories'));
         }
 
+        public function searchInStore()
+        {
+           // $categories = Categories::all();
+
+            $sellers = Sellers::all();
+            $categories = Categories::all();
+            $detailproducts = DetailProducts::all();
+            //$count=$this->repository->productCount($id);
+            $sellerId=request()->sellerId;
+
+            $store=Sellers::where('sellerid',$sellerId)->get()->toArray();// [$sellerId]['storename'];
+            //dd($sellerId, $store[0]['storename']);
+            
+                $products = $this->repository->searchInStore($sellerId);
+           
+
+            if(count($products)==0){
+               
+                return  redirect()->back()->withInput()->withErrors(' $store[0]["storename"] ne vend pas de ça.'); # ou l'appel d'une fonction ou méthode qui peut lever une exception
+            }
+            //dd($sellerId);
+            
+            //dd(request()->all());
+            return view('searchProductOfSeller', compact('products', 'sellers', 'categories', 'store' ));
+        }
+
+        public function searchInCategory()
+        {
+           // $categories = Categories::all();
+
+            $sellers = Sellers::all();
+            $categories = Categories::all();
+            $detailproducts = DetailProducts::all();
+            //$count=$this->repository->productCount($id);
+           // $sellerId=request()->sellerId;
+            $categoryId=request()->categoryId;
+            //dd($categoryId);
+            //dd($sellerId, $categoryId);
+            //$cat=Categories::where('categoryid',$categoryid)->get()->toArray();// [$sellerId]['storename'];
+            //dd($sellerId, $store[0]['storename']);
+            
+                $products = $this->repository->searchInCategory($categoryId);
+           
+            //dd($products);
+            if(count($products)==0){
+               
+                return  redirect()->back()->withInput()->withErrors(' $store[0]["storename"] ne vend pas de ça.'); # ou l'appel d'une fonction ou méthode qui peut lever une exception
+            }
+            //dd($sellerId);
+            
+            
+            //dd(request()->all());
+            return view('searchProductInCategory', compact('products', 'sellers', 'categories' ));
+        }
+
+        /*public function productview( Request $request){
+
+            $productid=$request->productid;
+            $price=explode("-", $request->price);
+            $start=$price[0];
+            $end=$price[1];
+            if($productid="" && $price!="")
+            {
+                $data=DB::table('products')
+                //->join('cats', 'cats.id' , 'products.cats_id')
+                ->where('products.productid, $productid')
+                ->where('products.productprice',">=", $start)
+                ->where('products.productprice', " <=",$end)
+                ->get();
+        
+        
+            }else if($productid!=""){
+                $data =DB::table('products')
+                //->join('cats', 'cats.id' , 'products.cats_id')
+                ->where('products.productid, $productid')
+                ->get();
+        
+        
+            }else if($price!=""){
+                $data=DB::table('products')
+                ->where('products.productprice',">=", $start)
+                ->where('products.productprice', "<=", $end)
+                ->get();
+            }
+        
+
+            if(count($data)==0){
+                echo"<h1>on a rien trouvé</h1>";
+            }else{
+        
+            return view('home',['data'=>$data, 'catByuser'=>$data[0]->cat_name]);
+            }
+        }*/
     
 
 

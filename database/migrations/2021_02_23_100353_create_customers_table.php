@@ -14,17 +14,19 @@ class CreateCustomersTable extends Migration
     public function up()
     {
         Schema::create('customers', function (Blueprint $table) {
-            $table->id();
-             
-            $table->string('lastname')->nullable();
-            $table->string('firstname')->nullable();
-            $table->string('email')->unique();
+           // $table->id();
+            $table->increments('customerid');
+            $table->string('customerfirstname');
+            $table->string('customerlastname');
+            $table->string('customeremail')->unique();
             $table->string('password');
-            $table->Integer('numstreet')->nullable();
-            $table->string('namestreet')->nullable();
-            $table->Integer('postcode')->nullable();
-            $table->string('city')->nullable();
-            $table->foreign('postcode')->references('cp')->on('postCodes')->onDelete('cascade');
+            $table->string('customerphone');
+            $table->Integer('customernumstreet');
+            $table->string('customernamestreet');
+            $table->Integer('cp');
+            $table->string('city');
+            //$table->primary('customerid');
+            $table->foreign('cp')->references('cp')->on('postcodes')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -17,11 +17,13 @@ class Sellers extends Authenticatable
     function sellers()
     {
         return [
-            ['id'=>1, 'lastname'=>'Nouioua', 'firstname'=>'Karim', 'email'=>'karim@gmail.com',"phone"=>'0660504080', "password"=>"abcdefgh","numstreet"=>12, "namestreet"=>"avenue de luminy", "postcode"=>13009, "city"=>"luminy", "storename"=>"JAVAstore", 'siret'=>1213141312],
-            ['id'=>2, 'lastname'=>'Estellon', 'firstname'=>'Bertrand', 'email'=>'bertrand@gmail.com','phone'=>'0630504070', "password"=>" ","numstreet"=>71, "namestreet"=>"rue de lagny", "postcode"=>13002, "city"=>"luminy", "storename"=>"WEBstore", 'siret'=>0102030405],
-            ['id'=>3, 'lastname'=>'Mari', 'firstname'=>'Jean', 'email'=>'jean@gmail.com','phone'=>'0656435897', "password"=>" ","numstreet"=>135, "namestreet"=>"avenue des godeaux", "postcode"=>13010, "city"=>"luminy", "storename"=>"UNIXstore", 'siret'=>7475767778],
-            ['id'=>4, 'lastname'=>'Beguet', 'firstname'=>'Florian', 'email'=>'florian@gmail.com', 'phone'=>'0656432548', "password"=>" ","numstreet"=>81, "namestreet"=>"avenue des champs", "postcode"=>13012, "city"=>"luminy", "storename"=>"ALLstore", 'siret'=>1213141516],
+            ['sellerid'=>1,  'sellerfirstname'=>'Karim', 'sellerlastname'=>'Nouioua', 'selleremail'=>'karim@gmail.com',  "password"=>" ", "sellerphone"=>'0660504080', 'siret'=>1213141312, "sellernumstreet"=>12, "sellernamestreet"=>"avenue de luminy", "cp"=>13009, "city"=>"luminy", "storename"=>"JAVAstore", "sellerimage"=> " ", "sellerdescription"=>" je vends de bonnes choses" ],
+            ['sellerid'=>2,  'sellerfirstname'=>'Bertrand', 'sellerlastname'=>'Estellon', 'selleremail'=>'bertrand@gmail.com', "password"=>" ", 'sellerphone'=>'0630504070', 'siret'=>0102030405, "sellernumstreet"=>71, "sellernamestreet"=>"rue de lagny", "cp"=>13002, "city"=>"luminy", "storename"=>"WEBstore", "sellerimage"=> " ", "sellerdescription"=>" je vends de bonnes choses" ],
+            ['sellerid'=>3,  'sellerfirstname'=>'Jean', 'sellerlastname'=>'Mari', 'selleremail'=>'jean@gmail.com', "password"=>" ", 'sellerphone'=>'0656435897', 'siret'=>7475767778, "sellernumstreet"=>135, "sellernamestreet"=>"avenue des godeaux", "cp"=>13010, "city"=>"luminy", "storename"=>"UNIXstore", "sellerimage"=> " ", "sellerdescription"=>" je vends de bonnes choses" ],
+            ['sellerid'=>4,  'sellerfirstname'=>'Florian', 'sellerlastname'=>'Beguet', 'selleremail'=>'florian@gmail.com', "password"=>" ",  'sellerphone'=>'0656432548', 'siret'=>1213141516, "sellernumstreet"=>81, "sellernamestreet"=>"avenue des champs", "cp"=>13012, "city"=>"luminy", "storename"=>"ALLstore", "sellerimage"=> " ", "sellerdescription"=>" je vends de bonnes choses" ],
         ];
+
+      
     }
     /**
      * The attributes that are mass assignable.

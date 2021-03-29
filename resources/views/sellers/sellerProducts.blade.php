@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.80.0">
-    <title>{{ $products[0]->storename }}</title>
+    <title>{{ $seller[0]->storename }}</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
 
@@ -115,15 +115,15 @@ hr{
 
 .seller{
   display: flex;
-border: solid 2px red;
+  border: solid 2px red;
 }
 
 .human{
   display: inline-block;
-border: solid 2px blue;
-margin:1%;
-width: 40%;
-height: auto;
+  border: solid 2px blue;
+  margin:1%;
+  width: 40%;
+  height: auto;
 }
 
 .seller_title{
@@ -134,16 +134,16 @@ height: auto;
 
 .item{
   display: inline-block;
-border: solid 2px green;
-margin:1%;
-width: 100%;
-height: auto;
+  border: solid 2px green;
+  margin:1%;
+  width: 100%;
+  height: auto;
 }
 
 .nb_item{
-border: solid 2px yellow;
-margin:1%;
-height: auto;
+  border: solid 2px yellow;
+  margin:1%;
+  height: auto;
 }
 
 .seller_description{
@@ -211,13 +211,14 @@ a {
   
 
 
+
 <div class="seller">
   <div class="human">
 
-    <p class="seller_title">{{ $products[0]->storename }}</p>
-    <img src="">
+    <p class="seller_title">{{ $seller[0]->storename }}</p>
+    <img src="{{asset('storage/images/'.$seller[0]->sellerimage)}}">
     <div class="nb_item">
-   {{$count}} produits
+   
     </div>
     <p class="seller_description">Bonjour, je vends des supers legumes Bonjour, je vends des supers legumes Bonjour, je vends des supers legumes</p>
   
@@ -227,34 +228,44 @@ a {
 
     <div class="container-fluid">
       <div class="row row-cols ">
-      @foreach ($products as $detail)
+      @foreach ($products as $product)
+
+      
       <div class="card shadow-sm">
-      <img class="card-img-top"  src="{{asset('storage/images/'.$detail->image)}}">
+      <form id="delete" method="POST" action="{{route('delete_product.post',['id'=>$product->productid])}}" >
+         @csrf
+          <input id="inputDelete" value="&#10060" type="submit">
+        </form>
+      <img class="card-img-top" src="{{asset('storage/images/'.$product->productimage)}}" >
 
             <div class="card-body">
-              <p class="card-text"><a href="{{route('product',['id'=>$detail->id])}}">{{ $detail->name }} ({{$detail->id}})<a> </p>
-              {{ number_format($detail->price,2) }}€
+              <p class="card-text"><a href="{{route('product',['id'=>$product->productid])}}">{{ $product->productname }} <a> </p>
+              {{ number_format($product->productprice,2) }}€
               <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">                
-                  <form action="{{ route('stock.update', $detail->id) }}" method="POST" id="stock_update">
+                <div class="btn-group">
+<form action="{{ route('stock.update', $product->productid) }}" method="POST" id="stock_update">
                     @csrf
-                      <input class="form-control" name="stock" type="number" style="height: 2rem" min="1" max="99" value="{{ $detail->stock }}">
+                      <input class="form-control" name="stock" type="number" style="height: 2rem" min="1" max="99" value="{{ $product->productquantity }}">
                       <button class="btn btn-sm btn-outline-tertiary" id="stock_update"> &#10004 </button>                  
-                  </form>   
+                  </form> 
+                
+               
+
                 </div>
               </div>
             </div>
           </div>
 
+
+            
           @endforeach
           
       </div>
     </div>
-      <button class="btn btn-sm btn-outline-secondary"><a  href="{{ route('add_product') }}"> Ajouter un produit </a> </button>
   </div>
+  
 </div>
 
-</div>
 </main>
 
 @endsection

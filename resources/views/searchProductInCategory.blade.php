@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.80.0">
-    <title> {{$cat[0]->categoryname}} - Localshop </title> 
+    <title>categorie - Localshop </title> 
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
 
@@ -183,7 +183,7 @@ a {
 </div>
 
 <div classe="search"> 
-      <form method="GET" action="{{route('searchProductInCategory', ['categoryId'=>$products[0]->categoryid])}}"> 
+      <form method="GET" action="{{route('searchProductInCategory', ['categoryId'=>$products[0]->categoryid])}}"> <!-- ['id'=>sellers[0]->sellerid])-->
       @csrf
       @if ($errors->any())
 	<div class="alert alert-warning">

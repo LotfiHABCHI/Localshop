@@ -12,12 +12,12 @@ class DetailOrders extends Model
     function detailorders()
     {
         return [
-            ['orderId'=>1, 'productId'=>2, 'quantity'=>3],
-            ['orderId'=>1, 'productId'=>1, 'quantity'=>2],
-            ['orderId'=>2, 'productId'=>6, 'quantity'=>4],
-            ['orderId'=>3, 'productId'=>3, 'quantity'=>2],
-            ['orderId'=>4, 'productId'=>1, 'quantity'=>1],
-            ['orderId'=>5, 'productId'=>5, 'quantity'=>4],
+            ['orderid'=>1, 'productid'=>2, 'orderproductquantity'=>3, "status"=>1],
+            ['orderid'=>1, 'productid'=>1, 'orderproductquantity'=>2, "status"=>1],
+            ['orderid'=>2, 'productid'=>6, 'orderproductquantity'=>4, "status"=>1],
+            ['orderid'=>3, 'productid'=>3, 'orderproductquantity'=>2, "status"=>1],
+            ['orderid'=>4, 'productid'=>1, 'orderproductquantity'=>1, "status"=>1],
+            ['orderid'=>5, 'productid'=>5, 'orderproductquantity'=>4, "status"=>1],
         ];
     }
 }

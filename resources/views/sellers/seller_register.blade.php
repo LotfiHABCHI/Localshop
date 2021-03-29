@@ -259,7 +259,7 @@ a {
         <hr>
 
         <div class="form_core">
-          <form class="form" method="POST" action="{{route('seller_register.post')}}">
+          <form class="form" method="POST" action="{{route('seller_register.post')}}" enctype="multipart/form-data">
 	      @csrf 
   @if ($errors->any())
 	<div class="alert alert-warning">
@@ -270,6 +270,16 @@ a {
             <p class="subTitle">
               <h3>Créer votre compte</h3>
             </p>
+
+            <div class="formGroupe">
+              <label for="firstname">Prénom</label>
+              <input type="text" id="firstname" name="firstname" value="{{old('firstname')}}" required>
+              @error('firstName')
+      <div id="firstName_feedback" class="invalid-feedback">
+        {{ $message }}
+      </div>
+      @enderror
+            </div>
             
             <div class="formGroupe">
               <label for="lastname">Nom</label>
@@ -280,15 +290,7 @@ a {
       </div>
       @enderror
             </div>
-            <div class="formGroupe">
-              <label for="firstname">Prénom</label>
-              <input type="text" id="firstname" name="firstname" value="{{old('firstname')}}" required>
-              @error('firstName')
-      <div id="firstName_feedback" class="invalid-feedback">
-        {{ $message }}
-      </div>
-      @enderror
-            </div>
+            
             <div class="formGroupe">
               <label for="email">Adresse Email</label>
               <input type="email" id="email" name="email" value="{{old('email')}}" required>
@@ -303,6 +305,16 @@ a {
               <input type="text" id="phone" name="phone" value="{{old('phone')}}" required>
               @error('phone')
       <div id="phone_feedback" class="invalid-feedback">
+        {{ $message }}
+      </div>
+      @enderror
+            </div>
+            <div class="formGroupe">
+              <label for="siret">Numéro de SIRET</label>
+              <input type="text" id="siret" name="siret" value="{{old('siret')}}" minLength="14" 
+              maxLength="14" required>
+              @error('siret')
+      <div id="siret_feedback" class="invalid-feedback">
         {{ $message }}
       </div>
       @enderror
@@ -353,16 +365,27 @@ a {
       </div>
       @enderror
             </div>
+
             <div class="formGroupe">
-              <label for="siret">Numéro de SIRET</label>
-              <input type="text" id="siret" name="siret" value="{{old('siret')}}" minLength="14" 
-              maxLength="14" required>
-              @error('siret')
-      <div id="siret_feedback" class="invalid-feedback">
+              <label for="image">Image</label>
+              <input type="file" id="image" name="image" value="upload" >
+              @error('image')
+      <div id="image_feedback" class="invalid-feedback">
         {{ $message }}
       </div>
       @enderror
             </div>
+
+            <div class="formGroupe">
+              <label for="description">Description</label>
+              <input type="text" id="description" name="description" value="{{old('description')}}" required>
+              @error('description')
+      <div id="description" class="invalid-feedback">
+        {{ $message }}
+      </div>
+      @enderror
+            </div>
+            
             <div class="formGroupe">
               <label for="password">Mot de passe</label>
               <input type="password" id="password" name="password" value="{{old('password')}}" minLength="8" required>
