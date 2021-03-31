@@ -148,7 +148,7 @@
             @foreach($categories as $category)
             <li>
               <a href="{{route('showProductsOfCategory',['id'=>$category->categoryid])}}">
-                <img src="{{asset('images/'.$category->categoryimage)}}">
+              <img src="{{asset('storage/images/'.$category->categoryimage)}}">
               </a>
             </li>
             @endforeach

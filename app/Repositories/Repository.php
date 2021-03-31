@@ -19,6 +19,8 @@ use App\Models\Orders;
 use App\Models\DetailOrders;
 use App\Models\DetailProducts;
 use App\Models\Roles;
+use App\Models\Allusers;
+
 
 
 
@@ -163,12 +165,12 @@ class Repository
             $this->insertDetail_Product($detail_product);
         }
 
-        /*$data = new AllUsers();
+        $data = new AllUsers();
         $allusers=$data->allUsers();
 
         foreach($allusers as $alluser){
             $this->insertAlluser($alluser);
-        }*/
+        }
 
         $data = new Roles();
         $roles=$data->roles();
@@ -708,7 +710,7 @@ class Repository
         $products=DB::table('products as p')->join('detail_products as dp','p.productid', 'dp.productid')
                                     ->join('sellers as s', 's.sellerid', 'dp.sellerid')
                                     ->join('categories as c', 'c.categoryid', 'p.categoryid')
-                                    ->where('p.productname','like', "%$search%")
+                                    ->where("p.productname",'like', "%$search%")
                                     ->orWhere('p.productinfo', 'like', "%$search%")
                                     ->select('s.*', 'p.*', 'dp.*', 'c.*')
                                     ->get()

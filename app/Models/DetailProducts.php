@@ -11,20 +11,8 @@ class DetailProducts extends Model
 
     function detailProducts()
     {
-        /*return [
-            ['productId'=>2, 'sellerId'=>1, 'stock'=>45],  //JAVAstore croissant
-            ['productId'=>5, 'sellerId'=>3, 'stock'=>12],   //UNIXstore poulet
-            ['productId'=>6, 'sellerId'=>2, 'stock'=>1],    //WEBstore  vin rouge
-            ['productId'=>1, 'sellerId'=>4, 'stock'=>25],    //ALLstore  pomme1
-            ['productId'=>7, 'sellerId'=>4, 'stock'=>2],    //ALLstore boeuf
-            ['productId'=>8, 'sellerId'=>1, 'stock'=>28],   //JAVAstore  vin blanc
-            ['productId'=>9, 'sellerId'=>2, 'stock'=>34],    //WEBstore carotte
-            ['productId'=>10, 'sellerId'=>3, 'stock'=>78],   //UNIXstore pomme2
-            ['productId'=>3, 'sellerId'=>3, 'stock'=>13],   //UNIXstore banane
-            ['productId'=>4, 'sellerId'=>3, 'stock'=>6],   //UNIXstore courgette
-        ];*/
 
-        return [
+       /* return [
             ['productid'=>2, 'sellerid'=>1],  //JAVAstore croissant
             ['productid'=>5, 'sellerid'=>3],   //UNIXstore poulet
             ['productid'=>6, 'sellerid'=>2],    //WEBstore  vin rouge
@@ -35,6 +23,56 @@ class DetailProducts extends Model
             ['productid'=>10, 'sellerid'=>3],   //UNIXstore pomme2
             ['productid'=>3, 'sellerid'=>3],   //UNIXstore banane
             ['productid'=>4, 'sellerid'=>3],   //UNIXstore courgette
+        ];*/
+
+        return [
+
+            ['productid'=>1, 'sellerid'=>2],
+['productid'=>2, 'sellerid'=>3],
+['productid'=>3, 'sellerid'=>4],
+['productid'=>4, 'sellerid'=>2],
+['productid'=>5, 'sellerid'=>3],
+
+['productid'=>6, 'sellerid'=>4],
+['productid'=>7, 'sellerid'=>2],
+['productid'=>8, 'sellerid'=>4],
+['productid'=>9, 'sellerid'=>2],
+
+['productid'=>10, 'sellerid'=>1],
+['productid'=>11, 'sellerid'=>1],
+['productid'=>12, 'sellerid'=>1],
+['productid'=>13, 'sellerid'=>1],
+['productid'=>14, 'sellerid'=>1],
+
+['productid'=>15, 'sellerid'=>2],
+['productid'=>16, 'sellerid'=>2],
+['productid'=>17, 'sellerid'=>3],
+['productid'=>18, 'sellerid'=>3],
+['productid'=>19, 'sellerid'=>3],
+
+['productid'=>20, 'sellerid'=>4],
+['productid'=>21, 'sellerid'=>4],
+['productid'=>22, 'sellerid'=>4],
+['productid'=>23, 'sellerid'=>4],
+['productid'=>24, 'sellerid'=>4],
+
+['productid'=>25, 'sellerid'=>2],
+['productid'=>26, 'sellerid'=>3],
+['productid'=>27, 'sellerid'=>4],
+['productid'=>28, 'sellerid'=>2],
+['productid'=>29, 'sellerid'=>3],
+
+['productid'=>30, 'sellerid'=>4],
+['productid'=>31, 'sellerid'=>2],
+['productid'=>32, 'sellerid'=>1],
+['productid'=>33, 'sellerid'=>1],
+['productid'=>34, 'sellerid'=>1],
+
+['productid'=>35, 'sellerid'=>3],
+['productid'=>36, 'sellerid'=>3],
+['productid'=>37, 'sellerid'=>2],
+['productid'=>38, 'sellerid'=>3],
+['productid'=>39, 'sellerid'=>4]
         ];
     }
 }

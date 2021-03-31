@@ -13,7 +13,7 @@
 @section('content')
 <div class="category">
           <ul>
-            for
+            fordddddddddddddddd
             <li>
               <a href="">
                 <img src="">
@@ -26,7 +26,7 @@
 <div id="core_seller" >
 
   <div class="search"> 
-    <form method="GET" action="{{route('searchProductInStore',['sellerId'=>$details[0]->sellerid])}}">
+    <form method="GET" action="{{route('searchProductInStore',['sellerId'=>$seller[0]->sellerid])}}">
       @csrf
 
       <div class="form-group">
@@ -43,11 +43,11 @@
   </div>
 
 <div class="store">
-@if((session()->get('alluser')['roleid']==1) && (session()->get('alluser')['allusersellerid']==$details[0]->sellerid))
+@if((session()->get('alluser')['roleid']==1) && (session()->get('alluser')['allusersellerid']==$seller[0]->sellerid))
 <div class="seller">
-    <h2>{{$details[0]->storename}}</h2>
+    <h2>{{$seller[0]->storename}}</h2>
     <div id="img_seller">
-      <img  src="{{ asset('storage/images/'.$details[0]->sellerimage) }}">
+      <img  src="{{ asset('storage/images/'.$seller[0]->sellerimage) }}">
     </div>
     <div id="divAddDescription">
             <p>Modifier votre description ci-dessous :</p>
@@ -64,16 +64,15 @@
 </div>
 
 <div class="products">
-@elseif((session()->get('alluser')['roleid']==1) && (session()->get('alluser')['allusersellerid']==$details[0]->sellerid))
 @foreach($details as $detail)
   <div class="product_card">
-    <form id="delete" methode="POST" action="{{route('delete_product.post',['id'=>$product->productid])}}">
+    <form id="delete" method="POST" action="{{route('delete_product.post',['id'=>$detail->productid])}}">
     @csrf
       <input id="inputDelete" value="&#10060" type="submit">
     </form>
 
     <div class="img">
-      <a href="{{route('product',['id'=>$product->productid])}}">
+      <a href="{{route('product',['id'=>$detail->productid, 'sellerId'=>$seller[0]->sellerid])}}">
         <img src="$">
       </a>
     </div>
@@ -85,7 +84,7 @@
       </p>
 
       <p class="productN">
-        <a href="{{route('product',['id'=>$product->productid])}}">
+        <a href="{{route('product',['id'=>$detail->productid, 'sellerId'=>$seller[0]->sellerid])}}">
           {{$detail->productname}}
         </a>
       </p>
@@ -106,6 +105,8 @@
 
 </div>
 
+</div>
+<div>
 </div>
 
 @else

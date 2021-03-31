@@ -156,6 +156,7 @@ class SellerController extends Controller
         $seller=DB::table('sellers')->where('sellerid', $id)->get()->toArray();
         $productsOfSeller=$this->repository->productsOfSeller($id);
         //$count=$this->repository->productCount($id);
+        //dd($seller);
 
 
         return view('sellers/addDescription', ['seller'=>$seller, 'productsOfSeller'=>$productsOfSeller, 'details'=>$details, 'categories'=>$categories, 'products'=>$products, 'sellers'=>$sellers, 'count'=>$count]);

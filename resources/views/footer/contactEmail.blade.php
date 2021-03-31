@@ -1,4 +1,5 @@
-@extends('layouts.base')
+<!DOCTYPE html>
+<html>
 
 @section('title', 'Contact')
 
@@ -7,8 +8,18 @@
   <link href="{{ asset('css/log/contact.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 
+<style>
+  #logo{
+    text-align: center;
+  }
+</style>
 
-@section('content')
+<div id="logo">
+        <a href="{{ route('home') }}">
+          <img class="img_header" src="{{asset('images/'.'local.png')}}" alt="logo" height="97" width="450"/>
+        </a>
+      </div>
+
 <div id="core_contact">
   
   <h1>Prise de contact</h1>
@@ -25,4 +36,6 @@
   </ul>
 
 </div>
-@endsection
+
+
+</html>

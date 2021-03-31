@@ -16,7 +16,7 @@
             @foreach($categories as $category)
             <li>
             <a href="{{route('showProductsOfCategory',['id'=>$category->categoryid])}}">
-              <img src="{{asset('images/'.$category->categoryimage)}}">
+            <img src="{{asset('storage/images/'.$category->categoryimage)}}">
               </a>
             </li>
             @endforeach
@@ -26,7 +26,7 @@
 <div id="core_seller" >
 
   <div class="search"> 
-    <form  action="{{route('searchProductInStore',['sellerId'=>$details[0]->sellerid])}}">
+    <form  action="{{route('searchProductInStore',['sellerId'=>$seller[0]->sellerid])}}">
       @csrf
       @if ($errors->any())
 	<div class="alert alert-warning">
@@ -52,14 +52,14 @@
   <div class="store">
 
     <div class="seller">
-        <h2>{{$details[0]->storename}}</h2>
+        <h2>{{$seller[0]->storename}}</h2>
         <div id="img_seller">
-          <img  src="{{ asset('storage/images/'.$details[0]->sellerimage) }}">
+          <img  src="{{ asset('storage/images/'.$seller[0]->sellerimage) }}">
         </div>
         <div id="divAddDescription">
-            <p>{{$details[0]->sellerdescription}}</p>
-        @if(session()->has('alluser') && session()->get('alluser')['roleid']==1)
-            <a id="btnEdit" href="{{route('add_description.show', ['id'=>$details[0]->sellerid])}}"> <!-- route add_description.show -->
+            <p>{{$seller[0]->sellerdescription}}</p>
+        @if(session()->has('alluser') && session()->get('alluser')['roleid']==1 && (session()->get('alluser')['allusersellerid']==$seller[0]->sellerid) )
+            <a id="btnEdit" href="{{route('add_description.show', ['id'=>$seller[0]->sellerid])}}"> <!-- route add_description.show -->
                 Editer votre description
             </a>
         @endif
@@ -67,14 +67,14 @@
       
         <div class="nb_item">
            
-            <p> Adresse :{{$details[0]->sellernumstreet}} {{$details[0]->sellernamestreet}} </p>
-            <p> Téléphone : {{$details[0]->sellerphone}}</p>
+            <p> Adresse :{{$seller[0]->sellernumstreet}} {{$seller[0]->sellernamestreet}} </p>
+            <p> Téléphone : {{$seller[0]->sellerphone}}</p>
             <p> Nombre de produits en vente : {{$count}}</p>
         </div>
     </div>
 
     <div class="products">
-@if((session()->has('alluser') && session()->get('alluser')['roleid']==1) && (session()->get('alluser')['allusersellerid']==$details[0]->sellerid))
+@if((session()->has('alluser') && session()->get('alluser')['roleid']==1) && (session()->get('alluser')['allusersellerid']==$seller[0]->sellerid))
   @foreach($details as $detail)
       <div class="product_card">
         <form id="delete" methode="POST" action="{{route('delete_product.post',['id'=>$detail->productid])}}">  <!-- route('delete_product.post',['id'=>$product->productid]) -->
@@ -148,6 +148,7 @@
   </div>
 
 </div>
+
 @endsection
 
 
