@@ -11,6 +11,14 @@ use App\Mail\OrderReady;
 use App\Http\Requests\OrderReadyRequest;
 
 
+use App\Models\Products;
+use App\Models\Sellers;
+use App\Models\Customers;
+use App\Models\Orders;
+use App\Models\DetailOrders;
+use App\Models\DetailProducts;
+use App\Models\People;
+
 
 
 use Illuminate\Http\Request;
@@ -26,7 +34,7 @@ class SellerController extends Controller
     {
         $categories = Categories::all();
        
-        return view('/sellers/add_product',compact('categories'));
+        return view('/sellers/addProduct',compact('categories'));
     }
 
     public function addProduct(Request $request, Repository $repository)
@@ -37,7 +45,7 @@ class SellerController extends Controller
             'price' => ['required'], 
             'category' => ['required'], 
             'image' => ['required'],
-            'stock' => ['required'],
+            'quantity' => ['required'],
 
         ];
         $messages = [
@@ -46,7 +54,7 @@ class SellerController extends Controller
             'price.required' => 'Vous devez saisir le prix.',
             'category.required' => "Vous devez saisir la catégorie.",
             'image.required' => "Vous devez télécharger une photo de l'article.",
-            'stock.required' => "Vous devez saisir le stock.",
+            'quantity.required' => "Vous devez saisir le stock.",
         ];
 
         
@@ -56,7 +64,7 @@ class SellerController extends Controller
         $price = $validatedData['price'];
         $category = $validatedData['category'];
         $image = $validatedData['image'];
-        $stock = $validatedData['stock'];
+        $stock = $validatedData['quantity'];
 
 
         $sellerId=$request->session()->get('alluser')['allusersellerid'];
@@ -91,7 +99,7 @@ class SellerController extends Controller
         $count=$this->repository->productCount($id);
         //dd($seller,$products, $count);
 
-        return view('sellers/sellerProducts', compact('seller', 'products', 'count'));
+        return view('sellers/sellerPage', compact('seller', 'products', 'count'));
 
     }
 
@@ -129,14 +137,38 @@ class SellerController extends Controller
         return redirect()->route('sellerProducts');
 
     }*/
+    public function showAddDescription($id)
+    {
+        $sellers = Sellers::all();
+        $categories = Categories::all();
+        $products = DetailProducts::all();
+        $details= $this->repository->productsOfSeller($id);
+        //dd($details[1]->productId);
+        $count=$this->repository->productCount($id);
+       // dd($details);
+        /*if(session()->has('alluser')){
+            $sellerId=request()->session()->get('alluser')['allusersellerid'];
+            $seller=$this->repository->getInfos($sellerId);
+        }
+        else $seller=$details;*/
 
+
+        $seller=DB::table('sellers')->where('sellerid', $id)->get()->toArray();
+        $productsOfSeller=$this->repository->productsOfSeller($id);
+        //$count=$this->repository->productCount($id);
+
+
+        return view('sellers/addDescription', ['seller'=>$seller, 'productsOfSeller'=>$productsOfSeller, 'details'=>$details, 'categories'=>$categories, 'products'=>$products, 'sellers'=>$sellers, 'count'=>$count]);
+    }
     public function editDescription()
     {
 
             $this->repository->description();
 
-    
-        return redirect()->route('sellerProducts');
+           // $sellerId=request()->session()->get('alluser');
+
+        return redirect()->route('home');
+       // return redirect()->route('showProductOfSeller', ['id'=>"session()->get('alluser')['allusersellerid']"]);
 
     }
 

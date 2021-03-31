@@ -1,0 +1,45 @@
+*, ::before, ::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+/*core*/
+  #core_cart{
+    min-height: 10px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+.table  {
+    border-collapse: collapse;
+    margin: 50px auto;
+    box-shadow: 0 5px 50px rgba(0,0,0,0.15);
+}
+
+thead tr {
+    background-color: #569c26;
+    color: rgb(255, 248, 248);
+    text-align: center;
+}
+
+th, td {
+    padding: 15px 100px;
+}
+  
+
+#pay{
+  width: 20%;
+  margin: 0 150px 50px auto;
+}
+.pay{
+  text-align: center;
+  background-color: rgb(230, 154, 79);
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 20px;
+  border-radius: 10px;
+}

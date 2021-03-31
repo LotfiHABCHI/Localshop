@@ -27,16 +27,18 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'productsOrderedByPrice'])->name('orderedProducts');
 Route::get('/home1', [App\Http\Controllers\HomeController::class, 'productsOrderedByDate'])->name('orderedProductsByDate');
+Route::get('/home2', [App\Http\Controllers\HomeController::class, 'productsOrderedByHigherPrice'])->name('orderedProductsByHigherPrice');
+
 
 //Route::get('/products', [App\Http\Controllers\HomeController::class, 'products'])->name('products');
 
 
 
-Route::get('/sellers/{id}', [App\Http\Controllers\HomeController::class, 'showProductsOfSeller'])->where('id', '[0-9]+')->name('showProductOfSeller');
+Route::get('/sellerPage/{id}', [App\Http\Controllers\HomeController::class, 'showProductsOfSeller'])->where('id', '[0-9]+')->name('showProductOfSeller');
 
 Route::get('/customers', [App\Http\Controllers\HomeController::class, 'customers'])->name('customers');
 
-Route::get('/orders', [App\Http\Controllers\HomeController::class, 'orders'])->name('orders');
+Route::get('/orders/{customerId}' /*/{orderId?}'*/, [App\Http\Controllers\HomeController::class, 'ordersOfCustomer'])->where('customerId', '[0-9]+')->name('order');
 
 Route::get('/detail_product', [App\Http\Controllers\HomeController::class, 'detailProducts'])->name('detail_products');
 
@@ -49,7 +51,7 @@ Route::get('/detail_orders/{orderId}', [App\Http\Controllers\HomeController::cla
 
 //routes en relation avec les produits
 
-Route::get('/products/{id}', [App\Http\Controllers\HomeController::class, 'products'])->where('id', '[0-9]+')->name('product');
+Route::get('/products/{id}/{sellerId}', [App\Http\Controllers\HomeController::class, 'products'])->where('id', '[0-9]+')->name('product');
 
 Route::get('/categories/{id}', [App\Http\Controllers\HomeController::class, 'ShowCategory'])->name('showProductsOfCategory');
 
@@ -77,20 +79,20 @@ Route::view('test', 'test');
 Route::get('/test', [App\Http\Controllers\HomeController::class, 'showProductsinfos']);
 
 
-Route::get('/customer_register', [App\Http\Controllers\CustomerController::class, 'showRegisterForm'])->name('customer_register');
-Route::post('/customer_register', [App\Http\Controllers\CustomerController::class, 'customerRegister'])->name('customer_register.post');
+Route::get('/registerCustomer', [App\Http\Controllers\CustomerController::class, 'showRegisterForm'])->name('registerCustomer');
+Route::post('/registerCustomer', [App\Http\Controllers\CustomerController::class, 'customerRegister'])->name('registerCustomer.post');
 
 Route::get('/customer_login', [App\Http\Controllers\CustomerController::class, 'showLoginForm'])->name('customer.login');
 Route::post('/customer_login', [App\Http\Controllers\CustomerController::class, 'login'])->name('customer_login.post');
 
-Route::get('/seller_login', [App\Http\Controllers\HomeController::class, 'showLoginForm'])->name('seller.login');
-Route::post('/seller_login', [App\Http\Controllers\HomeController::class, 'login'])->name('seller_login.post');
+Route::get('/login', [App\Http\Controllers\HomeController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [App\Http\Controllers\HomeController::class, 'login'])->name('login.post');
 
-Route::get('/seller_register', [App\Http\Controllers\HomeController::class, 'showRegisterForm'])->name('seller_register');
-Route::post('/seller_register', [App\Http\Controllers\HomeController::class, 'sellerRegister'])->name('seller_register.post');
+Route::get('/registerSeller', [App\Http\Controllers\HomeController::class, 'showRegisterForm'])->name('registerSeller');
+Route::post('/registerSeller', [App\Http\Controllers\HomeController::class, 'sellerRegister'])->name('registerSeller.post');
 
-Route::get('/changepass', [App\Http\Controllers\HomeController::class, 'showChangePasswordForm'])->name('changepass');
-Route::post('/changepass', [App\Http\Controllers\HomeController::class, 'changePassword'])->name('changepass.post');
+Route::get('/changePassword', [App\Http\Controllers\HomeController::class, 'showChangePasswordForm'])->name('changePassword');
+Route::post('/changePassword', [App\Http\Controllers\HomeController::class, 'changePassword'])->name('changePassword.post');
 
 
 // les routes pour recevoir le lien de réinitialisation
@@ -107,8 +109,8 @@ Route::post('/reset_password', [App\Http\Controllers\HomeController::class, 'res
 
 
 
-Route::get('/add_product', [App\Http\Controllers\SellerController::class, 'showAddProductForm'])->name('add_product');
-Route::post('/add_product', [App\Http\Controllers\SellerController::class, 'addProduct'])->name('add_product.post');
+Route::get('/addProduct', [App\Http\Controllers\SellerController::class, 'showAddProductForm'])->name('addProduct');
+Route::post('/addProduct', [App\Http\Controllers\SellerController::class, 'addProduct'])->name('addProduct.post');
 Route::post('/delete_product/{id}', [App\Http\Controllers\SellerController::class, 'deleteProduct'])->name('delete_product.post');
 
 
@@ -141,15 +143,20 @@ Route::post('/sellerProducts/{productId}', [App\Http\Controllers\SellerControlle
 });*/
 Route::get('search_product/', [App\Http\Controllers\HomeController::class, 'search'])->name('searchProduct');
 Route::get('searchProductOfSeller/{sellerId}', [App\Http\Controllers\HomeController::class, 'searchInStore'])->where('sellerId', '[0-9]+')->name('searchProductInStore');
-Route::get('searchProductInCategory/{categoryId}', [App\Http\Controllers\HomeController::class, 'searchInCategory'])->where('categoryId', '[0-9]+')->name('searchProductInCategory');
+//Route::get('searchProductInCategory/{categoryId}', [App\Http\Controllers\HomeController::class, 'searchInCategory'])->where('categoryId', '[0-9]+')->name('searchProductInCategory');
 
 
 
-Route::get('faq', [App\Http\Controllers\HomeController::class, 'faq']);
+Route::get('faq', [App\Http\Controllers\HomeController::class, 'faq'])->name('faq');
+Route::get('about', [App\Http\Controllers\HomeController::class, 'about'])->name('about');
+Route::get('mentions', [App\Http\Controllers\HomeController::class, 'mentions'])->name('mentions');
 
 
+Route::get('/addDescription/{id}', [App\Http\Controllers\SellerController::class, 'showAddDescription'])->name('add_description.show');
 Route::post('/sellerProducts/{sellerId}', [App\Http\Controllers\SellerController::class, 'editDescription'])->where('sellerId', '[0-9]+')->name('desc.edit');
 Route::post('/sellerProducts', [App\Http\Controllers\SellerController::class, 'editDescription'])->name('desc.edit');
+
+
 
 Route::get('/orderValidation', [App\Http\Controllers\SellerController::class, 'orderValidation'])->name('orderValidate'); 
 Route::post('/orderValidation', [App\Http\Controllers\SellerController::class, 'contact'])->name('orderValidate.post'); 

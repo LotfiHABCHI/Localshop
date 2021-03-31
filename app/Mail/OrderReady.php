@@ -44,6 +44,6 @@ class OrderReady extends Mailable
 
         return $this->from($seller[0]->selleremail) // L'expéditeur
                     ->subject("Votre commande") // Le sujet
-                    ->view('ready', compact('seller')); // La vue
+                    ->view('orderReady', compact('seller')); // La vue
     }
 }

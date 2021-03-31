@@ -28,6 +28,6 @@ class resetPassword extends Mailable
      */
     public function build()
     {
-        return $this->view('reset_link');
+        return $this->view('log/resetLink');
     }
 }

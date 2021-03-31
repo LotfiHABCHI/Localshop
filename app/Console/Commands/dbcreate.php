@@ -55,10 +55,10 @@ class dbcreate extends Command
         config(['database.connections.mysql.database' => null]);
 
         //On crée nos requêtes :
-        //$query = "DROP DATABASE IF EXISTS $schemaName;";
+        $query = "DROP DATABASE IF EXISTS $schemaName;";
 
         //On execute :
-        //DB::statement($query);
+        DB::statement($query);
 
         $query = "CREATE DATABASE IF NOT EXISTS $schemaName CHARACTER SET $charset COLLATE $collation;";
         DB::statement($query);

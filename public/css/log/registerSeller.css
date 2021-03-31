@@ -1,0 +1,122 @@
+*, ::before, ::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+
+
+  
+  
+  /*core*/
+  .core{
+    height: 70%;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .form_core{
+    display: flex;
+    margin: 1% auto 1% auto;
+    width: 500px;
+    height: auto;
+    padding: 25px 25px 0px 25px;
+    border-radius: 3px;
+  }
+  
+  .form h3 {
+      color: rgb(57, 58, 58);
+      font-size: 25px;
+      font-weight: 500;
+      margin-bottom: 45px;
+      
+  }
+  
+  .form{
+    width: 400px;
+    margin: 1% auto 1% auto;
+  }
+  
+  #redirectConnexion{
+    margin: 20px auto 20px auto;
+    width: 500px;
+   
+  }
+  
+  .form .formGroupe {
+      position: relative;
+      display: flex;
+      margin-bottom: 50px;
+  }
+  .form .formGroupe label {
+      position: absolute;
+      top: 50%;
+      left: 0px;
+      transform: translateY(-50%);
+      color: rgb(57, 58, 58);
+      font-size: 20px;
+      transition: 0.4s ease-out;
+  }
+  .form .formGroupe input {
+      display: block;
+      width: 100%;
+      padding: 10px 0px;
+      border: none;
+      outline: none;
+      background: none;
+      border-bottom: 3px solid rgb(57, 58, 58);
+      color: rgb(57, 58, 58);
+      font-size: 20px;
+      transition: 0.4s ease-out;
+  }
+  .formGroupe:nth-child(4) {
+      margin-bottom: 40px;
+      justify-content: center;
+  }
+  .form .formGroupe .buttonSub {
+      display: block;
+      width: auto;
+      padding: 15px 60px;
+      border: 3px solid #77B84B;
+      border-radius: 999px;
+      background-image: linear-gradient(to right, transparent 50%, rgb(171, 218, 139) 50%, #77B84B);
+      background-size: 200%;
+      color: #77B84B;
+      cursor: pointer;
+  }
+  
+  .form .formGroupe .buttonSub:hover {
+      color: #fff;
+      background-position: 100%;
+      border: 3px solid #fff;
+  }
+  
+  
+  /* Animation */
+  .form .formGroupe:focus-within label,
+  .form .formGroupe.animation label {
+      top: 0px;
+      transform: translateY(-100%);
+      color: rgb(57, 58, 58);
+  }
+  
+  .form .formGroupe:focus-within input,
+  .form .formGroupe.animation input {
+      border-bottom-color: #77B84B;
+  }   
+
+  .btnIdent{
+    background-color: rgb(230, 154, 79);
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+
+  #redirectConnexion a{
+    background-color: rgb(255, 248, 248);
+  }

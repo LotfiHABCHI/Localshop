@@ -61,7 +61,7 @@ public function login(Request $request, Repository $repository)
 
     public function showRegisterForm()
     {
-        return view('/customers/customer_register');
+        return view('/log/registerCustomer');
     }
 
     public function customerRegister(Request $request, Repository $repository)

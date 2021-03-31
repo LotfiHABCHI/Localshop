@@ -1,0 +1,130 @@
+/*left*/
+.seller{
+    width: 25%;
+}
+
+#imgSeller{
+    width: 80%;
+    min-height: 10px;
+    margin: 20px auto 20px auto;
+    text-align: center;
+  }
+  
+  #imgSeller img{
+    max-width: 100%;
+    max-height: 100%
+  }
+
+.nb_item{
+    margin: 20px 0 10px 0;
+  }
+
+
+
+/*right*/
+.products{
+    width: 75%;
+    min-height: 10%;
+}
+
+.product{
+    width: 100%;
+    padding: 20px;
+    border: 2px solid #e9aa4b;
+    border-radius: 10px;
+    box-shadow: 10px 5px 5px grey;
+    background-color: white;
+}
+
+#imgP{
+    height: 60%;
+    width: 460px;
+    display: inline-block;
+    vertical-align: middle;
+    border: 2px solid red;
+  }
+
+  #imgP img{
+    margin: 17px auto 17px auto;
+    max-width: 100%;
+    max-height: 100%;
+    vertical-align: middle;
+  }
+
+  /*fiche produit txt*/
+    #txtproduct{
+    width: 360px;
+    margin-left: 10px;
+    min-height: 10px;
+    display: inline-block;
+    vertical-align: middle;
+    border: 2px solid red;
+  }
+
+  #txtinfo{
+    margin: 10px auto 10px auto;
+  }
+
+  #txtprice{
+    margin: 10px auto 10px auto;
+  }
+  
+
+  /*info*/
+  #name{
+    margin: 10px 0 10px 0;
+    font-size: 24px;
+    font-weight: bold;
+    max-width: 100%;
+    color: rgb(57, 58, 58);
+  }
+  
+  #name a:link, #name a:visited, #name a:focus, #name a:hover, #name a:active {
+    color: rgb(57, 58, 58);
+  }
+  
+  #category{
+    background-color: white;
+    color: #e9aa4b;
+    font-weight: bold;
+    border: 2px solid #e9aa4b;
+    text-transform: uppercase;
+    padding: 5px 10px 5px 5px;
+    border-radius: 10px 40px 40px 10px;
+    width: 100%;
+  }
+  
+  #info{
+    color: rgb(141, 128, 128);
+    margin: 10px auto 10px auto;
+  }
+  
+
+  /*prix*/
+  #price{
+    font-size: 50px;
+    font-weight: bold;
+    margin: 10px auto 10px auto;
+  }
+
+  .formCart input, .formQuantity input{
+    margin: 10px auto 10px auto;
+    border: 2px solid white;
+    color: white;
+    background-color: #e9aa4b;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    border-radius: 6px;
+  }
+
+  .formQuantity input{
+      width: 40%;
+    display: inline-block;
+  }
+
+  .formQuantity label{
+      display: inline-block;
+  }

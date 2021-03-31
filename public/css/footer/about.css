@@ -1,0 +1,32 @@
+*, ::before, ::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/*core*/
+.core{
+  height: 70%;
+}
+
+#core_about{
+  min-height: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.container-about div{
+  width: 85%;
+  margin: 3% auto 3% auto;
+  text-align: justify;
+}
+
+
+/*????
+
+.container-faq hr{
+  width: 40%;
+  margin: 3% auto 2% auto;
+}
+*/

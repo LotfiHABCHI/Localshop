@@ -2,12 +2,6 @@
 
 @section('title', 'Validez vos commandes') 
 
-<script>
-function desactiver(id) {
-id = document.getElementById('i');
-id.disabled = "disabled";
-}
-</script>
 
 
 @section('content')

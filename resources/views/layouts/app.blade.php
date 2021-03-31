@@ -6,7 +6,7 @@
 
     <!-- CSRF Token -->
     @yield('extra-meta')
-    <title> @yield('title') {{ config('app.name', 'Laravel') }}</title>
+    <title> @yield('title') {{ config('app.name', 'LocalShop') }}</title>
     @yield('extra_script')
     @yield('script')
 

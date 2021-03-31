@@ -95,6 +95,27 @@ class HomeController extends Controller
         return view('home',compact('products','categories', 'sellers', 'detailproducts', 'details'));
     }
 
+    public function productsOrderedByHigherPrice()
+    {
+        $sellers = Sellers::all();
+        $categories = Categories::all();
+        $detailproducts = DetailProducts::all();
+        $products=Products::all();
+        
+        $details= $this->repository->productsOrderedByHigherPrice();
+        //$role=$this->repository->getRole('customer');
+        
+        // pour la pagination
+        
+         /*$details= DB::table('detail_products as d')
+        ->join('sellers as s','s.sellerid', 'd.sellerid')
+        ->join('products as p', 'p.productid', 'd.productid')
+        ->select('s.storename as store','s.sellerid as sellerId', 'p.*')
+        ->paginate(10);*/
+        
+        return view('home',compact('products','categories', 'sellers', 'detailproducts', 'details'));
+    }
+
     public function productsOrderedByDate()
     {
         $sellers = Sellers::all();
@@ -118,7 +139,7 @@ class HomeController extends Controller
     
     
 
-    public function products(int $id)
+    public function products(int $id, int $sellerId)
     { //Afficher la page d'un produit spécifique
 
         $categories = Categories::all();
@@ -127,8 +148,12 @@ class HomeController extends Controller
        //$product = Products::find($request->id); 
        $products=$this->repository->product($id);    
        $productName=DB::table('products')->where('productid',$id)->select('productname')->get(); //a mettre plutot dans une fct dans le repository peut etre
+       $count=$this->repository->productCount($sellerId);
+       // dd(request()->all());
+       //dd($products);
 
-        return view('products',compact('products','categories', 'productName'));
+
+        return view('product/product',compact('products','categories', 'productName', 'count'));
     }
 
 
@@ -179,24 +204,25 @@ class HomeController extends Controller
         return view('detail_orders',compact('details'));
     }*/
 
-    public function ordersOfCustomer(int $customerid)
+    public function ordersOfCustomer(int $customerid /*, int $orderid*/)
     {
         $detail_orders = DetailOrders::all();
         $customers = Customers::all();
         //$orders = Orders::find(request()->customerId);
 
         $details= $this->repository->ordersOfCustomer($customerid);
+       // $detailOrders= $this->repository->detailOrder($orderid);
         //dd($details);
         //dd($details, $orders);
         
-        return view('orders',compact(/*'orders',*/ 'details'));
+        return view('customers/orders',compact(/*'orders',*/ 'details'));
     }
 
 
     public function detailOrder(int $orderId)
     {
-        $detailOrder= $this->repository->detailOrder($orderId);
-        return view('detail_orders',compact('detailOrder'));
+        $detailOrders= $this->repository->detailOrder($orderId);
+        return view('customers/detail_orders',compact('detailOrders'));
 
     }
 
@@ -231,7 +257,7 @@ class HomeController extends Controller
         $products=$this->repository->detailProductsOfCategory($id);
         $cat=DB::table('categories')->where('categoryid',$id)->select('categoryname')->get(); //a mettre plutot dans une fct dans le repository peut etre
         //dd($cat);
-        return view('categories',compact('products', 'categories', 'cat'));
+        return view('product/category',compact('products', 'categories', 'cat'));
     }
 
 
@@ -259,7 +285,12 @@ class HomeController extends Controller
         }
         else $seller=$details;*/
 
-        return view('sellers/sellers', ['details'=>$details, 'categories'=>$categories, 'products'=>$products, 'sellers'=>$sellers, 'count'=>$count] );
+
+        $seller=DB::table('sellers')->where('sellerid', $id)->get()->toArray();
+        $productsOfSeller=$this->repository->productsOfSeller($id);
+        //$count=$this->repository->productCount($id);
+
+        return view('sellers/sellerPage', ['seller'=>$seller, 'productsOfSeller'=>$productsOfSeller, 'details'=>$details, 'categories'=>$categories, 'products'=>$products, 'sellers'=>$sellers, 'count'=>$count] );
 
     }
 
@@ -291,7 +322,7 @@ class HomeController extends Controller
 
     public function showRegisterForm()
     {
-        return view('/sellers/seller_register');
+        return view('/log/registerSeller');
     }
 
     public function sellerRegister(Request $request, Repository $repository)
@@ -377,7 +408,7 @@ class HomeController extends Controller
 
     public function showChangePasswordForm() 
     {
-        return view('changepass');
+        return view('log/changePassword');
     }
 
     public function changePassword(Request $request,Repository $repository)
@@ -416,7 +447,7 @@ class HomeController extends Controller
 
     public function showLoginForm()
     {
-        return view('/sellers/seller_login');
+        return view('/log/login');
     }
 
     public function login(Request $request, Repository $repository)
@@ -450,12 +481,12 @@ class HomeController extends Controller
 
     public function showResetForm()
     {
-        return view('reset');
+        return view('log/reset');
     }
 
     public function showResetPasswordForm()
     {// formulaire de réinitialisation du mot de passe
-        return view('reset_password');
+        return view('log/resetPassword');
     }
 
     public function reset(Request $request, Repository $repository)
@@ -507,7 +538,7 @@ class HomeController extends Controller
         ////////////////////// ↑ copier coller de web_cci register //////////////////////
 
         public function showFormContact(){
-            return view('nousContacter');
+            return view('footer/nousContacter');
         }   
        
      
@@ -515,7 +546,8 @@ class HomeController extends Controller
         {
             //dd(request()->all());
             $contact=request()->validate([
-                'name'=> 'required', 
+                'firstname'=> 'required', 
+                'lastname'=> 'required', 
                 'email' => 'required',
                 'message' => 'required'
             ]);
@@ -542,9 +574,14 @@ class HomeController extends Controller
             //dd($products);
             //dd(request()->all());
             $sellerId=request()->id;
+
+            if(count($products)==0){
+               
+                return  redirect()->back()->withInput()->withErrors(' $store[0]["storename"] ne vend pas de ça.'); # ou l'appel d'une fonction ou méthode qui peut lever une exception
+            }
             
             //dd(request()->all());
-            return view('search_product', compact('products', 'sellers', 'categories'));
+            return view('product/searchProduct', compact('products', 'sellers', 'categories'));
         }
 
         public function searchInStore()
@@ -570,7 +607,7 @@ class HomeController extends Controller
             //dd($sellerId);
             
             //dd(request()->all());
-            return view('searchProductOfSeller', compact('products', 'sellers', 'categories', 'store' ));
+            return view('product/searchProductOfSeller', compact('products', 'sellers', 'categories', 'store' ));
         }
 
         public function searchInCategory()
@@ -661,8 +698,19 @@ class HomeController extends Controller
 
    public function faq()
    {
-       return view('faq');
+       return view('footer/faq');
    }
+
+   public function about()
+   {
+       return view('footer/about');
+   }
+
+   public function mentions()
+   {
+       return view('footer/mentions');
+   }
+
     
 }
 

@@ -39,7 +39,7 @@ class Contact extends Mailable
 
         return $this->from($customer['alluseremail']) // L'expéditeur
                     ->subject("Message via le formulaire de contact") // Le sujet
-                    ->view('contact'); // La vue
+                    ->view('footer/contactEmail'); // La vue
     }
     /*public function build()
     {

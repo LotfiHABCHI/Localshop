@@ -1,0 +1,72 @@
+*, ::before, ::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  h2{
+    text-align: center;
+    width: 100%;
+  }
+
+  /*core*/
+  .tables{
+    width:95%;
+    margin: 50px auto 50px auto;
+    text-align: center;
+    background-color: white;
+  }
+ 
+  .table  {
+    border-collapse: collapse;
+    width:100%;
+}
+
+.tableH {
+    padding: 50px;
+    font-size: 18px;
+    background-color: #569c26;
+    color: rgb(255, 248, 248);
+    text-align: center;
+}
+  
+th, td {
+  padding: 15px 0 15px 0;
+}
+
+.prod{
+  width: 30%;
+}
+
+
+
+.visible-pannel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  border: 2px solid rgb(230, 154, 79);
+}
+.visible-pannel h2 {
+  margin-left: 10px;
+  padding: 15px 5px;
+  font-size: 25px;
+  color: rgb(57, 58, 58);
+}
+.visible-pannel img {
+  margin-right: 10px;
+  width: 25px;
+  cursor: pointer;
+}
+.toggle-pannel {
+  padding: 0px 15px;
+  height: 0px;
+  opacity: 0;
+}
+.toggle-pannel h4 {
+  font-size: 18px;
+  padding-bottom: 10px;
+}
+.toggle-pannel p {
+  line-height: 1.5;
+}

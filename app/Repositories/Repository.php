@@ -229,6 +229,7 @@ class Repository
        $prods = DB::table('detail_products as d')
         ->join('sellers as s','s.sellerid', 'd.sellerid')
         ->join('products as p', 'p.productid', 'd.productid')
+        ->join('categories as c', 'c.categoryid', 'p.categoryid')
         ->where('s.sellerid', $id)
         ->get()
         ->toArray();
@@ -280,8 +281,9 @@ class Repository
         $product = DB::table('detail_products as d')
         ->join('sellers as s','s.sellerid', 'd.sellerid')
         ->join('products as p', 'p.productid', 'd.productid')
+        ->join('categories as c', 'c.categoryid', 'p.categoryid')
         ->where('p.productid',$id)
-        ->select('s.*', 'p.*')
+        ->select('s.*', 'p.*', 'c.*')
         ->get()
         ->toArray();
         return $product;
@@ -321,6 +323,25 @@ class Repository
         ->join('categories as c', 'c.categoryid', 'p.categoryid')
         ->select('s.storename as store','s.sellerid as sellerId', 'p.*', /*'d.stock'*/ 'p.productquantity', 'c.categoryname as category')
         ->orderBy('productprice')
+        ->get()
+        ->toArray();
+        return $prods;
+    }
+
+    function productsOrderedByHigherPrice() : array
+    { //Affiche les infos des produits
+        
+        //SELECT sellers.storename, products.*
+        //FROM ((sellers s JOIN detail_products d ON s.id=d.sellerId)
+        //JOIN products p ON p.id=d.productId)
+        
+
+        $prods = DB::table('detail_products as d')
+        ->join('sellers as s','s.sellerid', 'd.sellerid')
+        ->join('products as p', 'p.productid', 'd.productid')
+        ->join('categories as c', 'c.categoryid', 'p.categoryid')
+        ->select('s.storename as store','s.sellerid as sellerId', 'p.*', /*'d.stock'*/ 'p.productquantity', 'c.categoryname as category')
+        ->orderBy('productprice', 'desc')
         ->get()
         ->toArray();
         return $prods;
@@ -412,6 +433,7 @@ class Repository
         ->join('products as p', 'p.productid', 'd.productid')
         ->join('detail_products as dp', 'dp.productid', 'p.productid')
         ->join('sellers as s', 's.sellerid', 'dp.sellerid')
+        //->where('c.customerid',$id)
         ->where('d.orderid',$id)
         ->select('c.*', 'o.*', 'd.*', 'p.*', 's.*')
         ->get()
@@ -469,7 +491,6 @@ class Repository
 
         //return DB::table('sellers')->insert(["lastname"=>$lastname, 'firstname'=>$firstname, 'email'=>$email, "phone"=>$phone, 'password'=> $passwordHash, "numstreet"=>$numstreet, "namestreet"=>$namestreet, "postcode"=>$postcode, "city"=>$city, "storename"=>$storename, "siret"=>$siret]);
     }
-
 
     function getSeller(string $email, string $password): array
     {
@@ -686,9 +707,10 @@ class Repository
         $search=request()->input('search');
         $products=DB::table('products as p')->join('detail_products as dp','p.productid', 'dp.productid')
                                     ->join('sellers as s', 's.sellerid', 'dp.sellerid')
+                                    ->join('categories as c', 'c.categoryid', 'p.categoryid')
                                     ->where('p.productname','like', "%$search%")
                                     ->orWhere('p.productinfo', 'like', "%$search%")
-                                    ->select('s.*', 'p.*', 'dp.*')
+                                    ->select('s.*', 'p.*', 'dp.*', 'c.*')
                                     ->get()
                                     ->toArray();
         return $products;
@@ -732,7 +754,7 @@ class Repository
     public function description()
     {
         $sellerId=request()->session()->get('alluser')['allusersellerid'];
-        $desc=request()->input('test');
+        $desc=request()->input('txtdescription');
         
         DB::table('sellers')->where('sellerid', $sellerId)->update(['sellerdescription'=> $desc]);
     }
@@ -781,6 +803,8 @@ class Repository
     public function setStatus($orderId, $productId){
         DB::table('detail_orders')->where('orderid', $orderId)->where('productid', $productId)->update(['status'=>0]);
     }
+
+    
     
 
     

@@ -28,7 +28,7 @@ class CreateSellersTable extends Migration
             $table->string('city');
             $table->string('storename');
             $table->string('sellerimage');
-            $table->string('sellerdescription');
+            $table->string('sellerdescription')->nullable();
             $table->timestamps();
             //$table->primary('sellerid');
             $table->foreign('cp')->references('cp')->on('postcodes')->onDelete('cascade');

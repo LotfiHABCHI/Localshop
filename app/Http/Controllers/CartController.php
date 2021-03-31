@@ -54,7 +54,7 @@ class CartController extends Controller
         $count=Cart::getContent()->count();
        
                 //dd($content, $total, $sellerMail);
-        return view('cart.index', compact('content', 'total', 'count'));
+        return view('customers/cart', compact('content', 'total', 'count'));
     }
 
     public function update(Request $request, $id)
@@ -100,19 +100,6 @@ class CartController extends Controller
                 return redirect()->back()->withErrors("Qauntite de " . $product['name'] ." insuffisante");
             }
         }
-<<<<<<< HEAD
-            $order=$this->repository->addOrder($customerId, $total, $date);
-
-            foreach($content as $product) {
-                $detailOrder=$this->repository->addDetailOrder($product['id'], $order, $product['quantity']);
-                $this->repository->updateStock($product['id'], $newStock);
-
-            }
-            //dd($product['quantity']);
-
-           
-
-=======
         $status=1;
             $order=$this->repository->addOrder($date, $count, $total, $customerId);
 
@@ -122,7 +109,6 @@ class CartController extends Controller
 
             $this->repository->updateStock($product['id'], $newStock);
         }
->>>>>>> 5c63bfcad738a0f823907f277ecc1193f864a760
         
 
         //dd($detailOrder);

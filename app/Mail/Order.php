@@ -39,6 +39,6 @@ class Order extends Mailable
        // dd($customer);
         return $this->from('localShop@localShop.com') // L'expéditeur
                     ->subject("Récapitulatif de votre commande ") // Le sujet
-                    ->view('cart/orderCart', compact('content', 'total', 'count')); // La vue
+                    ->view('customers/orderEmail', compact('content', 'total', 'count')); // La vue
     }
 }
