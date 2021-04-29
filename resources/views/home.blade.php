@@ -4,241 +4,174 @@
 
 @section('css')
   @parent
+  <link href="{{ asset('css/sellers/seller.css') }}" rel="stylesheet" type="text/css" />
   <link href="{{ asset('css/home/home.css') }}" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('css/map.css') }}" rel="stylesheet" type="text/css" />
+
 @endsection
 
 
+@section('content')
 
-<style>
-  .category{
-    display : inline-block;
-  }
-  .products{
-    text-align: center;
+
+
+
+<div id="core_home" >
+  <div class="core_prehome">
+        <div id="text">
+          <p id="click">
+            Click and Collect, tout est dans le nom !
+          </p>
+          <p id="below_click">
+            Consommez près de chez vous et facilement.
+          </p>
+        </div>
+  </div>
+
+  <div class="search"> 
+    <form action="{{route('searchProduct')}}">
+      @csrf
+      @if ($errors->any())
+      <div class="alert alert-warning">
+        Aucun de nos commerçants ne propose de {{old('search')}} &#9785;
+      </div>
+      @endif
+
+      <div class="form-group">
+        <input type="search" id="inputSearch" name="search" placeholder="Que recherchez-vous ?"> 
+        @error('search')
+        <div id="search_feedback" class="invalid-feedback">
+          {{ $message }}
+        </div>
+        @enderror
+        <button type="submit" id="btnSearch">&#x1F50D;</button>
+
+      </div>
+
+    </form>
+  </div>
+
+        <div class="category">
+          <ul>
+            @foreach($categories as $category)
+            <li>
+              <a href="{{route('showProductsOfCategory',['id'=>$category->categoryid])}}">
+                <img src="{{asset('storage/images/'.$category->categoryimage)}}">
+              </a>
+            </li>
+            @endforeach
+          </ul>
+        </div>
+
+        <div id="toutemap">
+  <div class="pac-card" id="pac-card">
+      <div>
+        <div id="title">Nos commerçants</div>
+          <div id="type-selector" class="pac-controls">
+            <input
+              type="radio"
+              name="type"
+              id="changetype-all"
+              checked="checked"
+            />
+            <label for="changetype-all">Tous</label>
+
+            <input type="radio" name="type" id="changetype-establishment" />
+            <label for="changetype-establishment">Etablissements</label>
+
+            <input type="radio" name="type" id="changetype-address" />
+            <label for="changetype-address">Adresses</label>
+
+            <input type="radio" name="type" id="changetype-geocode" />
+            <label for="changetype-geocode">Geocodes</label>
+          </div>
+          <br />
+          <div id="strict-bounds-selector" class="pac-controls">
+            <input type="checkbox" id="use-location-bias" value="" checked />
+            <label for="use-location-bias"> Rayon </label>
+ <!--          <input type="range" id="use-location-bias" value="" />
+          <label for="use-location-bias">Bias to map viewport</label> -->
+
+            <input type="checkbox" id="use-strict-bounds" value="" />
+            <label for="use-strict-bounds">Limites</label>
+          </div>
+      </div>
+      <div id="pac-container">
+        <input id="pac-input" type="text" placeholder="Entrez une adresse" />
+      </div>
+    </div>
+    <div id="map"></div>
     
-  }
-  .product-card {
-   
-    display: inline-block;
-      width: 250px;
-      position: relative;
-      box-shadow: 0 2px 7px #dfdfdf;
-      margin: 50px auto;
-      background: #fafafa;
-      text-align: center;
-  }
-  
-  .badge {
-      position: absolute;
-      left: 0;
-      top: 30px;
-      text-transform: uppercase;
-      font-size: 13px;
-      font-weight: 700;
-      background: green;
-      color: #fff;
-      padding: 3px 10px;
-  }
-  .product-card{
-    border-radius: 25px;
-    margin : 5px;
-  }
-  
-  .product-tumb {
-      border-radius : 25px 25px 0px 0px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 250px;
-     /* padding: 1px;*/
-      background: #f0f0f0;
-  }
-  
-  .product-tumb img {
-    
-      max-width: 100%;
-      max-height: 100%;
-  }
-  
-  .product-details {
-      padding: 30px;
-  }
-  
-  .product-catagory {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: #ccc;
-      margin-bottom: 18px;
-  }
-  
-  .product-details h4 a {
-      font-weight: 500;
-      display: block;
-      margin-bottom: 18px;
-      text-transform: uppercase;
-      color: #363636;
-      text-decoration: none;
-      transition: 0.3s;
-  }
-  
-  .product-details h4 a:hover {
-      color: #fbb72c;
-  }
-  
-  .product-details p {
-      font-size: 15px;
-      line-height: 22px;
-      margin-bottom: 18px;
-      color: #999;
-  }
-  
-  .product-bottom-details {
-      overflow: hidden;
-      border-top: 1px solid #eee;
-      padding-top: 20px;
-      text-align: center  ;
-  }
-  
-  .product-bottom-details div {
-      float: left;
-      width: 50%;
-      text-al;
-      
-  }
-  
-  .product-price {
-      font-size: 30px;
-      color: #fbb72c;
-      font-weight: 400;
-      text-align: center;
-     
-  }
-  
-  .product-price small {
-      font-size: 80%;
-      font-weight: 400;
-      text-decoration: line-through;
-      display: inline-block;
-      margin-right: 5px;
-  }
-  
-  .product-links {
-      text-align: right;
-  }
-  
-  .product-links a {
-      display: inline-block;
-      margin-left: 5px;
-      color: #e1e1e1;
-      transition: 0.3s;
-      font-size: 17px;
-  }
-  
-  .product-links a:hover {
-      color: #fbb72c;
-  }
+    <div id="infowindow-content">
+      <span id="place-name" class="title"></span><br />
+      <span id="place-address"></span>
+    </div>
 
-  /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
+</div>
 
-      #toutemap{
         
-      
-        margin : 20px auto 20px auto;
-      }
-     #map {
-      
-     
-      
-       height: 500px;
-       width :100%;
-     }
 
-     /* Optional: Makes the sample page fill the window. */
-     html,
-     body {
-       height: 100%;
-       margin: 0;
-       padding: 0;
-     }
+        <div id="product">
 
-     #description {
-       font-family: Roboto;
-       font-size: 15px;
-       font-weight: 300;
-     }
+          <div id="tri">
+            <p>Trier par :</p>
+            <form method="GET" action="{{route('orderedProductsByDate')}}">
+            @csrf
+              <input class="btnTri" name="tridate" type="submit" value="Plus récent au plus ancien">
+            </form>
+            <form method="GET" action="{{route('orderedProducts')}}">
+            @csrf
+            <input class="btnTri" name="tricroi" type="submit" value="Prix : Croissant">
+            </form>
+            <form method="GET" action="{{route('orderedProductsByHigherPrice')}}">
+            @csrf
+            <input class="btnTri" name="tridecroi" type="submit" value="Prix : Décroissant">
+            </form>
+          </div>
 
-     #infowindow-content .title {
-       font-weight: bold;
-     }
+        <div id="products">
+        @foreach ($details as $detail)
+            <div class="product_card">
+            
+              <div class="imgC">
+                <a href="{{route('product',['id'=>$detail->productid, 'sellerId'=>$detail->sellerId])}}">
+                  <img src="{{asset('storage/images/'.$detail->productimage)}}" alt="image">
+                </a>
+              </div>
 
-     #infowindow-content {
-       display: none;
-     }
+              <hr>
+              <div class="txtproduct">
+                <p class="categoryN">
+                {{$detail->categoryname}}
 
-     #map #infowindow-content {
-       display: inline;
-     }
+                </p>
 
-     .pac-card {
-       margin: 10px 10px 0 0;
-       border-radius: 2px 0 0 2px;
-       box-sizing: border-box;
-       -moz-box-sizing: border-box;
-       outline: none;
-       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-       background-color: #fff;
-       font-family: Roboto;
-       z-index : 1000;
-     }
 
-     #pac-container {
-       padding-bottom: 12px;
-       margin-right: 12px;
-     }
+                <p class="storeN">
+                <a href="{{route('showProductOfSeller',['id'=>$detail->sellerId])}}">{{$detail->store}}</a>
 
-     .pac-controls {
-       
-       display: inline-block;
-       padding: 5px 11px;
-     
-     }
+                </p>
 
-     .pac-controls label {
-       font-family: Roboto;
-       font-size: 13px;
-       font-weight: 300;
-     }
+                <p class="productN">
+                  <a href="{{route('product',['id'=>$detail->productid, 'sellerId'=>$detail->sellerId])}}">
+                  {{$detail->productname}}
+                  </a>
+                </p>
+                
+                
+                <div class="info_product">{{$detail->productinfo}}</div>
+                <div class="price_product">{{number_format($detail->productprice,2)}}€/pièce</div>
+              </div>
+              
+            </div>
+      @endforeach
+      </div>
 
-     #pac-input {
-       background-color: #fff;
-       font-family: Roboto;
-       font-size: 15px;
-       font-weight: 300;
-       margin-left: 12px;
-       padding: 0 11px 0 13px;
-       text-overflow: ellipsis;
-       width: 400px;
-     }
+      </div>
+    </div>
+@endsection
 
-     #pac-input:focus {
-       border-color: #4d90fe;
-     }
-
-     #title { 
-       color: #fff;
-       background-color: #4d90fe;
-       font-size: 25px;
-       font-weight: 500;
-       padding: 6px 12px;
-     }
-
-     
-
-</style>
-
+@section('script')
 <script>
       // This example requires the Places library. Include the libraries=places
       // parameter when you first load the API. For example:
@@ -351,156 +284,7 @@
         });
       }
     </script>
-
-@section('content')
-<div id="core_home" >
-<div class="core_prehome">
-      <div id="text">
-        <p id="click">
-          Click and Collect, tout est dans le nom !
-        </p>
-        <p id="below_click">
-          Consommez près de chez vous et facilement.
-        </p>
-      </div>
-</div>
-
-  <div class="search"> 
-    <form action="{{route('searchProduct')}}">
-      @csrf
-      @if ($errors->any())
-	<div class="alert alert-warning">
-	Aucun de nos commerçants ne propose de {{old('search')}} &#9785;
-	</div>
-	@endif
-
-      <div class="form-group">
-        <input type="search" id="inputSearch" name="search" placeholder="Que recherchez-vous ?"> 
-        @error('search')
-        <div id="search_feedback" class="invalid-feedback">
-          {{ $message }}
-        </div>
-        @enderror
-        <button type="submit" id="btnSearch">&#x1F50D;</button>
-
-      </div>
-
-    </form>
-  </div>
-
-        <div class="category">
-          <ul>
-            @foreach($categories as $category)
-            <li>
-              <a href="{{route('showProductsOfCategory',['id'=>$category->categoryid])}}">
-                <img src="{{asset('storage/images/'.$category->categoryimage)}}">
-              </a>
-            </li>
-            @endforeach
-          </ul>
-        </div>
-
-
-        <div id="toutemap">
-  <div class="pac-card" id="pac-card">
-      <div>
-        <div id="title">Nos commerçants</div>
-          <div id="type-selector" class="pac-controls">
-            <input
-              type="radio"
-              name="type"
-              id="changetype-all"
-              checked="checked"
-            />
-            <label for="changetype-all">Tous</label>
-
-            <input type="radio" name="type" id="changetype-establishment" />
-            <label for="changetype-establishment">Etablissements</label>
-
-            <input type="radio" name="type" id="changetype-address" />
-            <label for="changetype-address">Adresses</label>
-
-            <input type="radio" name="type" id="changetype-geocode" />
-            <label for="changetype-geocode">Geocodes</label>
-          </div>
-          <br />
-          <div id="strict-bounds-selector" class="pac-controls">
-            <input type="checkbox" id="use-location-bias" value="" checked />
-            <label for="use-location-bias"> Rayon </label>
- <!--          <input type="range" id="use-location-bias" value="" />
-          <label for="use-location-bias">Bias to map viewport</label> -->
-
-            <input type="checkbox" id="use-strict-bounds" value="" />
-            <label for="use-strict-bounds">Limites</label>
-          </div>
-      </div>
-      <div id="pac-container">
-        <input id="pac-input" type="text" placeholder="Entrez une adresse" />
-      </div>
-    </div>
-    <div id="map"></div>
-    
-    <div id="infowindow-content">
-      <span id="place-name" class="title"></span><br />
-      <span id="place-address"></span>
-    </div>
-
-</div>
-
-        <div id="product">
-          <div id="tri">
-            <p>Trier par :</p>
-            <form method="GET" action="{{route('orderedProductsByDate')}}">
-            @csrf
-              <input class="btnTri" name="tridate" type="submit" value="Plus récent au plus ancien">
-            </form>
-            <form method="GET" action="{{route('orderedProducts')}}">
-            @csrf
-            <input class="btnTri" name="tricroi" type="submit" value="Prix : Croissant">
-            </form>
-            <form method="GET" action="{{route('orderedProductsByHigherPrice')}}">
-            @csrf
-            <input class="btnTri" name="tridecroi" type="submit" value="Prix : Décroissant">
-            </form>
-          </div>
-        
-        </div>
-
-        <div class="products">
-    @foreach($details as $detail)
-  <div class="product-card">
-  
-      <div class="badge">
-          {{ $detail->category}}
-      </div>
-
-      <div class="product-tumb">
-          <img src="{{asset('storage/images/'.$detail->productimage)}}" alt="image">
-      </div>
-
-      <div class="product-details">
-          <span class="product-catagory"> <a href="{{route('product',['id'=>$detail->productid, 'sellerId'=>$detail->sellerId])}}"> {{ $detail->productname }}</a></span>
-          <h4>	<a href="{{route('showProductOfSeller',['id'=>$detail->sellerId])}}">{{ $detail->store}}</a></h4>
-          <p>{{ $detail->productinfo }} </p>
-          <div class="product-bottom-details">
-              <div class="product-price">
-                  {{ number_format($detail->productprice,2) }}€ 
-              </div>
-              
-          </div>
-      </div>
-    
-  </div>
-  @endforeach
-</div>
-
-
-
-
-
-</div>
-@endsection
-
 <script async
                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcj3fV0REAoMd7Q5gFJxYE-TWigPH_aeU&libraries=places&callback=initMap&v=weekly">
         </script>
+@endsection

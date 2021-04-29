@@ -4,7 +4,7 @@
 @endsection
 
 @section('title')
-    Page de payement
+    Page de paiement
 @endsection
 
 @section('extra_script')
@@ -189,6 +189,13 @@ button:disabled {
 @endsection
 
 @section('content')
+
+@if ($errors->any())
+	<div class="alert alert-warning">
+		{{$errors}}
+	</div>
+	@endif
+
 <div class="col-md-12">
   <div class="col-md-6">
       <form id="payment-form" class="my-4" method="POST" action="{{route('checkout.store')}}">
@@ -196,12 +203,18 @@ button:disabled {
           <div id="card-element"><!--Stripe.js injects the Card Element--></div>
           <button id="submit" class="btn btn-primary">
             <div class="spinner hidden" id="spinner"></div>
-            <span id="button-text">Pay now</span>
+            <span id="button-text">Valider le paiement</span>
           </button >
           <p id="card-error" role="alert"></p>
           <p class="result-message hidden">
-            Payment succeeded, see the result in your
-            <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
+            
+          @if (session('success'))
+          <div>
+          Paiement accepté
+          </div>
+          @endif
+          
+            <a href="" target="_blank"><!--Stripe dashboard. --></a><!-- Refresh the page to pay again. -->
           </p>
         </form>
     </div>

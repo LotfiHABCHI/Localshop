@@ -9,5 +9,6 @@
 
 
 @section('content')
+
     <a href="http://localhost:8000/resetPassword">Cliquez ici pour réinitialiser votre mot de passe</a>
 @endsection

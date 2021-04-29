@@ -5,8 +5,9 @@
 @endsection
 @section('css')
   @parent
-  <link href="{{ asset('css/sellers/seller.css') }}" rel="stylesheet" type="text/css" />
+
   <link href="{{ asset('css/product/product.css') }}" rel="stylesheet" type="text/css" />
+
 @endsection
 
 
@@ -58,25 +59,26 @@
 
             <div id="txtproduct">
               <div id="txtinfo">
-              <div id="category">
-              {{$product->categoryname}}
+                <div id="category">
+                  {{$product->categoryname}}
+                </div>
 
+              <div id="name">
+                <a href="#">
+                  {{$product->productname}}
+                </a>
               </div>
-
-            <div id="name">
-              <a href="#">
-                {{$product->productname}}
-              </a>
-            </div>
           
-            <div id="info">{{$product->productinfo}}</div>
+              <div id="info">
+                {{$product->productinfo}}
+              </div>
 
            
 
-          </div>
+            </div>
 
           <div id="txtprice">
-            <div id="price">{{$product->productprice}} €/pièce</div>
+            <div id="price">{{number_format($product->productprice,2)}} €/pièce</div>
             @if(session()->has('alluser') && (session()->get('alluser')['roleid']==2 ) OR !(session()->has('alluser')))
             <form class="formQuantity"  action="{{route('cart.add', ['id'=>$product->productid])}}" method="POST" id="add_cart">
                       @csrf

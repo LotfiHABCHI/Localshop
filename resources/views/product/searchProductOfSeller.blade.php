@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('title')
-'Page Producteur'
+{{$products[0]->storename}}
 @endsection
 
 @section('css')
@@ -25,14 +25,16 @@
 
 <div id="core_seller" >
 
-  <div class="search"> 
-    <form method="GET" action="{{route('searchProductInStore',['sellerId'=>$products[0]->sellerid])}}">
+
+
+<div class="search"> 
+<form method="GET" action="{{route('searchProductInStore',['sellerId'=>$products[0]->sellerid])}}">
       @csrf
       @if ($errors->any())
-	<div class="alert alert-warning">
-	Ce vendeur ne propose pas de {{old('searchInStore')}} &#9785;
-	</div>
-	@endif
+      <div class="alert alert-warning">
+        Aucun de nos commerçants ne propose de {{old('searchInStore')}} &#9785;
+      </div>
+      @endif
 
       <div class="form-group">
         <input type="search" id="inputSearch" name="searchInStore" placeholder="Que recherchez-vous ?"> 
@@ -41,9 +43,9 @@
           {{ $message }}
         </div>
         @enderror
-        
+        <button type="submit" id="btnSearch">&#x1F50D;</button>
+
       </div>
-      <button type="submit" id="btnSearch">&#x1F50D;</button>
 
     </form>
   </div>
@@ -58,47 +60,51 @@
         </div>
         <div id="divAddDescription">
             <p>{{$products[0]->sellerdescription}}</p>
-        @if(session()->get('alluser')['roleid']==1)
-            <a id="btnEdit" href="#"> <!-- route add_description.show -->
+        @if(session()->has('alluser') && session()->get('alluser')['roleid']==1 && (session()->get('alluser')['allusersellerid']==$products[0]->sellerid) )
+            <a id="btnEdit" href="{{route('add_description.show', ['id'=>$products[0]->sellerid])}}"> <!-- route add_description.show -->
                 Editer votre description
             </a>
         @endif
         </div>
       
         <div class="nb_item">
+           
+            <p> Adresse :{{$products[0]->sellernumstreet}} {{$products[0]->sellernamestreet}} </p>
+            <p> Téléphone : {{$products[0]->sellerphone}}</p>
+            
         </div>
     </div>
 
     <div class="products">
-@if((session()->get('alluser')['roleid']==1) && (session()->get('alluser')['allusersellerid']==$products[0]->sellerid))
-  @foreach($products as $product)
+@if((session()->has('alluser') && session()->get('alluser')['roleid']==1) && (session()->get('alluser')['allusersellerid']==$products[0]->sellerid))
+  @foreach($details as $detail)
       <div class="product_card">
-        <form id="delete" methode="POST" action="{{route('delete_product.post',['id'=>$product->productid])}}">  <!-- route('delete_product.post',['id'=>$product->productid]) -->
+        <form id="delete" methode="POST" action="{{route('delete_product.post',['id'=>$detail->productid])}}">  <!-- route('delete_product.post',['id'=>$product->productid]) -->
         @csrf
           <input id="inputDelete" value="&#10060" type="submit">
         </form>
 
         <div class="img">
-          <a href="{{route('product',['id'=>$product->productid, 'sellerId'=>$product->sellerid])}}">
-          <img src="{{asset('storage/images/'.$product->productimage)}}" alt="image">
+          <a href="{{route('product',['id'=>$detail->productid, 'sellerId'=>$detail->sellerid])}}">
+          <img src="{{asset('storage/images/'.$detail->productimage)}}" alt="image">
           </a>
         </div>
 
         <hr>
         <div class="txtproduct">
           <p class="categoryN">
-          categorie
+          {{$detail->categoryname}} 
           </p>
 
           <p class="productN">
-            <a href="{{route('product',['id'=>$product->productid, 'sellerId'=>$product->sellerid])}}">
-              {{$product->productname}}
+            <a href="{{route('product',['id'=>$detail->productid, 'sellerId'=>$detail->sellerid])}}">
+              {{$detail->productname}}
             </a>
           </p>
           
           
-          <div class="info_product">{{$product->productinfo}}</div>
-          <div class="price_product">{{number_format($product->productprice,2)}}€/pièce</div>
+          <div class="info_product">{{$detail->productinfo}}</div>
+          <div class="price_product">{{number_format($detail->productprice,2)}}€/pièce</div>
         </div>
       </div>
   @endforeach
@@ -120,7 +126,9 @@
         <hr>
         <div class="txtproduct">
           <p class="categoryN">
-          categorie
+          {{$product->categoryname}}
+
+
           </p>
 
           <p class="productN">
@@ -143,6 +151,7 @@
   </div>
 
 </div>
+
 @endsection
 
 

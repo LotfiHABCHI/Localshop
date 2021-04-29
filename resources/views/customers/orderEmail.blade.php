@@ -1,14 +1,21 @@
-@extends('layouts.base')
+<style>
+#logo img{
+  text-align: center;
+}
 
-@section('title', 'Votre Facture')
-
-@section('css')
-  @parent
-  <link href="{{ asset('css/log/orders.css') }}" rel="stylesheet" type="text/css" />
-@endsection
-
-
-@section('content')
+#logo{
+  margin-left: 24.2%;
+  display: flex;
+  text-align: center;
+}
+</style>
+<div id="logo">
+        <a href="{{route('home')}}" class="navbar-brand d-flex align-items-center">
+                <img class="img_header" src="{{asset('images/'.'local.png')}}" alt="logo" height="97" width="450"/>
+            </a>
+        </div>
+<!DOCTYPE html>
+<html lang="fr">
 <div id="core_order">
   
   <h1>Merci de votre achat !</h1>
@@ -60,4 +67,4 @@
     </table>
 
 </div>
-@endsection
+</html>

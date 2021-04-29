@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('title')
-'Page Producteur'
+{{$seller[0]->storename}}
 @endsection
 
 @section('css')
@@ -13,34 +13,19 @@
 @section('content')
 <div class="category">
           <ul>
-            fordddddddddddddddd
+            @foreach($categories as $category)
             <li>
-              <a href="">
-                <img src="">
+              <a href="{{route('showProductsOfCategory',['id'=>$category->categoryid])}}">
+                <img src="{{asset('storage/images/'.$category->categoryimage)}}">
               </a>
             </li>
-            fin
+            @endforeach
           </ul>
-  </div>
+        </div>
 
 <div id="core_seller" >
 
-  <div class="search"> 
-    <form method="GET" action="{{route('searchProductInStore',['sellerId'=>$seller[0]->sellerid])}}">
-      @csrf
-
-      <div class="form-group">
-        <input type="search" id="inputSearch" name="searchInStore" placeholder="Que recherchez-vous ?">
-        <input id="btnSearch" name="search" type="submit" value="Valider">
-        @error('search')
-        <div id="search_feedback" class="invalid-feedback">
-          {{ $message }}
-        </div>
-        @enderror
-      </div>
-
-    </form>
-  </div>
+  
 
 <div class="store">
 @if((session()->get('alluser')['roleid']==1) && (session()->get('alluser')['allusersellerid']==$seller[0]->sellerid))
@@ -73,10 +58,11 @@
 
     <div class="img">
       <a href="{{route('product',['id'=>$detail->productid, 'sellerId'=>$seller[0]->sellerid])}}">
-        <img src="$">
+      <img src="{{asset('storage/images/'.$detail->productimage)}}" alt="image">
       </a>
     </div>
 
+    
     <hr>
     <div class="txtproduct">
       <p class="categoryN">
@@ -96,9 +82,7 @@
   </div>
 @endforeach
 
-  <div class="product_cardAdd">
-    <a id="addP" href="addProduct.irfref">&#10010</a>
-  </div>
+  
 
   
 </div>
@@ -118,6 +102,3 @@
 @endsection
 
 
-@section('script')
-<script src="{{ asset('js/seller/seller.js') }}"></script>
-@endsection

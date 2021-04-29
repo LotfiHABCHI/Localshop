@@ -21,30 +21,30 @@
 
           <div class="questions">
             <div class="visible-pannel">
-                <h2>Comment fonctionne le click and collect ?</h2>
-                <img src="{{ asset('storage/image/down.svg') }}" id="chevronImg" alt="chevron animation">
+                <h2>Comment fonctionne le Click & Collect ?</h2>
+                <img src="{{ asset('storage/images/down.svg') }}" id="chevronImg" alt="chevron animation">
             </div>
             <div class="toggle-pannel">
-                <h4>Comment fonctionne le click and collect ?</h4>
+                <h4>Comment fonctionne le Click & Collect ?</h4>
                 <p>text</p>
             </div>
           </div>
 
           <div class="questions">
             <div class="visible-pannel">
-                <h2>Quand puis-je récupérer ma commande en click & collect ?</h2>
-                <img src="{{ asset('storage/image/down.svg') }}" alt="chevron animation">
+                <h2>Quand puis-je récupérer ma commande en Click & Collect ?</h2>
+                <img src="{{ asset('storage/images/down.svg') }}" alt="chevron animation">
             </div>
             <div class="toggle-pannel">
-                <h4>Quand puis-je récupérer ma commande en click & collect ?</h4>
-                <p>Vous pouvez récupérer votre commande chez votre producteur/productrice dès la reception du SMS confirmant la disponibilité de votre commande.</p>
+                <h4>Quand puis-je récupérer ma commande en Click & Collect ?</h4>
+                <p>Vous pouvez récupérer votre commande chez votre producteur/productrice dès la reception du mail confirmant la disponibilité de votre commande.</p>
             </div>
           </div>
 
           <div class="questions">
             <div class="visible-pannel">
                 <h2>Est-ce que quelqu'un peut récupérer ma commande Click and Collect à ma place ?</h2>
-                <img src="{{ asset('storage/image/down.svg') }}" alt="chevron animation">
+                <img src="{{ asset('storage/images/down.svg') }}" alt="chevron animation">
             </div>
             <div class="toggle-pannel">
                 <h4>Est-ce que quelqu'un peut récupérer ma commande Click and Collect à ma place ?</h4>
@@ -55,7 +55,7 @@
           <div class="questions">
             <div class="visible-pannel">
                 <h2>Je ne peux pas récupérer ma commande Click and Collect, puis-je me la faire livrer ?</h2>
-                <img src="{{ asset('storage/image/down.svg') }}" alt="chevron animation">
+                <img src="{{ asset('storage/images/down.svg') }}" alt="chevron animation">
             </div>
             <div class="toggle-pannel">
                 <h4>Je ne peux pas récupérer ma commande Click and Collect, puis-je me la faire livrer ?</h4>
@@ -66,7 +66,7 @@
           <div class="questions">
             <div class="visible-pannel">
                 <h2>Comment puis-je annuler ma commande Click and Collect ? </h2>
-                <img src="{{ asset('storage/image/down.svg') }}" alt="chevron animation">
+                <img src="{{ asset('storage/images/down.svg') }}" alt="chevron animation">
             </div>
             <div class="toggle-pannel">
                 <h4>Comment puis-je annuler ma commande Click and Collect ? </h4>
@@ -77,7 +77,7 @@
           <div class="questions">
             <div class="visible-pannel">
                 <h2>J'ai une question concernant un produit, puis-je contacter un/une producteur/productrice ?</h2>
-                <img src="{{ asset('storage/image/down.svg') }}" alt="chevron animation">
+                <img src="{{ asset('storage/images/down.svg') }}" alt="chevron animation">
             </div>
             <div class="toggle-pannel">
                 <h4>J'ai une question concernant un produit, puis-je contacter un/une producteur/productrice ?</h4>
@@ -88,7 +88,7 @@
           <div class="questions">
             <div class="visible-pannel">
                 <h2>Comment puis-je payer sur le site ?</h2>
-                <img src="{{ asset('storage/image/down.svg') }}" alt="chevron animation">
+                <img src="{{ asset('storage/images/down.svg') }}" alt="chevron animation">
             </div>
             <div class="toggle-pannel">
                 <h4>Comment puis-je payer sur le site ?</h4>
@@ -99,7 +99,7 @@
           <div class="questions">
             <div class="visible-pannel">
                 <h2>Y'a-t-il un montant minimum de commande ?</h2>
-                <img src="{{ asset('storage/image/down.svg') }}" alt="chevron animation">
+                <img src="{{ asset('storage/images/down.svg') }}" alt="chevron animation">
             </div>
             <div class="toggle-pannel">
                 <h4>Y'a-t-il un montant minimum de commande ?</h4>
@@ -110,7 +110,7 @@
           <div class="questions">
             <div class="visible-pannel">
                 <h2>Quand est-ce que je serai débité de ma commande ?</h2>
-                <img src="{{ asset('storage/image/down.svg') }}" alt="chevron animation">
+                <img src="{{ asset('storage/images/down.svg') }}" alt="chevron animation">
             </div>
             <div class="toggle-pannel">
                 <h4>Quand est-ce que je serai débité de ma commande ?</h4>
@@ -121,7 +121,7 @@
           <div class="questions">
             <div class="visible-pannel">
                 <h2>Mon paiement sur LocalShop est-il sécurisé ?</h2>
-                <img src="{{ asset('storage/image/down.svg') }}" alt="chevron animation">
+                <img src="{{ asset('storage/images/down.svg') }}" alt="chevron animation">
             </div>
             <div class="toggle-pannel">
                 <h4>Mon paiement sur LocalShop est-il sécurisé ?</h4>
@@ -133,7 +133,7 @@
           <div class="questions">
             <div class="visible-pannel">
                 <h2>Comment puis-je évaluer mon achat ?</h2>
-                <img src="{{ asset('storage/image/down.svg') }}" alt="chevron animation">
+                <img src="{{ asset('storage/images/down.svg') }}" alt="chevron animation">
             </div>
             <div class="toggle-pannel">
                 <h4>Comment puis-je évaluer mon achat ?</h4>
@@ -144,7 +144,7 @@
           <div class="questions">
             <div class="visible-pannel">
                 <h2>Comment puis-je obtenir la facture de ma commande ?</h2>
-                <img src="{{ asset('storage/image/down.svg') }}" alt="chevron animation">
+                <img src="{{ asset('storage/images/down.svg') }}" alt="chevron animation">
             </div>
             <div class="toggle-pannel">
                 <h4>Comment puis-je obtenir la facture de ma commande?</h4>
@@ -155,7 +155,7 @@
           <div class="questions">
             <div class="visible-pannel">
                 <h2>J'ai perdu le mot de passe de mon compte, que faire ?</h2>
-                <img src="{{ asset('storage/image/down.svg') }}" alt="chevron animation">
+                <img src="{{ asset('storage/images/down.svg') }}" alt="chevron animation">
             </div>
             <div class="toggle-pannel">
                 <h4>J'ai perdu le mot de passe de mon compte, que faire ?</h4>
@@ -166,7 +166,7 @@
           <div class="questions">
             <div class="visible-pannel">
                 <h2>Combien de temps ma commande est-elle conservée ?</h2>
-                <img src="{{ asset('storage/image/down.svg') }}" alt="chevron animation">
+                <img src="{{ asset('storage/images/down.svg') }}" alt="chevron animation">
             </div>
             <div class="toggle-pannel">
                 <h4>Combien de temps ma commande est-elle conservée ?</h4>
@@ -182,7 +182,7 @@
           <div class="questions">
             <div class="visible-pannel">
                 <h2>Je suis producteur/productrice/artisan/artisane et je veux vendre sur LocalShop, comment faire ?</h2>
-                <img src="{{ asset('storage/image/down.svg') }}" alt="chevron animation">
+                <img src="{{ asset('storage/images/down.svg') }}" alt="chevron animation">
             </div>
             <div class="toggle-pannel">
                 <h4>Je suis producteur/productrice/artisan/artisane et je veux vendre sur LocalShop, comment faire ?</h4>
@@ -193,7 +193,7 @@
           <div class="questions">
             <div class="visible-pannel">
                 <h2>Personne n'est venu récupérer la commande, que dois-je faire ?</h2>
-                <img src="{{ asset('storage/image/down.svg') }}" alt="chevron animation">
+                <img src="{{ asset('storage/images/down.svg') }}" alt="chevron animation">
             </div>
             <div class="toggle-pannel">
                 <h4>Personne n'est venu récupérer la commande, que dois-je faire ?</h4>
@@ -204,7 +204,7 @@
           <div class="questions">
             <div class="visible-pannel">
                 <h2>Q1</h2>
-                <img src="{{ asset('storage/image/down.svg') }}" alt="chevron animation">
+                <img src="{{ asset('storage/images/down.svg') }}" alt="chevron animation">
             </div>
             <div class="toggle-pannel">
                 <h4>Q1</h4>
@@ -215,7 +215,7 @@
           <div class="questions">
             <div class="visible-pannel">
                 <h2>Q1</h2>
-                <img src="{{ asset('storage/image/down.svg') }}" alt="chevron animation">
+                <img src="{{ asset('storage/images/down.svg') }}" alt="chevron animation">
             </div>
             <div class="toggle-pannel">
                 <h4>Q1</h4>

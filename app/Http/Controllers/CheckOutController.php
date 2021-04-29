@@ -93,7 +93,7 @@ class CheckOutController extends Controller
            $newStock=$stock[0]->productquantity-$product['quantity'];
 
             if($newStock<0){
-                return redirect()->back()->withErrors("Qauntite de " . $product['name'] ." insuffisante");
+                return redirect()->route('home')->withErrors("Qauntite de " . $product['name'] ." insuffisante");
             }
         }
             $order=$this->repository->addOrder($date, $count, $total, $customerId );
@@ -103,7 +103,7 @@ class CheckOutController extends Controller
             //dd($product['quantity']);
 
             $this->repository->updateStock($product['id'], $newStock);
-            return redirect()->route('detail_order',  ['orderId'=>$order]);
+            return redirect()->route('detail_order',  ['orderId'=>$order])->with(['success'=>"Merci"]);
       
         }
         

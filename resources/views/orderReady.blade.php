@@ -1,5 +1,20 @@
-<!DOCTYPE html>
-<html lang="fr">
+<style>
+#logo img{
+  text-align: center;
+}
+
+#logo{
+  margin-left: 24.2%;
+  display: flex;
+  text-align: center;
+}
+</style>
+<div id="logo">
+        <a href="{{route('home')}}" class="navbar-brand d-flex align-items-center">
+                <img class="img_header" src="{{asset('images/'.'local.png')}}" alt="logo" height="97" width="450"/>
+            </a>
+        </div><!DOCTYPE html>
+        
   <head>
     <meta charset="utf-8">
   </head>

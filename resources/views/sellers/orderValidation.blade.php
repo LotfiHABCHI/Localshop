@@ -2,17 +2,26 @@
 
 @section('title', 'Validez vos commandes') 
 
+@section('css')
+  @parent
+  <link href="{{ asset('css/customers/cart.css') }}" rel="stylesheet" type="text/css" />
 
+  <link href="{{ asset('css/customers/orders.css') }}" rel="stylesheet" type="text/css" />
+
+@endsection
 
 @section('content')
 
 
 	
     
+<div id="core_cart">
+<h1>Mes commandes</h1>
 
-<table class="table table-borderd table-responsive-sm">
-    <tr>
-        <td>
+<hr></hr>
+<table id="cmdSeller"  >
+    <tr class="cmdSeller">
+        <td class="date">
             Date
         </td>
         <td> 
@@ -42,7 +51,7 @@
 <!-- i++ -->
 
                     <tr>
-                        <td>
+                        <td class="date">
                             {{$order->orderdate}}
                         </td>
 
@@ -69,10 +78,10 @@
                         @if($order->status==1)
                         <form method="POST" action="{{route('orderValidate.post', ['orderid'=>$order->orderid, 'customerid'=>$order->customerid, 'productid'=>$order->productid])}}" >
                             @csrf 
-                                <button id=i type="submit" class="btn btn-primary" >Valider</button>
+                                <button id="btnSearch" type="submit"  >A valider</button>
                             </form>
                         @else
-                            <button id=i type="submit" class="btn btn-secondary" disabled="disabled" >Validée</button>
+                            <button id="btnRemise" type="submit" disabled="disabled" >Remise</button>
                         @endif
 
                         </td>
@@ -82,6 +91,7 @@
                    
  @endforeach
             </table>
+            </div>
 
         @endsection
         

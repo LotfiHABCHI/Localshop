@@ -1,24 +1,21 @@
-<!DOCTYPE html>
-<html>
-
-@section('title', 'Contact')
-
-@section('css')
-  @parent
-  <link href="{{ asset('css/log/contact.css') }}" rel="stylesheet" type="text/css" />
-@endsection
-
 <style>
-  #logo{
-    text-align: center;
-  }
-</style>
+#logo img{
+  text-align: center;
+}
 
+#logo{
+  margin-left: 24.2%;
+  display: flex;
+  text-align: center;
+}
+</style>
 <div id="logo">
-        <a href="{{ route('home') }}">
-          <img class="img_header" src="{{asset('images/'.'local.png')}}" alt="logo" height="97" width="450"/>
-        </a>
-      </div>
+        <a href="{{route('home')}}" class="navbar-brand d-flex align-items-center">
+                <img class="img_header" src="{{asset('images/'.'local.png')}}" alt="logo" height="97" width="450"/>
+            </a>
+        </div><!DOCTYPE html>
+
+
 
 <div id="core_contact">
   

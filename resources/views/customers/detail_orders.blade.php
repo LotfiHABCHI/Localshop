@@ -8,6 +8,12 @@
 @endsection
 
 @section('content')
+@if(session('success'))
+    <div class="msg">
+    {{session('success')}}  &#128512;
+    
+    </div>
+    @endif
 <div id="core_order">
 
     <h1>Mes commandes</h1>
@@ -32,11 +38,11 @@
                  <tr>
                 <td>{{$detailOrder->storename}}</td>
                 <td>{{$detailOrder->productname}}</td>
-                <td>{{ number_format($detailOrder->productprice,2) }}€/pièce</td>
+                <td>{{ number_format($detailOrder->productprice,2) }} €</td>
                 <td>{{$detailOrder->orderproductquantity}}</td>
                
                 <td>
-                    <strong>{{$total=number_format($detailOrder->productprice * $detailOrder->orderproductquantity,2)}}€ </strong>
+                    <strong>{{$total=number_format($detailOrder->productprice * $detailOrder->orderproductquantity,2)}} € </strong>
                               <!--{{$Total+=$total}}    -->  
                 </td>  
                 <td>
@@ -52,7 +58,7 @@
                     <td></td>
                     <td> Total</td>
                     <td> </td>
-                    <td><strong> {{number_format($Total,2)}}€<strong></td>
+                    <td><strong> {{number_format($Total,2)}} €<strong></td>
                 </tr>
             </tfooter>
 

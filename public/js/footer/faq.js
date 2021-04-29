@@ -11,10 +11,10 @@ allCross.forEach(element => {
 
         // console.log(this.src);
         if(this.src.includes('down')){
-            this.src = "/storage/image/up.svg";
+            this.src = "/storage/images/up.svg";
             gsap.to(currentChoice, {duration: 0.2, height: height + 40, opacity: 1, padding: '20px 15px'})
         } else if (this.src.includes('up')){
-            this.src = "/storage/image/down.svg"
+            this.src = "/storage/images/down.svg"
             gsap.to(currentChoice, {duration: 0.2, height: 0, opacity: 0, padding: '0px 15px'})
         }
         

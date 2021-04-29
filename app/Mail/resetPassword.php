@@ -28,6 +28,8 @@ class resetPassword extends Mailable
      */
     public function build()
     {
-        return $this->view('log/resetLink');
+        return $this->from('localShop@localShop.fr') // L'expéditeur
+        ->subject("Réinitialisation de votre mot de passe") // Le sujet
+        ->view('log/resetLink'); // La vue
     }
 }

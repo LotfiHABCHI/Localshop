@@ -11,7 +11,7 @@
 
 @section('content')
 <div class="core">
-        <h2>Nouveau produit</h2>
+        <h1>Ajoutez votre produit</h1>
 
         <hr></hr>
 
@@ -19,9 +19,7 @@
         <div class="form_core">
           <form class="form" method="POST" action="{{route('addProduct.post')}}" enctype="multipart/form-data">
           @csrf 
-          <p class="subTitle">
-              <h3>Ajoutez votre produit</h3>
-            </p>
+          
            
             @if ($errors->any())
               <div class="alert alert-warning">
@@ -71,14 +69,21 @@
             </div>
             
             <div class="formGroupe">
-              <label for="category">Catégorie</label>
+              <label id="category" for="catégorie">Catégorie</label>
+              <input type="txt" id="category" name="category" disabled="disabled">
               <select name="category" id="category">
                 @foreach($categories as $category)
                 <option value="{{$category['categoryid']}}">{{$category['categoryname']}}</option>
                 @endforeach
               </select>
+              @error('category')
+              <div id="category_feedback" class="invalid-feedback">
+                {{ $message }}
+              </div>
+              @enderror
             </div>
 
+            
             <div class="formGroupe">
               <label for="quantity">Quantité</label>
               <input type="integer" id="quantity" name="quantity" value="{{ old('quantity') }}" required>
@@ -102,4 +107,7 @@
         </div>
         @endif
 
+@endsection
+@section('script')
+<script src="{{ asset('js/log/connexion.js') }}"></script>
 @endsection

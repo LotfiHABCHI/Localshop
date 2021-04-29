@@ -25,14 +25,16 @@
 
 <div id="core_seller" >
 
-  <div class="search"> 
-    <form  action="{{route('searchProductInStore',['sellerId'=>$seller[0]->sellerid])}}">
+
+
+<div class="search"> 
+<form  action="{{route('searchProductInStore',['sellerId'=>$seller[0]->sellerid])}}">
       @csrf
       @if ($errors->any())
-	<div class="alert alert-warning">
-	Ce vendeur ne propose pas de {{old('searchInStore')}} &#9785;
-	</div>
-	@endif
+      <div class="alert alert-warning">
+        Aucun de nos commerçants ne propose de {{old('searchInStore')}} &#9785;
+      </div>
+      @endif
 
       <div class="form-group">
         <input type="search" id="inputSearch" name="searchInStore" placeholder="Que recherchez-vous ?"> 
@@ -41,9 +43,9 @@
           {{ $message }}
         </div>
         @enderror
-        
+        <button type="submit" id="btnSearch">&#x1F50D;</button>
+
       </div>
-      <button type="submit" id="btnSearch">&#x1F50D;</button>
 
     </form>
   </div>
@@ -76,8 +78,8 @@
     <div class="products">
 @if((session()->has('alluser') && session()->get('alluser')['roleid']==1) && (session()->get('alluser')['allusersellerid']==$seller[0]->sellerid))
   @foreach($details as $detail)
-      <div class="product_card">
-        <form id="delete" methode="POST" action="{{route('delete_product.post',['id'=>$detail->productid])}}">  <!-- route('delete_product.post',['id'=>$product->productid]) -->
+      <div class="product_card_own">
+        <form id="delete" method="POST" action="{{route('delete_product.post',['id'=>$detail->productid])}}">  <!-- route('delete_product.post',['id'=>$product->productid]) -->
         @csrf
           <input id="inputDelete" value="&#10060" type="submit">
         </form>
@@ -103,8 +105,16 @@
           
           <div class="info_product">{{$detail->productinfo}}</div>
           <div class="price_product">{{number_format($detail->productprice,2)}}€/pièce</div>
-        </div>
+          <div class="quantity_update">
+        <form action="{{ route('stock.update', $detail->productid) }}" method="POST" id="stock_update">
+                    @csrf
+                      <input id="inputSearch"  name="stock" type="number" style="height: 2rem" min="1" max="99" value="{{ $detail->productquantity }}">
+                      <button  id="stock_update"> &#10004 </button>                  
+                  </form> 
       </div>
+        </div>
+       
+</div>
   @endforeach
 
       <div class="product_cardAdd">

@@ -11,132 +11,108 @@
     
   </head>
 
+  <body class="body_img">
 <!-- truc de bootstrap commence ici -->
 
-  @if (session()->has('alluser'))
+  
        
 
-       Salut {{ session()->get('alluser')['alluserfirstname'] }}
-
-
-       <ul class="navbar-nav ml-auto">
-                       
-                
-                           
-                  <!-- @if (Route::has('register'))
-                       <li class="nav-item">
-                           <a class="nav-link" href="{{ route('register') }}"></a>
-                       </li>
-                   @endif -->
-                 
-                       <li class="nav-item dropdown">
-                      
-                           <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                           </a>
-                          
-                           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                           @if( session()->get('alluser')['roleid'] ==1)
-                           <a class="dropdown-item" 
-                           href="{{route('productOfSeller', ['sellerId'=>session()->get('alluser')['allusersellerid']])}}">
-                                       {{ __('Mon compte') }}
-                               </a>
-                               @else
-                               <a class="dropdown-item" 
-                           href="#">
-                                       {{ __('Mon compte') }}
-                                 @endif
-                               @if( session()->get('alluser')['roleid'] ==1)
-                               <a class="dropdown-item" href="{{ route('addProduct') }}">
-                                       {{ __('Ajouter un produit') }}
-                               </a>
-                               <a class="dropdown-item" href="{{ route('orderValidate') }}">
-                                       {{ __('Mes commandes') }}
-                               </a>
-                                   @else
-                                   <a class="dropdown-item"  href="{{route('order',  ['customerId'=>session()->get('alluser')['allusercustomerid']] )}}">
-                                       {{ __('Mes commandes') }}
-                               </a>
-                               @endif
-                               <a class="dropdown-item"   href="{{route('changePassword')}}">{{__('Modifier le mot de passe')}}</a>
-
-                               <a class="dropdown-item" href="{{ route('logout') }}"
-                                      onclick="event.preventDefault();
-                                                    document.getElementById('logout-form').submit();">
-                                       {{ __('Deconnexion') }}
-                               </a>
-                               <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                   @csrf
-                               </form>
-                           </div>
-                       </li>
-                
-           </ul>
-           @else 
-           <li class="nav-item">
-                           <a href="{{ route('login') }}"><img class="img_header" src="{{asset('images/'.'connexion.png')}}" alt="connect" height="47" width=""/></a>
-                       </li>
-       @endif
-  
+      
+          
 <!-- truc de bootstrap se termine ici -->
 
 
        
-  <body class="body_img">
+  
     @if (session()->has('alluser'))
     <div class="header">
 
-      <div id="co">
-        <a href="{{ route('login') }}">  <!-- soit enlever l'image soit mettre une de quand on est connecté -->
-          <img class="img_header" src="{{asset('images/'.'connexion.png')}}" alt="connect" height="47" width=""/>
-        </a>
-        <div id="nameCo">
-          {{session()->get('alluser')['alluserfirstname']}}
-        <div class="select_style">
-          <select class="select_style">
-         <option> <a class="dropdown-item" href="{{ route('orderValidate') }}">
-         </option>
-            <option><a href="{{route('changePassword')}}">Mot de passe</a>
-            <option><a href="{{route('logout')}}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Deconnexion') }}</a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-          </select>
-        </div>
+    
 
-        </div>
-      </div>
 
-      <div id="logo">
+<ul id="co" class="navbar-nav  ">
+                
+
+                    
+           <!-- @if (Route::has('register'))
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('register') }}"></a>
+                </li>
+            @endif -->
+            <img class="img_header" src="{{asset('images/'.'connexion.png')}}" alt="connect" height="47" width=""/>
+            {{ session()->get('alluser')['alluserfirstname'] }}
+                <li class="nav-item dropdown">
+               
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                    </a>
+                   
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    @if( session()->get('alluser')['roleid'] ==1)
+                    <a class="dropdown-item" 
+                    href="{{route('showProductOfSeller', ['id'=>session()->get('alluser')['allusersellerid']])}}">
+                                {{ __('Mon magasin') }}
+                        </a>
+                    
+                          @endif
+                        @if( session()->get('alluser')['roleid'] ==1)
+                        <a class="dropdown-item" href="{{ route('addProduct') }}">
+                                {{ __('Ajouter un produit') }}
+                        </a>
+                        <a class="dropdown-item" href="{{ route('orderValidate') }}">
+                                {{ __('Mes commandes') }}
+                        </a>
+                            @else
+                            <a class="dropdown-item"  href="{{route('order',  ['customerId'=>session()->get('alluser')['allusercustomerid']] )}}">
+                                {{ __('Mes commandes') }}
+                        </a>
+                        @endif
+                        <a class="dropdown-item"   href="{{route('changePassword')}}">{{__('Modifier le mot de passe')}}</a>
+
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                                             document.getElementById('logout-form').submit();">
+                                {{ __('Deconnexion') }}
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </div>
+                </li>
+         
+    </ul>
+
+      <div class="logo">
         <a href="{{ route('home') }}">
           <img class="img_header" src="{{asset('images/'.'local.png')}}" alt="logo" height="97" width="450"/>
         </a>
       </div>
+      @if( session()->get('alluser')['roleid'] ==1)
+      <div class="panier">
+<a href="{{route('orderValidate')}}">
+    <img class="img_header" src="{{asset('images/'.'panier.png')}}" alt="panier" height="38" width="39"/>
+  </a>
+</div>
+@elseif( session()->get('alluser')['roleid'] ==2)
+      <div class="panier">
+<a href="{{route('cart.index')}}">
+    <img class="img_header" src="{{asset('images/'.'panier.png')}}" alt="panier" height="38" width="39"/>
+  </a>
+</div>
+@endif
 
-      @if(session()->get('alluser')['roleid']==2)
-      <div id="panier">
-      <a href="{{route('cart.index')}}">
-          <img class="img_header" src="{{asset('images/'.'panier.png')}}" alt="panier" height="38" width="39"/>
-        </a>
-      </div>
-      @else
-      <div id="panier">
-        <a href="{{ route('logout') }}"> <!-- route a revoir -->
-          <img class="img_header" src="{{ asset('storage/image/header/connexion_header.png') }}" alt="panier" height="38" width="39"/>
-        </a>
-      </div>
-      @endif
+      
 
     </div>
 @else
 <div class="header">
 
-<div class="co">
-<a href="{{route('login')}}">
-    <img class="img_header" src="{{asset('images/'.'connexion.png')}}" alt="connect" height="47" width=""/>
-  </a>
-</div>
+    
+           <li id="co1" class="nav-item">
+              <a href="{{ route('login') }}"><img class="img_header" src="{{asset('images/'.'connexion.png')}}" alt="connect" height="47" width=""/></a>
+              <p>Connexion </p> </li>
+                           
+     
+  
 
 <div class="logo">
   <a href="{{ route('home') }}">

@@ -27,6 +27,7 @@
     margin: 50px auto 50px auto;
     width: 70%;
     vertical-align: middle;
+    text-align: center;
   }
 
   #inputSearch{
@@ -154,7 +155,7 @@
 }
 
 .nb_item{
-  margin: 30px 0 30px 0;
+  margin: 30px 0 30px 20px;
 }
 
 
@@ -163,13 +164,17 @@
 .products{
     padding: 10px;
     width: 60%;
+    text-align: center;
+    
 }
+
+
 
 
 /*fiche produit*/
 .product_card{
     display: inline-block;
-    width: 212px;
+    width: 300px;
     border: 2px solid #e9aa4b;
     border-radius: 10px;
     box-shadow: 10px 5px 5px grey;
@@ -177,8 +182,22 @@
     text-align: center;
     position:relative;
     margin:9px;
-    height: 370px;
+    height: 390px;
     vertical-align: middle;
+}
+
+.product_card_own{
+  display: inline-block;
+  width: 300px;
+  border: 2px solid #e9aa4b;
+  border-radius: 10px;
+  box-shadow: 10px 5px 5px grey;
+  background-color: white;
+  text-align: center;
+  position:relative;
+  margin:9px;
+  height: 440px;
+  vertical-align: middle;
 }
 
 
@@ -212,8 +231,8 @@
 }
 
 .imgC img{
-  max-width: 150%;
-  max-height: 150%
+  max-width: 100%;
+  max-height: 100%
 }
 
 /*fiche produit txt*/
@@ -260,6 +279,11 @@
   margin-top: 10px;
 }
 
+.quantity_update{
+  
+  margin-top: 10px;
+}
+
 
 /*card add product*/
 .product_cardAdd{
@@ -288,34 +312,31 @@
 }
 
 
-/*supp*/
-#tri
-{width: 90%;
-margin: 40px auto 50px auto;
-border: 2px solid red;
-vertical-align: middle;
-display: flex;
-font-size: 18px;
-text-align: center;
+
+    /*category*/
+    .category{
+      text-align: center;
+    }
+.category li{
+  display: inline-block;
+  width: 12%;
+  height: 8%;
+  
 }
 
-#tri p{
-  display: inline-block;
-  vertical-align: middle;
-  margin: 10px;
-  padding: 10px 20px;
+.category li img{
+  width: 100%;
+  height: 100%;
 }
 
-.btnTri{
-  border: none;
-  background-color: rgb(255, 248, 248);
-  color: black;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 18px;
-  border-radius: 10px;
-  display: inline-block;
-  vertical-align: middle;
-  margin: 10px;
+#productSearch{
+  
+  margin: 50px auto 50px auto;
+}
+
+#txtdescription{
+  min-width : 100%;
+  max-width:  100%;
+  min-height : 100%;
+  max-height:  100%;
 }

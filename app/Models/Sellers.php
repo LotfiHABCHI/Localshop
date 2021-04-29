@@ -24,10 +24,10 @@ class Sellers extends Authenticatable
         ];*/
 
         return [
-            ['sellerid'=>1, 'sellerfirstname'=>'Ivan', 'sellerlastname'=>'v1', 'selleremail'=>'v1@gmail.com', 'sellerphone'=>'0611111111', 'password'=>'azertyuiop', 'siret'=>1213141111, 'storename'=>'IosShop', 'sellernumstreet'=>11, 'sellernamestreet'=>'rue de Rome', 'cp'=>13001, 'city'=>'marseille','sellerdescription'=>'', 'sellerimage'=>'iop.jpg'],
-            ['sellerid'=>2, 'sellerfirstname'=>'Jeanne', 'sellerlastname'=>'v2', 'selleremail'=>'v2@gmail.com', 'sellerphone'=>'062222222', 'password'=>'azertyuiop', 'siret'=>1213141222, 'storename'=>'JavaMarket', 'sellernumstreet'=>22, 'sellernamestreet'=>'rue de la Joliette', 'cp'=>13002, 'city'=>'marseille','sellerdescription'=>'', 'sellerimage'=>'java.jpg'],
-            ['sellerid'=>3, 'sellerfirstname'=>'Ursula', 'sellerlastname'=>'v3', 'selleremail'=>'v3@gmail.com', 'sellerphone'=>'0633333333', 'password'=>'azertyuiop', 'siret'=>1213141333, 'storename'=>'UnixMall', 'sellernumstreet'=>33, 'sellernamestreet'=>'rue Loubon', 'cp'=>13003, 'city'=>'marseille','sellerdescription'=>'', 'sellerimage'=>'unix.jpg'],
-            ['sellerid'=>4, 'sellerfirstname'=>'Will', 'sellerlastname'=>'v4', 'selleremail'=>'v4@gmail.com', 'sellerphone'=>'0644444444', 'password'=>'azertyuiop', 'siret'=>12131414444, 'storename'=>'WebStore', 'sellernumstreet'=>44, 'sellernamestreet'=>'rue Marx Dormoy', 'cp'=>13004, 'city'=>'marseille','sellerdescription'=>'', 'sellerimage'=>'web.jpg']
+            ['sellerid'=>1, 'sellerfirstname'=>'Ivan', 'sellerlastname'=>'v1', 'selleremail'=>'v1@gmail.com', 'sellerphone'=>'0611111111', 'password'=>'azertyuiop', 'siret'=>1213141111, 'storename'=>'IosShop', 'sellernumstreet'=>11, 'sellernamestreet'=>'rue de Rome', 'cp'=>13001, 'city'=>'marseille','sellerdescription'=>'', 'sellerimage'=>'ivan.png'],
+            ['sellerid'=>2, 'sellerfirstname'=>'Jeanne', 'sellerlastname'=>'v2', 'selleremail'=>'v2@gmail.com', 'sellerphone'=>'062222222', 'password'=>'azertyuiop', 'siret'=>1213141222, 'storename'=>'JavaMarket', 'sellernumstreet'=>22, 'sellernamestreet'=>'rue de la Joliette', 'cp'=>13002, 'city'=>'marseille','sellerdescription'=>'', 'sellerimage'=>'jeanne.png'],
+            ['sellerid'=>3, 'sellerfirstname'=>'Ursula', 'sellerlastname'=>'v3', 'selleremail'=>'v3@gmail.com', 'sellerphone'=>'0633333333', 'password'=>'azertyuiop', 'siret'=>1213141333, 'storename'=>'UnixMall', 'sellernumstreet'=>33, 'sellernamestreet'=>'rue Loubon', 'cp'=>13003, 'city'=>'marseille','sellerdescription'=>'', 'sellerimage'=>'ursula.png'],
+            ['sellerid'=>4, 'sellerfirstname'=>'Will', 'sellerlastname'=>'v4', 'selleremail'=>'v4@gmail.com', 'sellerphone'=>'0644444444', 'password'=>'azertyuiop', 'siret'=>12131414444, 'storename'=>'WebStore', 'sellernumstreet'=>44, 'sellernamestreet'=>'rue Marx Dormoy', 'cp'=>13004, 'city'=>'marseille','sellerdescription'=>'', 'sellerimage'=>'rateau.png']
 
         ];
 

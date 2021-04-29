@@ -339,7 +339,7 @@ class HomeController extends Controller
             'city'=>['required'],
             'storename' => ['required'], 
             'image'=>['required'],
-            'description'=>['required'],
+            'description'=>['nullable'],
             'password' => ['required'], 
             'passwordConfirm'=>['required']
 
@@ -359,7 +359,7 @@ class HomeController extends Controller
             'storename.required' => 'Vous devez saisir le nom de votre enseigne.',
             'siret.required' => 'Vous devez saisir votre numéro SIRET.',
             'image.required' => 'Vous devez saisir une image.',
-            'description.required' => 'Vous devez saisir une description.',
+            'description' => 'Vous devez saisir une description.',
 
         ];
 

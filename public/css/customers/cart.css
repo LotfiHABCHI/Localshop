@@ -9,12 +9,15 @@
     min-height: 10px;
     margin-left: auto;
     margin-right: auto;
+    width: 98%;
   }
 
 .table  {
     border-collapse: collapse;
     margin: 50px auto;
     box-shadow: 0 5px 50px rgba(0,0,0,0.15);
+    vertical-align: middle;
+
 }
 
 thead tr {
@@ -42,4 +45,49 @@ th, td {
   text-decoration: none;
   font-size: 20px;
   border-radius: 10px;
+}
+
+#cartImg{
+  vertical-align: middle;
+width : 500px; 
+height : 160px;
+}
+
+#cartImg img{
+  vertical-align: middle;
+  margin : 0 10px 0 10px;
+  display: inline-block;
+  width : 40%; 
+  height : 80%;
+  }
+
+#cartImg p{
+  vertical-align: middle;
+  display : inline-block;
+  font-size: 24px;
+}
+
+#btnSearch{
+  background-color: rgb(230, 154, 79);
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 18px;
+  border-radius: 10px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#btnRemise{
+  border: 2px solid grey;
+  color: grey;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 18px;
+  border-radius: 10px;
+  display: inline-block;
+  vertical-align: middle;
 }

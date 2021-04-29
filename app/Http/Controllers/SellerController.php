@@ -87,8 +87,10 @@ class SellerController extends Controller
                 return redirect()->back()->withInput()->withErrors("Impossible d'ajouter le produit.");
             }
        
-        
-        return redirect()->route('home');
+            $sellerId=request()->session()->get('alluser');
+            //dd($sellerId['allusersellerid']);
+        return redirect()->route('showProductOfSeller', ['id'=>$sellerId['allusersellerid']]);
+       // return redirect()->route('home');
 
     }
 
@@ -108,8 +110,7 @@ class SellerController extends Controller
         $sellerId= $request->session()->get('alluser')['allusersellerid'];
 
         $this->repository->updateStock($id, $request->stock);
-        return redirect()->route('productOfSeller', ['sellerId'=>session()->get('alluser')['allusersellerid']]);
-        
+        return redirect()->route('showProductOfSeller', ['id'=>session()->get('alluser')['allusersellerid']]);
     }
 
     /*public function editDescription($sellerId, Request $request)
@@ -166,9 +167,9 @@ class SellerController extends Controller
 
             $this->repository->description();
 
-           // $sellerId=request()->session()->get('alluser');
-
-        return redirect()->route('home');
+            $sellerId=request()->session()->get('alluser');
+            //dd($sellerId['allusersellerid']);
+        return redirect()->route('showProductOfSeller', ['id'=>$sellerId['allusersellerid']]);
        // return redirect()->route('showProductOfSeller', ['id'=>"session()->get('alluser')['allusersellerid']"]);
 
     }

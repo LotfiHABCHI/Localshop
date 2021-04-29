@@ -259,8 +259,9 @@ class Repository
         $prods = DB::table('detail_products as d')
         ->join('sellers as s','s.sellerid', 'd.sellerid')
         ->join('products as p', 'p.productid', 'd.productid')
+        ->join('categories as c', 'c.categoryid', 'p.categoryid')
         ->where('p.categoryid',$id)
-        ->select('s.*' /*storename as store'*/, 'p.*', 'd.*')
+        ->select('s.*' /*storename as store'*/, 'p.*', 'd.*', 'c.*')
         ->get()
         ->toArray();
         return $prods;
@@ -304,7 +305,7 @@ class Repository
         ->join('sellers as s','s.sellerid', 'd.sellerid')
         ->join('products as p', 'p.productid', 'd.productid')
         ->join('categories as c', 'c.categoryid', 'p.categoryid')
-        ->select('s.storename as store','s.sellerid as sellerId', 'p.*', /*'d.stock'*/ 'p.productquantity', 'c.categoryname as category')
+        ->select('s.storename as store','s.sellerid as sellerId', 'p.*', /*'d.stock'*/ 'p.productquantity', 'c.*')
        // ->orderBy('productprice')
         ->get()
         ->toArray();
@@ -323,7 +324,7 @@ class Repository
         ->join('sellers as s','s.sellerid', 'd.sellerid')
         ->join('products as p', 'p.productid', 'd.productid')
         ->join('categories as c', 'c.categoryid', 'p.categoryid')
-        ->select('s.storename as store','s.sellerid as sellerId', 'p.*', /*'d.stock'*/ 'p.productquantity', 'c.categoryname as category')
+        ->select('s.storename as store','s.sellerid as sellerId', 'p.*', /*'d.stock'*/ 'p.productquantity', 'c.*')
         ->orderBy('productprice')
         ->get()
         ->toArray();
@@ -342,7 +343,7 @@ class Repository
         ->join('sellers as s','s.sellerid', 'd.sellerid')
         ->join('products as p', 'p.productid', 'd.productid')
         ->join('categories as c', 'c.categoryid', 'p.categoryid')
-        ->select('s.storename as store','s.sellerid as sellerId', 'p.*', /*'d.stock'*/ 'p.productquantity', 'c.categoryname as category')
+        ->select('s.storename as store','s.sellerid as sellerId', 'p.*', /*'d.stock'*/ 'p.productquantity', 'c.*')
         ->orderBy('productprice', 'desc')
         ->get()
         ->toArray();
@@ -361,7 +362,7 @@ class Repository
         ->join('sellers as s','s.sellerid', 'd.sellerid')
         ->join('products as p', 'p.productid', 'd.productid')
         ->join('categories as c', 'c.categoryid', 'p.categoryid')
-        ->select('s.storename as store','s.sellerid as sellerId', 'p.*', /*'d.stock'*/ 'p.productquantity', 'c.categoryname as category')
+        ->select('s.storename as store','s.sellerid as sellerId', 'p.*', /*'d.stock'*/ 'p.productquantity', 'c.*')
         ->orderBy('productid', 'desc')
         ->get()
         ->toArray();
@@ -467,7 +468,7 @@ class Repository
     }
 
 
-    function addSeller(string $firstname, string $lastname, string $email, string $password, string $phone,  int $siret, int $numstreet, string $namestreet, int $cp, string $city, string $storename,string $image, string $description )/*: int*/
+    function addSeller(string $firstname, string $lastname, string $email, string $password, string $phone,  int $siret, int $numstreet, string $namestreet, int $cp, string $city, string $storename,string $image,  $description )/*: int*/
     {
         $role=$this->getRole('seller')[0]->roleid;
        
@@ -725,11 +726,12 @@ class Repository
         
         $products=DB::table('products as p')->join('detail_products as dp','p.productid', 'dp.productid')
                                     ->join('sellers as s', 's.sellerid', 'dp.sellerid')
+                                    ->join('categories as c', 'c.categoryid', 'p.categoryid')
                                     ->where('s.sellerid', $id)
                                     ->where('p.productname','like', "%$search%")
                                     ->orWhere('p.productinfo', 'like', "%$search%")
                                     
-                                    ->select('s.*', 'p.*', 'dp.*')
+                                    ->select('s.*', 'p.*', 'dp.*', 'c.*')
                                     ->get()
                                     ->toArray();
         return $products;

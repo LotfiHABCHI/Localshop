@@ -170,3 +170,7 @@ Route::get('/merci', function(){
 });
 
 Route::get('/sellerPage', [App\Http\Controllers\SellerController::class, 'showSellerPage'])->name('sellerPage.show');
+
+Route::get('/linkstorage', function () {
+    Artisan::call('storage:link');
+});

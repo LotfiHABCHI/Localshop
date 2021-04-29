@@ -24,6 +24,17 @@
     text-align: center;
   }
 
+  #co1{
+    padding:2% 2% 0 2%;
+    float: left;
+    text-align: center;
+  }
+
+  li{
+list-style-type: none;
+
+  }
+
 
   .select_style {
     padding: 0;
@@ -67,7 +78,7 @@
 }
 
   
-  #panier{
+  .panier{
     margin-top: 20px;
     padding:2%;
     float: right;
@@ -75,8 +86,8 @@
     
   }
   
-  #logo{
-    margin-top: 20px;
+  .logo{
+    margin-top: 10px;
     margin-left: auto;
     margin-right: auto;
     display: flex;
@@ -110,6 +121,10 @@
   
 
   /*core*/
+  .core{
+    min-height: 10px;
+  }
+  
   .core hr{
     width:50%;
     color: rgb(57, 58, 58);
@@ -126,6 +141,7 @@
   }
   
   .footer{
+    min-height: 20px;
     display: flex;
     padding: 2%;
   }
@@ -196,3 +212,5 @@
     background: rgb(57, 58, 58);
     color:rgba(119, 126, 127, 0.452);
   }
+
+  

@@ -11,6 +11,11 @@
 @section('content')
     <div id="core_cart">
 
+    @if ($errors->any())
+	<div class="alert alert-warning">
+		{{$errors}}
+	</div>
+	@endif
     <h1>Panier</h1>
 
     <hr></hr>
@@ -33,8 +38,10 @@
         @foreach ($content as $product)
             <tr>
                 <td>
+                    <div id="cartImg">
                     <img src="{{asset('storage/images/'.$product->attributes['image'])}}">
-                    {{ $product->name }}
+                   <p>{{ $product->name }}</p> 
+                    </div>
                 </td>
 
                 <td>
@@ -48,11 +55,11 @@
                 </td>
 
                 <td> 
-                    {{ number_format($product->price,2) }}€
+                    {{ number_format($product->price,2) }} €
                 </td>
 
                 <td>
-                    {{ number_format($product->price * $product->quantity,2) }}€
+                    {{ number_format($product->price * $product->quantity,2) }} €
                 </td>   
 
                 <td>
@@ -67,6 +74,7 @@
 
         <tfooter>
             <tr>
+           
                 @if($count == 0)
                 <td>Aucun produit</td>
                 @elseif($count == 1)
@@ -75,8 +83,9 @@
                 <td>{{$count}} produits</td>
                 @endif
                 <td></td>
+                <td> </td>
                 <td>Sous total</td>
-                <td>{{ number_format($total, 2) }}€</td>
+                <td>{{ number_format($total, 2) }} €</td>
             </tr>
 
             

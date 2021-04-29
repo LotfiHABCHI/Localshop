@@ -135,7 +135,7 @@
 
             <div class="formGroupe">
               <label for="description">Description</label>
-              <input type="text" id="description" name="description" value="{{old('description')}}" required>
+              <input type="text" id="description" name="description" value="{{old('description')}}" >
               @error('description')
       <div id="description" class="invalid-feedback">
         {{ $message }}

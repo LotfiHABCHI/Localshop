@@ -48,7 +48,7 @@
             </div>
 
             <div class="formGroupe">
-              <label for="numstreet">N°</label>
+              <label for="numstreet">Numéro de rue</label>
               <input type="int" id="numstreet" name="numstreet" value="{{ old('numstreet') }}" required>
               @error('numstreet')
               <div id="numstreet_feedback" class="invalid-feedback">
@@ -58,7 +58,7 @@
             </div>
 
             <div class="formGroupe">
-              <label for="namestreet">Rue</label>
+              <label for="namestreet">Nom de la rue</label>
               <input type="text" id="namestreet" name="namestreet" value="{{ old('namestreet') }}"required>
               @error('namestreet')
               <div id="namestreet_feedback" class="invalid-feedback">

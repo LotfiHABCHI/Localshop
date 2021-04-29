@@ -70,3 +70,22 @@ th, td {
 .toggle-pannel p {
   line-height: 1.5;
 }
+
+.cmdSeller{
+background-color: #569c26;
+color : white;
+}
+
+#cmdSeller{
+  
+  width:80%;
+  margin : 50px auto 50px auto;
+}
+
+.date{
+  padding-left : 20px;
+}
+    .msg{
+       margin-top: 10px;
+       margin-bottom : 10px ;
+    }
